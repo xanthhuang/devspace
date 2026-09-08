@@ -18,6 +18,7 @@ import {
   resolveLocalAgentTarget,
 } from "./local-agent-targets.js";
 import {
+  type AgentEventRecord,
   type LocalAgentRecord,
   type LocalAgentStore,
   type LocalAgentWorkspaceScope,
@@ -65,6 +66,8 @@ export interface LocalAgentManagerOptions {
   allowedRoots?: readonly string[];
   logger?: LocalAgentManagerLogger;
   subagents: SubagentsConfig;
+  terminalEventsEnabled?: boolean;
+  onTerminalEvent?: (event: AgentEventRecord) => void;
 }
 
 export type AgentStartError = AgentTargetError | AgentScopeError | AgentConflictError | AgentStoreError;
@@ -86,6 +89,8 @@ export class LocalAgentManager {
   private readonly allowedRoots?: readonly string[];
   private readonly logger?: LocalAgentManagerLogger;
   private readonly subagents: SubagentsConfig;
+  private readonly terminalEventsEnabled: boolean;
+  private readonly onTerminalEvent?: (event: AgentEventRecord) => void;
   private readonly activeTurns = new Map<string, Promise<void>>();
   private accepting = true;
   private closePromise?: Promise<void>;
@@ -99,10 +104,12 @@ export class LocalAgentManager {
     this.allowedRoots = options.allowedRoots;
     this.logger = options.logger;
     this.subagents = options.subagents;
+    this.terminalEventsEnabled = options.terminalEventsEnabled ?? false;
+    this.onTerminalEvent = options.onTerminalEvent;
   }
 
   reconcileActiveRuns(message?: string): BetterResult<number, AgentStoreError> {
-    return this.store.reconcileActiveRunsResult(message);
+    return this.store.reconcileActiveRunsResult(message, this.terminalEventsEnabled);
   }
 
   async start(input: StartLocalAgentInput): Promise<BetterResult<LocalAgentRecord, AgentStartError>> {
@@ -246,8 +253,7 @@ export class LocalAgentManager {
       }));
     }
 
-    const updated = this.store.updateResult(record.id, {
-      status: "running",
+    const updated = this.store.startTurnResult(record.id, {
       model: overrides.model ?? record.model,
       effort: overrides.effort ?? record.effort,
       latestResponse: undefined,
@@ -336,19 +342,20 @@ export class LocalAgentManager {
       const current = this.store.getByIdResult(record.id);
       if (current.isErr()) throw current.error;
       if (!current.value) return;
-      const updated = this.store.updateResult(record.id, {
+      const updated = this.store.settleResult(record.id, {
         providerSessionId: runResult.providerSessionId ?? current.value.providerSessionId,
         status: "idle",
         latestResponse: runResult.finalResponse,
-        error: undefined,
-        errorCode: undefined,
-        errorRetryable: undefined,
+      }, {
+        emitEvent: this.terminalEventsEnabled,
+        expectedTurnId: requiredTurnId(record),
       });
       if (updated.isErr()) throw updated.error;
+      this.notifyTerminalEvent(updated.value.event);
       this.log("info", "agent_run_completed", {
-        provider: updated.value.provider,
-        agentId: updated.value.id,
-        providerSessionIdPrefix: updated.value.providerSessionId?.slice(0, 8),
+        provider: updated.value.agent.provider,
+        agentId: updated.value.agent.id,
+        providerSessionIdPrefix: updated.value.agent.providerSessionId?.slice(0, 8),
         durationMs: Math.max(0, Date.now() - startedAt),
       });
     } catch (error) {
@@ -356,12 +363,16 @@ export class LocalAgentManager {
         this.persistRunError(record, error, startedAt);
         return;
       }
-      const persisted = this.store.updateResult(record.id, {
+      const persisted = this.store.settleResult(record.id, {
         status: "error",
         error: "Unexpected internal subagent failure.",
         errorCode: "AGENT_INTERNAL_ERROR",
         errorRetryable: false,
+      }, {
+        emitEvent: this.terminalEventsEnabled,
+        expectedTurnId: requiredTurnId(record),
       });
+      if (persisted.isOk()) this.notifyTerminalEvent(persisted.value.event);
       this.log("error", "agent_run_failed", {
         provider: record.provider,
         agentId: record.id,
@@ -382,12 +393,16 @@ export class LocalAgentManager {
     error: LocalAgentError,
     startedAt: number,
   ): void {
-    const persisted = this.store.updateResult(record.id, {
+    const persisted = this.store.settleResult(record.id, {
       status: "error",
       error: error.message,
       errorCode: error.code,
       errorRetryable: error.retryable,
+    }, {
+      emitEvent: this.terminalEventsEnabled,
+      expectedTurnId: requiredTurnId(record),
     });
+    if (persisted.isOk()) this.notifyTerminalEvent(persisted.value.event);
     this.log("error", "agent_run_failed", {
       provider: record.provider,
       agentId: record.id,
@@ -398,6 +413,18 @@ export class LocalAgentManager {
       causeType: safeCauseType("cause" in error ? error.cause : undefined),
       persistenceFailed: persisted.isErr(),
     });
+  }
+
+  private notifyTerminalEvent(event: AgentEventRecord | undefined): void {
+    if (!event || !this.onTerminalEvent) return;
+    try {
+      this.onTerminalEvent(event);
+    } catch (error) {
+      this.log("warn", "agent_event_delivery_wakeup_failed", {
+        eventId: event.eventId,
+        error: errorMessage(error),
+      });
+    }
   }
 
   private buildRunInputResult(
@@ -590,6 +617,13 @@ export function createLocalAgentManager(options: LocalAgentManagerOptions): Loca
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function requiredTurnId(record: LocalAgentRecord): string {
+  if (!record.currentTurnId) {
+    throw new Error(`Subagent ${record.id} does not have an active turn.`);
+  }
+  return record.currentTurnId;
 }
 
 function safeCauseType(cause: unknown): string | undefined {

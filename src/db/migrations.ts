@@ -37,6 +37,16 @@ const migrations: Migration[] = [
     name: "local-agent-effort-rename",
     up: migrateLocalAgentEffortRename,
   },
+  {
+    version: 7,
+    name: "local-agent-terminal-event-outbox",
+    up: migrateLocalAgentTerminalEventOutbox,
+  },
+  {
+    version: 8,
+    name: "legacy-local-agent-schema-repair",
+    up: migrateLegacyLocalAgentSchemaRepair,
+  },
 ];
 
 export function migrateDatabase(sqlite: Database.Database): void {
@@ -233,6 +243,51 @@ function migrateLocalAgentEffortRename(sqlite: Database.Database): void {
     return;
   }
   sqlite.exec("alter table local_agent_sessions rename column thinking to effort");
+}
+
+function migrateLocalAgentTerminalEventOutbox(sqlite: Database.Database): void {
+  addColumnIfMissing(sqlite, "local_agent_sessions", "current_turn_id", "text");
+
+  sqlite.exec(`
+    create table if not exists agent_event_outbox (
+      event_id text primary key,
+      transition_key text not null,
+      type text not null,
+      agent_id text not null,
+      workspace_id text,
+      workspace_root text not null,
+      provider text not null,
+      provider_session_id text,
+      terminal_status text not null,
+      created_at text not null,
+      payload_json text not null,
+      payload_sha256 text not null,
+      delivery_state text not null default 'pending',
+      attempts integer not null default 0,
+      last_error text,
+      delivered_at text
+    );
+
+    create unique index if not exists agent_event_outbox_transition_key_idx
+      on agent_event_outbox(transition_key);
+
+    create index if not exists agent_event_outbox_delivery_idx
+      on agent_event_outbox(delivery_state, created_at);
+
+    create index if not exists agent_event_outbox_agent_idx
+      on agent_event_outbox(agent_id, created_at);
+  `);
+}
+
+function migrateLegacyLocalAgentSchemaRepair(sqlite: Database.Database): void {
+  // DevSpaceWin's pre-upstream callback closure used migration version 5 for
+  // `agent-event-outbox`. Upstream later assigned version 5 to structured
+  // local-agent errors. A database carrying the older version-5 record will
+  // therefore skip migrateLocalAgentStructuredErrors. Repair the schema under
+  // a new version rather than rewriting durable migration history.
+  addColumnIfMissing(sqlite, "local_agent_sessions", "error_code", "text");
+  addColumnIfMissing(sqlite, "local_agent_sessions", "error_retryable", "text");
+  addColumnIfMissing(sqlite, "local_agent_sessions", "current_turn_id", "text");
 }
 
 function addColumnIfMissing(

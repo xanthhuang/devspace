@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   ClaudeLocalAgentDriver,
   claudeAuthoritySettings,
+  claudeUnsandboxedWindowsEnabled,
   type ClaudeQueryLike,
   type ClaudeUserMessage,
 } from "./local-agent-claude.js";
@@ -68,7 +69,7 @@ const driver = new ClaudeLocalAgentDriver(({ prompt, options }) => {
   lastOptions = options;
   query = new FakeClaudeQuery(prompt);
   return query;
-}, { PATH: "/usr/bin" });
+}, { PATH: "/usr/bin" }, "linux");
 assert.equal(driver.runtimeKey(context), "claude:agt_claude:restricted");
 assert.equal(
   driver.runtimeKey({ ...context, writeMode: "allowed" }),
@@ -177,15 +178,63 @@ const coldRuntime = await driver.createRuntime({ ...context, providerSessionId: 
 assert.equal(coldRuntime.isOk(), true);
 assert.equal(lastOptions?.resume, "cold_session");
 
+assert.equal(claudeUnsandboxedWindowsEnabled({}, "win32"), false);
+assert.equal(
+  claudeUnsandboxedWindowsEnabled({ DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1" }, "win32"),
+  true,
+);
+assert.equal(
+  claudeUnsandboxedWindowsEnabled({ DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1" }, "linux"),
+  false,
+);
+
+const blockedWindows = await new ClaudeLocalAgentDriver(
+  ({ prompt }) => new FakeClaudeQuery(prompt),
+  { PATH: "C:\\Windows\\System32" },
+  "win32",
+).createRuntime({ ...context, writeMode: "allowed" });
+assert.equal(blockedWindows.isErr(), true);
+if (blockedWindows.isErr()) {
+  assert.equal(blockedWindows.error.code, "PROVIDER_UNAVAILABLE");
+  assert.match(blockedWindows.error.message, /DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS=1/);
+}
+
+let windowsOptions: Record<string, unknown> | undefined;
+const optedInWindows = await new ClaudeLocalAgentDriver(
+  ({ prompt, options }) => {
+    windowsOptions = options;
+    return new FakeClaudeQuery(prompt);
+  },
+  {
+    PATH: "C:\\Windows\\System32",
+    DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1",
+  },
+  "win32",
+).createRuntime({ ...context, writeMode: "allowed" });
+assert.equal(optedInWindows.isOk(), true);
+const windowsSandbox = windowsOptions?.sandbox as Record<string, unknown>;
+assert.deepEqual(windowsSandbox, {
+  enabled: false,
+  allowUnsandboxedCommands: true,
+});
+const windowsSettings = claudeAuthoritySettings("C:\\work\\project", "allowed", true);
+assert.deepEqual(windowsSettings.sandbox, {
+  enabled: false,
+  allowUnsandboxedCommands: true,
+});
+assert.ok(
+  ((windowsSettings.permissions as Record<string, unknown>).allow as string[]).includes("Bash(*)"),
+);
+
 const cancelled = await new ClaudeLocalAgentDriver(async () => {
   throw new DOMException("cancelled", "AbortError");
-}).createRuntime(context);
+}, process.env, "linux").createRuntime(context);
 assert.equal(cancelled.isErr(), true);
 if (cancelled.isErr()) assert.equal(cancelled.error.code, "PROVIDER_CANCELLED");
 
 const execution = await new ClaudeLocalAgentDriver(async () => {
   throw new Error("sdk failed");
-}).createRuntime(context);
+}, process.env, "linux").createRuntime(context);
 assert.equal(execution.isErr(), true);
 if (execution.isErr()) assert.equal(execution.error.code, "PROVIDER_EXECUTION_ERROR");
 
@@ -203,7 +252,11 @@ const brokenStreamQuery: ClaudeQueryLike = {
   async setPermissionMode() {},
   async applyFlagSettings() {},
 };
-const brokenStreamRuntimeResult = await new ClaudeLocalAgentDriver(async () => brokenStreamQuery).createRuntime(context);
+const brokenStreamRuntimeResult = await new ClaudeLocalAgentDriver(
+  async () => brokenStreamQuery,
+  process.env,
+  "linux",
+).createRuntime(context);
 assert.equal(brokenStreamRuntimeResult.isOk(), true);
 if (brokenStreamRuntimeResult.isErr()) throw brokenStreamRuntimeResult.error;
 const brokenStream = await brokenStreamRuntimeResult.value.run({ prompt: "fail", workspaceRoot: "/tmp/project" });
@@ -216,7 +269,7 @@ if (brokenStream.isErr()) {
 await assert.rejects(
   new ClaudeLocalAgentDriver(async () => {
     throw new TypeError("internal defect");
-  }).createRuntime(context),
+  }, process.env, "linux").createRuntime(context),
   TypeError,
   "programmer defects must not be reclassified as provider failures",
 );

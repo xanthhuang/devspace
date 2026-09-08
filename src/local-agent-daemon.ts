@@ -69,7 +69,9 @@ export interface LocalAgentDaemonOptions {
   now?: () => number;
   paths?: LocalAgentDaemonPaths;
   onLockAcquired?: () => void | Promise<void>;
+  onClosing?: () => void | Promise<void>;
   onClosed?: () => void;
+  hasBackgroundWork?: () => boolean;
 }
 
 export class LocalAgentDaemon {
@@ -82,7 +84,9 @@ export class LocalAgentDaemon {
   private readonly shutdownTimeoutMs: number;
   private readonly now: () => number;
   private readonly onLockAcquired?: () => void | Promise<void>;
+  private readonly onClosing?: () => void | Promise<void>;
   private readonly onClosed?: () => void;
+  private readonly hasBackgroundWork?: () => boolean;
   private readonly sockets = new Set<Socket>();
   private server?: NetServer;
   private idleTimer?: NodeJS.Timeout;
@@ -104,7 +108,9 @@ export class LocalAgentDaemon {
     this.shutdownTimeoutMs = options.shutdownTimeoutMs ?? DEFAULT_DAEMON_SHUTDOWN_TIMEOUT_MS;
     this.now = options.now ?? Date.now;
     this.onLockAcquired = options.onLockAcquired;
+    this.onClosing = options.onClosing;
     this.onClosed = options.onClosed;
+    this.hasBackgroundWork = options.hasBackgroundWork;
     if (!Number.isFinite(this.idleShutdownMs) || this.idleShutdownMs < 0) {
       throw new Error("Agent daemon idle shutdown must be a non-negative finite duration.");
     }
@@ -184,9 +190,14 @@ export class LocalAgentDaemon {
       });
       for (const socket of this.sockets) socket.destroy();
       this.sockets.clear();
-      const [serverResult, managerResult] = await Promise.allSettled([
+      const [serverResult, managerResult, backgroundResult] = await Promise.allSettled([
         withTimeout(closeServer(this.server), this.shutdownTimeoutMs, "daemon socket shutdown"),
         withTimeout(this.manager.close(), this.shutdownTimeoutMs, "daemon manager shutdown"),
+        withTimeout(
+          Promise.resolve(this.onClosing?.()),
+          this.shutdownTimeoutMs,
+          "daemon background shutdown",
+        ),
       ]);
       if (serverResult.status === "rejected") {
         writeLocalAgentDaemonLog(this.paths, "warn", "daemon_socket_close_failed", {
@@ -196,6 +207,11 @@ export class LocalAgentDaemon {
       if (managerResult.status === "rejected") {
         writeLocalAgentDaemonLog(this.paths, "warn", "daemon_manager_close_failed", {
           error: errorMessage(managerResult.reason),
+        });
+      }
+      if (backgroundResult.status === "rejected") {
+        writeLocalAgentDaemonLog(this.paths, "warn", "daemon_background_close_failed", {
+          error: errorMessage(backgroundResult.reason),
         });
       }
       removeLocalAgentDaemonFiles(this.paths);
@@ -336,7 +352,13 @@ export class LocalAgentDaemon {
 
   private async maintainIdle(): Promise<void> {
     await this.manager.evictIdle(this.now());
-    if (this.stopping || this.manager.activeTurnCount > 0 || this.manager.runtimeCount > 0 || this.sockets.size > 0) {
+    if (
+      this.stopping
+      || this.manager.activeTurnCount > 0
+      || this.manager.runtimeCount > 0
+      || this.sockets.size > 0
+      || this.hasBackgroundWork?.()
+    ) {
       this.idleSince = undefined;
       return;
     }

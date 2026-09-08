@@ -268,6 +268,31 @@ try {
     });
   }
 
+  const { stdout: drainOutput } = await execFileAsync(
+    "node",
+    ["--import", "tsx", "src/cli.ts", "agents", "events", "drain", "--json"],
+    {
+      cwd: process.cwd(),
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        DEVSPACE_CONFIG_DIR: configDir,
+        DEVSPACE_ALLOWED_ROOTS: projectRoot,
+        DEVSPACE_STATE_DIR: stateDir,
+        DEVSPACE_OAUTH_OWNER_TOKEN: "test-owner-token-that-is-long-enough",
+        DEVSPACE_AGENT_CALLBACK_URL: "",
+        DEVSPACE_AGENT_CALLBACK_TOKEN: "",
+      },
+    },
+  );
+  assert.deepEqual(JSON.parse(drainOutput), {
+    enabled: false,
+    pending: 0,
+    attempted: 0,
+    delivered: 0,
+    failed: 0,
+  });
+
   assert.equal(loadConfig({
     DEVSPACE_CONFIG_DIR: configDir,
     DEVSPACE_ALLOWED_ROOTS: projectRoot,

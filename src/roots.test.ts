@@ -21,8 +21,8 @@ assert.equal(
 );
 
 assert.equal(
-  resolveAllowedPath("~/file.txt", "/workspace", ["/workspace"]),
-  resolve("/workspace", "~/file.txt"),
+  resolveAllowedPath("~/file.txt", "/workspace", [home]),
+  resolve(home, "file.txt"),
 );
 
 if (process.platform === "win32") {

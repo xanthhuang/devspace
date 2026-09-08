@@ -52,6 +52,10 @@ import {
 } from "./user-config.js";
 import { expandHomePath } from "./roots.js";
 import { shutdownHttpServer } from "./server-shutdown.js";
+import {
+  drainConfiguredAgentEvents,
+  loadAgentCallbackConfig,
+} from "./agent-event-callback.js";
 
 type Command = "serve" | "init" | "doctor" | "config" | "agents" | "help" | "version";
 const require = createRequire(import.meta.url);
@@ -392,6 +396,7 @@ function printHelp(): void {
       "  devspace agents run <profile-or-provider> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents continue <id> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents show <id>",
+      "  devspace agents events drain",
       "  devspace agents daemon <status|stop|logs>",
       "  devspace -v, --version   Print the installed version",
       "",
@@ -421,6 +426,9 @@ async function runAgentsCommand(args: string[]): Promise<void> {
     case "targets":
       await runAgentsTargets(commandArgs, json);
       return;
+    case "events":
+      await runAgentEventsCommand(commandArgs, json);
+      return;
     case "daemon":
       await runAgentsDaemon(commandArgs, json);
       return;
@@ -433,6 +441,26 @@ async function runAgentsCommand(args: string[]): Promise<void> {
     default:
       throw new Error(`Unknown agents command: ${subcommand}`);
   }
+}
+
+async function runAgentEventsCommand(args: string[], json: boolean): Promise<void> {
+  const [subcommand, ...extra] = args;
+  if (subcommand !== "drain" || extra.length > 0) {
+    throw new Error("Usage: devspace agents events drain [--json]");
+  }
+  const config = loadConfig();
+  const result = await drainConfiguredAgentEvents(config.stateDir, loadAgentCallbackConfig());
+  if (json) {
+    printJson(result);
+    return;
+  }
+  if (!result.enabled) {
+    console.log(`Agent callback disabled; ${result.pending} event(s) remain pending.`);
+    return;
+  }
+  console.log(
+    `Agent event drain complete: attempted=${result.attempted} delivered=${result.delivered} pending=${result.failed}`,
+  );
 }
 
 async function runAgentsTargets(args: string[], json: boolean): Promise<void> {
@@ -622,6 +650,7 @@ function printAgentsHelp(): void {
       "  devspace agents continue <id> [--model <model>] [--effort <level>] [--json] <prompt>",
       "  devspace agents show <id> [--json]",
       "  devspace agents targets [--json]",
+      "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs> [--json]",
     ].join("\n"),
   );

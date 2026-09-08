@@ -31,7 +31,7 @@ import {
 const root = await mkdtemp(join(tmpdir(), "devspace-artifact-download-test-"));
 
 try {
-  testOneToolContract();
+  await testOneToolContract();
   testPlatformSupportContract();
   if (isArtifactDownloadSupportedPlatform()) {
     await testSafeDownloadAndConflict(join(root, "downloads"));
@@ -49,8 +49,9 @@ try {
   await rm(root, { recursive: true, force: true });
 }
 
-function testOneToolContract(): void {
+async function testOneToolContract(): Promise<void> {
   const registered = new Map<string, { descriptor: Record<string, unknown>; callback: (input: never) => unknown }>();
+  let trackedActivities = 0;
   const server = {
     registerTool(
       name: string,
@@ -68,6 +69,10 @@ function testOneToolContract(): void {
       logging: { toolCalls: false },
     } as never,
     workspaces: {} as never,
+    trackActivity: async (operation) => {
+      trackedActivities += 1;
+      return operation();
+    },
   });
 
   assert.deepEqual([...registered.keys()], ["download_artifact"]);
@@ -95,6 +100,15 @@ function testOneToolContract(): void {
   });
   assert.equal(rejected.success, false);
   assert.equal(JSON.stringify(rejected).includes(sensitiveExtraValue), false);
+
+  const callback = registered.get("download_artifact")?.callback;
+  assert.ok(callback);
+  await assert.rejects(callback({
+    file: valid,
+    workspaceId: "ws_activity_test",
+    path: "tracked.png",
+  } as never) as Promise<unknown>);
+  assert.equal(trackedActivities, 1);
 }
 
 function testPlatformSupportContract(): void {

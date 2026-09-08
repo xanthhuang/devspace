@@ -1,4 +1,4 @@
-import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const workspaceSessions = sqliteTable(
   "workspace_sessions",
@@ -101,6 +101,7 @@ export const localAgentSessions = sqliteTable(
     model: text("model"),
     effort: text("effort"),
     providerSessionId: text("provider_session_id"),
+    currentTurnId: text("current_turn_id"),
     status: text("status").notNull(),
     latestResponse: text("latest_response"),
     error: text("error"),
@@ -116,6 +117,33 @@ export const localAgentSessions = sqliteTable(
   ],
 );
 
+export const agentEventOutbox = sqliteTable(
+  "agent_event_outbox",
+  {
+    eventId: text("event_id").primaryKey(),
+    transitionKey: text("transition_key").notNull(),
+    type: text("type").notNull(),
+    agentId: text("agent_id").notNull(),
+    workspaceId: text("workspace_id"),
+    workspaceRoot: text("workspace_root").notNull(),
+    provider: text("provider").notNull(),
+    providerSessionId: text("provider_session_id"),
+    terminalStatus: text("terminal_status").notNull(),
+    createdAt: text("created_at").notNull(),
+    payloadJson: text("payload_json").notNull(),
+    payloadSha256: text("payload_sha256").notNull(),
+    deliveryState: text("delivery_state").notNull().default("pending"),
+    attempts: integer("attempts").notNull().default(0),
+    lastError: text("last_error"),
+    deliveredAt: text("delivered_at"),
+  },
+  (table) => [
+    uniqueIndex("agent_event_outbox_transition_key_idx").on(table.transitionKey),
+    index("agent_event_outbox_delivery_idx").on(table.deliveryState, table.createdAt),
+    index("agent_event_outbox_agent_idx").on(table.agentId, table.createdAt),
+  ],
+);
+
 export type WorkspaceSessionRow = typeof workspaceSessions.$inferSelect;
 export type NewWorkspaceSessionRow = typeof workspaceSessions.$inferInsert;
 export type LoadedAgentFileRow = typeof loadedAgentFiles.$inferSelect;
@@ -124,3 +152,5 @@ export type WorkspaceConversationBindingRow = typeof workspaceConversationBindin
 export type NewWorkspaceConversationBindingRow = typeof workspaceConversationBindings.$inferInsert;
 export type LocalAgentSessionRow = typeof localAgentSessions.$inferSelect;
 export type NewLocalAgentSessionRow = typeof localAgentSessions.$inferInsert;
+export type AgentEventOutboxRow = typeof agentEventOutbox.$inferSelect;
+export type NewAgentEventOutboxRow = typeof agentEventOutbox.$inferInsert;

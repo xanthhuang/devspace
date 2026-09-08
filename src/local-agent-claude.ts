@@ -21,6 +21,8 @@ import type {
 
 type ClaudePermissionMode = "default" | "acceptEdits" | "bypassPermissions" | "plan" | "dontAsk" | "auto";
 
+const CLAUDE_ALLOW_UNSANDBOXED_WINDOWS_ENV = "DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS";
+
 export interface ClaudeQueryLike extends AsyncIterable<unknown> {
   close(): void;
   setPermissionMode(mode: ClaudePermissionMode): Promise<void>;
@@ -82,6 +84,7 @@ export class ClaudeQueryRuntime implements LocalAgentRuntime {
     private readonly query: ClaudeQueryLike,
     private readonly inputQueue: AsyncInputQueue<ClaudeUserMessage>,
     context: LocalAgentRuntimeContext,
+    private readonly allowUnsandboxedWindows = false,
   ) {
     this.providerSessionId = context.providerSessionId;
     this.iterator = query[Symbol.asyncIterator]();
@@ -102,7 +105,11 @@ export class ClaudeQueryRuntime implements LocalAgentRuntime {
           });
         }
         if (this.providerSessionId) await callbacks?.onSessionId?.(this.providerSessionId);
-        const flagSettings = claudeAuthoritySettings(input.workspaceRoot, input.writeMode);
+        const flagSettings = claudeAuthoritySettings(
+          input.workspaceRoot,
+          input.writeMode,
+          this.allowUnsandboxedWindows,
+        );
         if (input.effort) {
           Object.assign(flagSettings, {
             alwaysThinkingEnabled: true,
@@ -213,6 +220,7 @@ export class ClaudeLocalAgentDriver implements LocalAgentDriver {
   constructor(
     private readonly factory: ClaudeQueryFactory = defaultClaudeQueryFactory,
     private readonly env: NodeJS.ProcessEnv = process.env,
+    private readonly platform: NodeJS.Platform = process.platform,
   ) {}
 
   runtimeKey(context: LocalAgentRuntimeContext): string {
@@ -226,6 +234,25 @@ export class ClaudeLocalAgentDriver implements LocalAgentDriver {
       agentId: context.agentId,
       operation: "create_runtime",
       run: async (): Promise<LocalAgentRuntime> => {
+        const allowUnsandboxedWindows = claudeUnsandboxedWindowsEnabled(this.env, this.platform);
+        if (
+          this.platform === "win32"
+          && context.writeMode !== "full_access"
+          && !allowUnsandboxedWindows
+        ) {
+          throw new AgentProviderUnavailableError({
+            code: "PROVIDER_UNAVAILABLE",
+            provider: this.provider,
+            agentId: context.agentId,
+            operation: "create_runtime",
+            retryable: false,
+            message: [
+              "Claude restricted execution is unavailable on native Windows because Claude Code sandboxing",
+              "requires macOS, Linux, or WSL2. Run DevSpace under WSL2, or explicitly set",
+              `${CLAUDE_ALLOW_UNSANDBOXED_WINDOWS_ENV}=1 to accept unsandboxed local-user shell authority.`,
+            ].join(" "),
+          });
+        }
         const inputQueue = new AsyncInputQueue<ClaudeUserMessage>();
         const input: LocalAgentRunInput = {
           prompt: "",
@@ -237,10 +264,10 @@ export class ClaudeLocalAgentDriver implements LocalAgentDriver {
         };
         const query = await this.factory({
           context,
-          options: claudeQueryOptions(context, input, this.env),
+          options: claudeQueryOptions(context, input, this.env, this.platform),
           prompt: inputQueue,
         });
-        return new ClaudeQueryRuntime(query, inputQueue, context);
+        return new ClaudeQueryRuntime(query, inputQueue, context, allowUnsandboxedWindows);
       },
     });
   }
@@ -261,10 +288,15 @@ export function claudeQueryOptions(
   context: LocalAgentRuntimeContext,
   input: LocalAgentRunInput,
   env: NodeJS.ProcessEnv = process.env,
+  platform: NodeJS.Platform = process.platform,
 ): Record<string, unknown> {
   const executable = env.CLAUDE_COMMAND ?? resolveExecutable("claude", env);
   const permissionMode = claudePermissionMode(input.writeMode);
-  const authority = claudeAuthorityOptions(input.workspaceRoot, input.writeMode);
+  const authority = claudeAuthorityOptions(
+    input.workspaceRoot,
+    input.writeMode,
+    claudeUnsandboxedWindowsEnabled(env, platform),
+  );
   return {
     cwd: input.workspaceRoot,
     ...(input.model ? { model: input.model } : {}),
@@ -294,13 +326,15 @@ export function claudePermissionMode(
 export function claudeAuthoritySettings(
   workspaceRoot: string,
   writeMode: LocalAgentWriteMode | undefined,
+  allowUnsandboxedWindows = false,
 ): Record<string, unknown> {
-  return claudeAuthorityOptions(workspaceRoot, writeMode).settings;
+  return claudeAuthorityOptions(workspaceRoot, writeMode, allowUnsandboxedWindows).settings;
 }
 
 function claudeAuthorityOptions(
   workspaceRoot: string,
   writeMode: LocalAgentWriteMode | undefined,
+  allowUnsandboxedWindows = false,
 ): { sandbox: Record<string, unknown>; settings: Record<string, unknown> } {
   if (writeMode === "full_access") {
     const sandbox = {
@@ -336,19 +370,33 @@ function claudeAuthorityOptions(
       ...(allowed ? [] : ["Bash(*)", "Edit(*)", "Write(*)", "NotebookEdit(*)"]),
     ],
   };
-  const sandbox = {
-    enabled: true,
-    failIfUnavailable: true,
-    autoAllowBashIfSandboxed: true,
-    allowUnsandboxedCommands: false,
-    filesystem: {
-      allowWrite: allowed ? [workspaceRoot] : [],
-      denyWrite: allowed ? [] : [workspaceRoot],
-      denyRead: protectedPaths,
-      allowRead: [workspaceRoot],
-    },
-  };
+  const sandbox = allowUnsandboxedWindows
+    ? {
+        enabled: false,
+        allowUnsandboxedCommands: true,
+      }
+    : {
+        enabled: true,
+        failIfUnavailable: true,
+        autoAllowBashIfSandboxed: true,
+        allowUnsandboxedCommands: false,
+        filesystem: {
+          allowWrite: allowed ? [workspaceRoot] : [],
+          denyWrite: allowed ? [] : [workspaceRoot],
+          denyRead: protectedPaths,
+          allowRead: [workspaceRoot],
+        },
+      };
   return { sandbox, settings: { permissions, sandbox } };
+}
+
+export function claudeUnsandboxedWindowsEnabled(
+  env: NodeJS.ProcessEnv = process.env,
+  platform: NodeJS.Platform = process.platform,
+): boolean {
+  if (platform !== "win32") return false;
+  const value = env[CLAUDE_ALLOW_UNSANDBOXED_WINDOWS_ENV];
+  return value !== undefined && ["1", "true", "yes", "on"].includes(value.toLowerCase());
 }
 
 function claudeProtectedPaths(): string[] {

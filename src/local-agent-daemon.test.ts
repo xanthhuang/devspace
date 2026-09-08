@@ -19,7 +19,7 @@ import {
 import type { RunOverrides, StartLocalAgentInput } from "./local-agent-manager.js";
 import type { LocalAgentRecord } from "./local-agent-store.js";
 
-const root = await mkdtemp(join(tmpdir(), "devspace-agentd-test-"));
+const root = await mkdtemp(join(process.platform === "darwin" ? "/tmp" : tmpdir(), "ds-"));
 const record: LocalAgentRecord = {
   id: "agt_test",
   workspaceId: "ws_test",
@@ -136,11 +136,15 @@ try {
 const idleStateDir = join(root, "idle-state");
 const idleManager = new FakeManager();
 idleManager.activeTurnCount = 0;
+let backgroundWork = true;
+let backgroundClosed = false;
 const idleDaemon = new LocalAgentDaemon({
   stateDir: idleStateDir,
   manager: idleManager,
   idleShutdownMs: 200,
   idleCheckIntervalMs: 10,
+  hasBackgroundWork: () => backgroundWork,
+  onClosing: () => { backgroundClosed = true; },
 });
 const idleClient = new LocalAgentClient({
   stateDir: idleStateDir,
@@ -151,7 +155,11 @@ const idleClient = new LocalAgentClient({
 
 try {
   unwrap(await idleClient.ensureReady());
+  await new Promise((resolve) => setTimeout(resolve, 250));
+  assert.equal(idleManager.closed, false, "durable background work keeps agentd alive");
+  backgroundWork = false;
   await waitFor(() => idleManager.closed && !existsSync(idleDaemon.paths.socketPath));
+  assert.equal(backgroundClosed, true);
 } finally {
   await idleDaemon.close();
   await rm(root, { recursive: true, force: true });
@@ -470,7 +478,7 @@ socketManager.activeTurnCount = 0;
 const socketDaemon = new LocalAgentDaemon({
   stateDir: socketStateDir,
   manager: socketManager,
-  requestReadTimeoutMs: 30,
+  requestReadTimeoutMs: process.platform === "darwin" ? 1_000 : 30,
   shutdownTimeoutMs: 100,
   idleShutdownMs: 60_000,
 });

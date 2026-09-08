@@ -39,6 +39,11 @@ npx @waishnav/devspace config set publicBaseUrl https://devspace.example.com
 | `DEVSPACE_WORKTREE_ROOT` | Directory for managed Git worktrees. Defaults to `~/.devspace/worktrees`. |
 | `DEVSPACE_STATE_DIR` | Directory for SQLite state. Defaults to `~/.local/share/devspace`. |
 
+DevSpace uses stateless Streamable HTTP for MCP requests. Each HTTP request gets
+a fresh MCP transport/server pair, while durable workspace, process, OAuth,
+review, and agent state remains in DevSpace's own stores. There is therefore no
+retained MCP transport-session pool to tune or prune.
+
 ## Native Artifact Download
 
 Native-file download is disabled by default. Enable it when ChatGPT needs to hand
@@ -125,6 +130,7 @@ sessions.
 | --- | --- |
 | `DEVSPACE_SKILLS` | Set to `0` to hide skills. Enabled by default. |
 | `DEVSPACE_SUBAGENTS` | Optional master override for the persisted Subagents configuration. |
+| `DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS` | Native Windows only. Set to `1` to explicitly allow Claude Code without its OS sandbox. |
 | `DEVSPACE_AGENT_DIR` | Defaults to `~/.codex`; its `skills` child is loaded for compatibility. |
 | `DEVSPACE_SKILL_PATHS` | Optional comma-separated additional skill directories. |
 
@@ -181,6 +187,15 @@ profile value, which wins over the provider default. The legacy boolean
 `"subagents": true` remains readable and enables every provider, but new
 configuration should use the explicit object form.
 
+Claude Code restricted execution uses the sandbox exposed by the Claude Agent
+SDK. That sandbox interface does not currently support native Windows, so
+DevSpace fails closed there by default.
+Prefer running DevSpace/Claude under WSL2 when sandboxed shell execution is
+required. To deliberately run Claude Code natively on Windows without the OS
+sandbox, set `DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS=1`. This opt-in keeps
+Claude's tool permission rules, but `Bash` commands run with the local Windows
+user's authority and are not workspace-contained.
+
 `devspace agents targets` shows usable providers and profiles for the current
 workspace. Add `--json` for a compact list of exact target names and their
 selection metadata. Disabled, unavailable, and unconfigured providers are
@@ -204,6 +219,45 @@ workspace environment injected into shell commands. The `subagents`
 skill teaches the model to use only the minimal `devspace agents ls`,
 `devspace agents targets`, `devspace agents run`, `devspace agents continue`,
 and `devspace agents show` workflow.
+
+### Terminal event callbacks
+
+`devspace-agentd` can deliver durable callbacks when a subagent turn reaches
+`idle` or `error`. Configure the daemon-launch environment, not
+`~/.devspace/config.json`:
+
+| Variable | Purpose |
+| --- | --- |
+| `DEVSPACE_AGENT_CALLBACK_URL` | Optional HTTP(S) endpoint for terminal events. URLs containing credentials are rejected. |
+| `DEVSPACE_AGENT_CALLBACK_TOKEN` | Optional bearer token. Newlines are rejected and the value is never persisted. |
+| `DEVSPACE_AGENT_CALLBACK_TIMEOUT_MS` | Per-attempt timeout in milliseconds; defaults to `5000` and is capped at `60000`. |
+
+The daemon reads these values once at startup and removes them from its process
+environment before constructing provider runtimes, so provider child processes
+do not inherit callback credentials. If a CLI invocation may start
+`devspace-agentd`, that invocation must receive the callback environment.
+Changing callback values requires stopping the existing daemon with
+`devspace agents daemon stop`; the next agent command starts it with the new
+daemon-launch environment.
+
+Terminal state and outbox insertion commit in one SQLite transaction. Each turn
+has one stable event ID and transition key; retries reuse the exact stored JSON.
+The daemon retries pending events every five seconds and remains alive while a
+configured callback has pending work. A 2xx response marks delivery complete;
+timeouts, transport failures, redirects, and non-2xx responses leave the event
+pending. This is at-least-once delivery: a receiver must durably deduplicate by
+`event_id` before returning 2xx.
+
+Payloads contain only event, agent, turn, workspace, provider-session, and
+terminal-status metadata. They never include the prompt, final response, or
+provider error. Events created while callbacks are disabled are not synthesized
+later. To retry an existing pending outbox explicitly, run:
+
+```bash
+devspace agents events drain --json
+```
+
+The MCP server does not own callback draining.
 
 For Codex, Claude Code, OpenCode, Pi, or another supported Coding Agent, use
 the Skills CLI to install the same skill. DevSpace setup prints this command but

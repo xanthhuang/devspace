@@ -17,7 +17,7 @@ import type {
   LocalAgentRuntimeContext,
 } from "./local-agent-runtime.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
-import { LocalAgentStore } from "./local-agent-store.js";
+import { LocalAgentStore, type AgentEventRecord } from "./local-agent-store.js";
 import type { SubagentsConfig } from "./local-agent-config.js";
 
 const root = await mkdtemp(join(tmpdir(), "devspace-agent-manager-test-"));
@@ -115,6 +115,7 @@ function providerFailure(message: string): AgentProviderExecutionError {
 }
 
 const store = new LocalAgentStore(stateDir);
+const terminalEvents: AgentEventRecord[] = [];
 const stale = store.create({
   workspaceId: scope.workspaceId,
   workspaceRoot: root,
@@ -130,6 +131,8 @@ const manager = new LocalAgentManager({
   loadProfiles: async () => [profile, disabledProfile],
   allowedRoots: [root],
   subagents,
+  terminalEventsEnabled: true,
+  onTerminalEvent: (event) => terminalEvents.push(event),
 });
 
 const defectStore = new LocalAgentStore(join(root, "defect-state"));
@@ -244,6 +247,11 @@ runtimes.get(first.id)!.release();
 await waitFor(() => getRecord(first.id).status === "idle");
 assert.equal(getRecord(first.id).providerSessionId, "thread_test");
 assert.match(getRecord(first.id).latestResponse ?? "", /Task:\nhold/);
+assert.equal(terminalEvents.filter((event) => event.agentId === first.id).length, 1);
+assert.doesNotMatch(
+  terminalEvents.find((event) => event.agentId === first.id)?.payloadJson ?? "",
+  /Task|hold|response:/,
+);
 
 const continued = unwrap(await manager.continue(first.id, "continue", {
   model: "gpt-run",
@@ -253,6 +261,9 @@ assert.equal(continued.status, "running");
 await waitFor(() => getRecord(first.id).status === "idle");
 assert.equal(getRecord(first.id).model, "gpt-run");
 assert.equal(getRecord(first.id).effort, "high");
+const firstAgentEvents = terminalEvents.filter((event) => event.agentId === first.id);
+assert.equal(firstAgentEvents.length, 2);
+assert.notEqual(firstAgentEvents[0]?.transitionKey, firstAgentEvents[1]?.transitionKey);
 
 const second = unwrap(await manager.start({
   target: "reviewer",
@@ -274,6 +285,9 @@ await waitFor(() => getRecord(failed.id).status === "error");
 assert.equal(getRecord(failed.id).error, "provider failed");
 assert.equal(getRecord(failed.id).errorCode, "PROVIDER_EXECUTION_ERROR");
 assert.equal(getRecord(failed.id).errorRetryable, false);
+const failedEvent = terminalEvents.find((event) => event.agentId === failed.id);
+assert.equal(failedEvent?.type, "agent.failed");
+assert.doesNotMatch(failedEvent?.payloadJson ?? "", /provider failed|PROVIDER_EXECUTION_ERROR/);
 const recovered = unwrap(await manager.continue(failed.id, "recovered", {}, scope));
 assert.equal(recovered.status, "running", "provider Err releases active-turn ownership");
 await waitFor(() => getRecord(failed.id).status === "idle");
@@ -337,6 +351,7 @@ const defect = unwrap(await manager.start({
 await waitFor(() => getRecord(defect.id).status === "error");
 assert.equal(getRecord(defect.id).errorCode, "AGENT_INTERNAL_ERROR");
 assert.notEqual(getRecord(defect.id).errorCode, "PROVIDER_EXECUTION_ERROR");
+assert.equal(terminalEvents.find((event) => event.agentId === defect.id)?.type, "agent.failed");
 
 const shuttingDown = unwrap(await manager.start({
   target: "reviewer",

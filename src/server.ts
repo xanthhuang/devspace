@@ -7,7 +7,6 @@ import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js
 import { mcpAuthRouter, getOAuthProtectedResourceMetadataUrl } from "@modelcontextprotocol/sdk/server/auth/router.js";
 import { requireBearerAuth } from "@modelcontextprotocol/sdk/server/auth/middleware/bearerAuth.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { checkResourceAllowed, resourceUrlFromServerUrl } from "@modelcontextprotocol/sdk/shared/auth-utils.js";
 import {
   registerAppResource,
@@ -32,7 +31,6 @@ import {
   requestIp,
   requestPath,
   commandPreview,
-  sessionIdPrefix,
 } from "./logger.js";
 import {
   editFileTool,
@@ -44,10 +42,6 @@ import {
   writeFileTool,
 } from "./pi-tools.js";
 import { SingleUserOAuthProvider } from "./oauth-provider.js";
-import {
-  McpSessionRegistry,
-  type McpSessionCloseResult,
-} from "./mcp-sessions.js";
 import { ProcessSessionManager, type ProcessSnapshot } from "./process-sessions.js";
 import { createReviewCheckpointManager } from "./review-checkpoints.js";
 import { openAiConversationScopeId } from "./request-meta.js";
@@ -65,11 +59,6 @@ import {
   type LocalAgentProviderStatus,
 } from "./local-agent-catalog.js";
 
-type Transport = StreamableHTTPServerTransport;
-// MCP clients can reconnect without closing the previous transport. Bound stale
-// session retention so abandoned MCP servers do not accumulate for the life of the process.
-const MCP_SESSION_IDLE_TIMEOUT_MS = 24 * 60 * 60 * 1_000;
-const MCP_SESSION_CLEANUP_INTERVAL_MS = 5 * 60 * 1_000;
 const WORKSPACE_APP_URI = "ui://devspace/workspace-app.html";
 const WORKSPACE_APP_MANIFEST_ENTRY = "workspace-app.html";
 const WRITE_TOOL_ANNOTATIONS = {
@@ -96,6 +85,28 @@ interface RunningServer {
   config: ServerConfig;
   localAgentProviders: LocalAgentProviderStatus[];
   close(): Promise<void>;
+}
+
+type TrackToolActivity = <T>(operation: () => Promise<T>) => Promise<T>;
+
+class ToolActivityTracker {
+  private readonly active = new Set<Promise<unknown>>();
+
+  readonly track: TrackToolActivity = <T>(operation: () => Promise<T>): Promise<T> => {
+    const promise = operation();
+    this.active.add(promise);
+    const remove = () => {
+      this.active.delete(promise);
+    };
+    void promise.then(remove, remove);
+    return promise;
+  };
+
+  async waitForIdle(): Promise<void> {
+    while (this.active.size > 0) {
+      await Promise.allSettled(Array.from(this.active));
+    }
+  }
 }
 
 type ToolContent =
@@ -565,6 +576,7 @@ function registerCodexProcessTools(
   config: ServerConfig,
   workspaces: WorkspaceRegistry,
   processSessions: ProcessSessionManager,
+  trackActivity: TrackToolActivity,
 ): void {
   registerAppTool(
     server,
@@ -605,7 +617,7 @@ function registerCodexProcessTools(
       ...toolWidgetDescriptorMeta(config, "shell"),
       annotations: SHELL_TOOL_ANNOTATIONS,
     },
-    async ({ workspaceId, cmd, tty, columns, rows, workingDirectory, yieldTimeMs, maxOutputTokens }) => {
+    async ({ workspaceId, cmd, tty, columns, rows, workingDirectory, yieldTimeMs, maxOutputTokens }) => trackActivity(async () => {
       const startedAt = performance.now();
       const workspace = workspaces.getWorkspace(workspaceId);
       const cwd = workspaces.resolveWorkingDirectory(workspace, workingDirectory);
@@ -638,7 +650,7 @@ function registerCodexProcessTools(
         exitCode: snapshot.exitCode,
         wallTimeMs: snapshot.wallTimeMs,
       });
-    },
+    }),
   );
 
   registerAppTool(
@@ -673,7 +685,7 @@ function registerCodexProcessTools(
       ...toolWidgetDescriptorMeta(config, "shell"),
       annotations: SHELL_TOOL_ANNOTATIONS,
     },
-    async ({ workspaceId, sessionId, chars, columns, rows, yieldTimeMs, maxOutputTokens }) => {
+    async ({ workspaceId, sessionId, chars, columns, rows, yieldTimeMs, maxOutputTokens }) => trackActivity(async () => {
       const startedAt = performance.now();
       workspaces.getWorkspace(workspaceId);
       const snapshot = await processSessions.write({
@@ -700,7 +712,7 @@ function registerCodexProcessTools(
         exitCode: snapshot.exitCode,
         wallTimeMs: snapshot.wallTimeMs,
       });
-    },
+    }),
   );
 }
 
@@ -711,6 +723,7 @@ export function createMcpServer(
   processSessions: ProcessSessionManager,
   resolveLocalAgentProviders: () => LocalAgentProviderStatus[],
   incomingArtifactAdapters: readonly IncomingArtifactAdapter[],
+  toolActivities = new ToolActivityTracker(),
 ): McpServer {
   const server = new McpServer(
     {
@@ -806,7 +819,7 @@ export function createMcpServer(
       ...toolWidgetDescriptorMeta(config, "workspace"),
       annotations: { readOnlyHint: true },
     },
-    async ({ path, mode, baseRef }, { _meta }) => {
+    async ({ path, mode, baseRef }, { _meta }) => toolActivities.track(async () => {
       const startedAt = performance.now();
       const {
         workspace,
@@ -955,7 +968,7 @@ export function createMcpServer(
           instruction,
         },
       };
-    },
+    }),
   );
 
   registerAppTool(
@@ -1001,7 +1014,7 @@ export function createMcpServer(
       ...toolWidgetDescriptorMeta(config, "read"),
       annotations: { readOnlyHint: true },
     },
-    async ({ workspaceId, ...input }) => {
+    async ({ workspaceId, ...input }) => toolActivities.track(async () => {
       const startedAt = performance.now();
       const workspace = workspaces.getWorkspace(workspaceId);
       const readPath = workspaces.resolveReadPath(workspace, input.path);
@@ -1052,7 +1065,7 @@ export function createMcpServer(
           result: contentText(response.content),
         },
       };
-    },
+    }),
   );
 
   if (config.toolMode !== "codex") {
@@ -1076,7 +1089,7 @@ export function createMcpServer(
       ...toolWidgetDescriptorMeta(config, "write"),
       annotations: WRITE_TOOL_ANNOTATIONS,
     },
-    async ({ workspaceId, ...input }) => {
+    async ({ workspaceId, ...input }) => toolActivities.track(async () => {
       const startedAt = performance.now();
       const workspace = workspaces.getWorkspace(workspaceId);
       workspaces.resolvePath(workspace, input.path);
@@ -1127,7 +1140,7 @@ export function createMcpServer(
           result: contentText(response.content),
         },
       };
-    },
+    }),
   );
 
   registerAppTool(
@@ -1163,7 +1176,7 @@ export function createMcpServer(
       ...toolWidgetDescriptorMeta(config, "edit"),
       annotations: EDIT_TOOL_ANNOTATIONS,
     },
-    async ({ workspaceId, ...input }) => {
+    async ({ workspaceId, ...input }) => toolActivities.track(async () => {
       const startedAt = performance.now();
       const workspace = workspaces.getWorkspace(workspaceId);
       workspaces.resolvePath(workspace, input.path);
@@ -1217,7 +1230,7 @@ export function createMcpServer(
           result: contentText(editContent),
         },
       };
-    },
+    }),
   );
   }
 
@@ -1251,7 +1264,7 @@ export function createMcpServer(
         ...toolWidgetDescriptorMeta(config, "edit"),
         annotations: EDIT_TOOL_ANNOTATIONS,
       },
-      async ({ workspaceId, patch }) => {
+      async ({ workspaceId, patch }) => toolActivities.track(async () => {
         const startedAt = performance.now();
         const workspace = workspaces.getWorkspace(workspaceId);
         const applied = await applyPatch(workspace.root, patch);
@@ -1292,7 +1305,7 @@ export function createMcpServer(
             files: applied.files,
           },
         };
-      },
+      }),
     );
   }
 
@@ -1313,7 +1326,7 @@ export function createMcpServer(
         ...toolWidgetDescriptorMeta(config, "show_changes"),
         annotations: { readOnlyHint: true },
       },
-      async ({ workspaceId }) => {
+      async ({ workspaceId }) => toolActivities.track(async () => {
         const startedAt = performance.now();
         const workspace = workspaces.getWorkspace(workspaceId);
         const review = await reviewCheckpoints.reviewChanges({
@@ -1347,7 +1360,7 @@ export function createMcpServer(
             result: contentText(content),
           },
         };
-      },
+      }),
     );
   }
 
@@ -1376,7 +1389,7 @@ export function createMcpServer(
         ...toolWidgetDescriptorMeta(config, "search"),
         annotations: { readOnlyHint: true },
       },
-      async ({ workspaceId, ...input }) => {
+      async ({ workspaceId, ...input }) => toolActivities.track(async () => {
         const startedAt = performance.now();
         const workspace = workspaces.getWorkspace(workspaceId);
         if (input.path) workspaces.resolvePath(workspace, input.path);
@@ -1422,7 +1435,7 @@ export function createMcpServer(
             result: contentText(response.content),
           },
         };
-      },
+      }),
     );
 
     registerAppTool(
@@ -1446,7 +1459,7 @@ export function createMcpServer(
         ...toolWidgetDescriptorMeta(config, "search"),
         annotations: { readOnlyHint: true },
       },
-      async ({ workspaceId, ...input }) => {
+      async ({ workspaceId, ...input }) => toolActivities.track(async () => {
         const startedAt = performance.now();
         const workspace = workspaces.getWorkspace(workspaceId);
         if (input.path) workspaces.resolvePath(workspace, input.path);
@@ -1492,7 +1505,7 @@ export function createMcpServer(
             result: contentText(response.content),
           },
         };
-      },
+      }),
     );
 
     registerAppTool(
@@ -1516,7 +1529,7 @@ export function createMcpServer(
         ...toolWidgetDescriptorMeta(config, "directory"),
         annotations: { readOnlyHint: true },
       },
-      async ({ workspaceId, ...input }) => {
+      async ({ workspaceId, ...input }) => toolActivities.track(async () => {
         const startedAt = performance.now();
         const workspace = workspaces.getWorkspace(workspaceId);
         workspaces.resolvePath(workspace, input.path);
@@ -1558,7 +1571,7 @@ export function createMcpServer(
             result: contentText(response.content),
           },
         };
-      },
+      }),
     );
   }
 
@@ -1597,7 +1610,7 @@ export function createMcpServer(
       ...toolWidgetDescriptorMeta(config, "shell"),
       annotations: SHELL_TOOL_ANNOTATIONS,
     },
-    async ({ workspaceId, workingDirectory, ...input }) => {
+    async ({ workspaceId, workingDirectory, ...input }) => toolActivities.track(async () => {
       const startedAt = performance.now();
       const workspace = workspaces.getWorkspace(workspaceId);
       const cwd = workspaces.resolveWorkingDirectory(
@@ -1650,12 +1663,12 @@ export function createMcpServer(
           result: contentText(response.content),
         },
       };
-    },
+    }),
   );
   }
 
   if (config.toolMode === "codex") {
-    registerCodexProcessTools(server, config, workspaces, processSessions);
+    registerCodexProcessTools(server, config, workspaces, processSessions, toolActivities.track);
   }
 
   if (config.artifactsEnabled && isArtifactDownloadSupportedPlatform()) {
@@ -1663,6 +1676,7 @@ export function createMcpServer(
       config,
       workspaces,
       incomingArtifactAdapters,
+      trackActivity: toolActivities.track,
     });
   }
 
@@ -1686,7 +1700,6 @@ export function createServer(
     host: config.host,
     ...(allowedHosts ? { allowedHosts } : {}),
   });
-  const transports = new McpSessionRegistry<Transport>();
   const mcpUrl = new URL("/mcp", config.publicBaseUrl);
   const resourceServerUrl = resourceUrlFromServerUrl(mcpUrl);
   const oauthProvider = new SingleUserOAuthProvider(config.oauth, mcpUrl, config.stateDir);
@@ -1699,6 +1712,10 @@ export function createServer(
   const workspaces = new WorkspaceRegistry(config, workspaceStore);
   const reviewCheckpoints = createReviewCheckpointManager();
   const processSessions = new ProcessSessionManager();
+  const toolActivities = new ToolActivityTracker();
+  const activeRequestClosers = new Set<() => Promise<void>>();
+  const activeRequests = new Set<Promise<void>>();
+  let shuttingDown = false;
   const localAgentProviders = buildLocalAgentProviderStatuses(
     config.subagents,
     getLocalAgentProviderAvailabilitySnapshot(),
@@ -1707,37 +1724,6 @@ export function createServer(
     config.subagents,
     getLocalAgentProviderAvailabilitySnapshot(),
   );
-
-  const logSessionCloseResults = (
-    reason: "idle_timeout" | "server_shutdown",
-    results: McpSessionCloseResult[],
-  ) => {
-    for (const result of results) {
-      if (result.error) {
-        logEvent(config.logging, "warn", "mcp_session_close_failed", {
-          reason,
-          sessionIdPrefix: sessionIdPrefix(result.sessionId),
-          error:
-            result.error instanceof Error
-              ? result.error.message
-              : String(result.error),
-        });
-        continue;
-      }
-
-      logEvent(config.logging, "info", "mcp_session_closed", {
-        reason,
-        sessionIdPrefix: sessionIdPrefix(result.sessionId),
-      });
-    }
-  };
-
-  const sessionCleanupTimer = setInterval(() => {
-    void transports
-      .closeIdle(MCP_SESSION_IDLE_TIMEOUT_MS)
-      .then((results) => logSessionCloseResults("idle_timeout", results));
-  }, MCP_SESSION_CLEANUP_INTERVAL_MS);
-  sessionCleanupTimer.unref();
 
   if (config.logging.trustProxy) {
     app.set("trust proxy", true);
@@ -1798,92 +1784,101 @@ export function createServer(
 
   app.all("/mcp", async (req, res) => {
     const requestId = res.locals.requestId as string | undefined;
-    const sessionId = req.header("mcp-session-id");
-    const initializeRequest = req.method === "POST" && isInitializeRequest(req.body);
 
-    await new Promise<void>((resolve, reject) => {
-      bearerAuth(req, res, (error?: unknown) => {
-        if (error) reject(error);
-        else resolve();
-      });
-    });
-    if (res.headersSent) return;
-
-    if (!req.auth?.resource || !checkResourceAllowed({ requestedResource: req.auth.resource, configuredResource: resourceServerUrl })) {
-      logEvent(config.logging, "warn", "auth_denied", {
-        requestId,
-        method: req.method,
-        path: requestPath(req),
-        reason: "invalid_oauth_resource",
-        ...requestLogFields(req, config),
-      });
-      sendJsonRpcError(res, 401, -32001, "Unauthorized");
+    if (shuttingDown) {
+      sendJsonRpcError(res, 503, -32000, "Server is shutting down");
       return;
     }
 
-    logEvent(config.logging, "debug", "mcp_request", {
-      requestId,
-      method: req.method,
-      sessionIdPresent: Boolean(sessionId),
-      sessionIdPrefix: sessionIdPrefix(sessionId),
-      isInitialize: initializeRequest,
+    let releaseRequest!: () => void;
+    const requestFinished = new Promise<void>((resolve) => {
+      releaseRequest = resolve;
     });
+    activeRequests.add(requestFinished);
 
     try {
-      let transport: Transport | undefined;
-
-      if (sessionId) {
-        transport = transports.get(sessionId);
-        if (!transport) {
-          sendJsonRpcError(res, 404, -32000, "Unknown MCP session");
-          return;
-        }
-      } else if (initializeRequest) {
-        transport = new StreamableHTTPServerTransport({
-          sessionIdGenerator: () => randomUUID(),
-          onsessioninitialized: (newSessionId) => {
-            if (transport) transports.register(newSessionId, transport);
-            logEvent(config.logging, "info", "mcp_session_created", {
-              requestId,
-              sessionIdPrefix: sessionIdPrefix(newSessionId),
-              ...requestLogFields(req, config),
-            });
-          },
+      await new Promise<void>((resolve, reject) => {
+        bearerAuth(req, res, (error?: unknown) => {
+          if (error) reject(error);
+          else resolve();
         });
+      });
+      if (res.headersSent) return;
 
-        transport.onclose = () => {
-          const closedSessionId = transport?.sessionId;
-          if (closedSessionId && transports.remove(closedSessionId)) {
-            logEvent(config.logging, "info", "mcp_session_closed", {
-              reason: "transport_close",
-              sessionIdPrefix: sessionIdPrefix(closedSessionId),
-            });
-          }
-        };
-
-        const server = createMcpServer(
-          config,
-          workspaces,
-          reviewCheckpoints,
-          processSessions,
-          resolveLocalAgentProviders,
-          incomingArtifactAdapters,
-        );
-        await server.connect(transport);
-      } else {
-        sendJsonRpcError(res, 400, -32000, "No valid MCP session");
+      if (shuttingDown) {
+        sendJsonRpcError(res, 503, -32000, "Server is shutting down");
         return;
       }
 
-      await transport.handleRequest(req, res, req.body);
-    } catch (error) {
-      logEvent(config.logging, "error", "mcp_request_error", {
-        requestId,
-        error: error instanceof Error ? error.message : String(error),
-      });
-      if (!res.headersSent) {
-        sendJsonRpcError(res, 500, -32603, "Internal server error");
+      if (!req.auth?.resource || !checkResourceAllowed({ requestedResource: req.auth.resource, configuredResource: resourceServerUrl })) {
+        logEvent(config.logging, "warn", "auth_denied", {
+          requestId,
+          method: req.method,
+          path: requestPath(req),
+          reason: "invalid_oauth_resource",
+          ...requestLogFields(req, config),
+        });
+        sendJsonRpcError(res, 401, -32001, "Unauthorized");
+        return;
       }
+
+      logEvent(config.logging, "debug", "mcp_request", {
+        requestId,
+        method: req.method,
+        stateless: true,
+      });
+
+      const transport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: undefined,
+      });
+      const server = createMcpServer(
+        config,
+        workspaces,
+        reviewCheckpoints,
+        processSessions,
+        resolveLocalAgentProviders,
+        incomingArtifactAdapters,
+        toolActivities,
+      );
+      let requestServerClosePromise: Promise<void> | undefined;
+      const closeRequestServer = () => {
+        requestServerClosePromise ??= server.close()
+          .catch((error) => {
+            logEvent(config.logging, "warn", "mcp_request_server_close_failed", {
+              requestId,
+              error: error instanceof Error ? error.message : String(error),
+            });
+            throw error;
+          })
+          .finally(() => {
+            activeRequestClosers.delete(closeRequestServer);
+          });
+        return requestServerClosePromise;
+      };
+      activeRequestClosers.add(closeRequestServer);
+      res.once("close", () => {
+        void closeRequestServer().catch(() => undefined);
+      });
+
+      try {
+        await server.connect(transport);
+        await transport.handleRequest(req, res, req.body);
+      } catch (error) {
+        logEvent(config.logging, "error", "mcp_request_error", {
+          requestId,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        if (!res.headersSent) {
+          sendJsonRpcError(res, 500, -32603, "Internal server error");
+        }
+      } finally {
+        if (res.writableEnded) {
+          await closeRequestServer();
+        }
+      }
+    } finally {
+      activeRequests.delete(requestFinished);
+      releaseRequest();
     }
   });
 
@@ -1894,9 +1889,12 @@ export function createServer(
     localAgentProviders,
     close: () => {
       closePromise ??= (async () => {
-        clearInterval(sessionCleanupTimer);
-        const results = await transports.closeAll();
-        logSessionCloseResults("server_shutdown", results);
+        shuttingDown = true;
+        await Promise.allSettled(
+          Array.from(activeRequestClosers, (closeRequestServer) => closeRequestServer()),
+        );
+        await Promise.allSettled(Array.from(activeRequests));
+        await toolActivities.waitForIdle();
         processSessions.shutdown();
         oauthProvider.close();
         workspaceStore.close?.();

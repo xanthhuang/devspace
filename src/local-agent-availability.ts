@@ -1,5 +1,6 @@
 import { accessSync, constants } from "node:fs";
 import { delimiter, resolve } from "node:path";
+import { claudeUnsandboxedWindowsEnabled } from "./local-agent-claude.js";
 import {
   LOCAL_AGENT_PROVIDERS,
   type LocalAgentProvider,
@@ -26,7 +27,7 @@ export function checkLocalAgentProviderAvailability(
     case "codex":
       return codexAvailability(env);
     case "claude":
-      return packageAvailability(provider, "@anthropic-ai/claude-agent-sdk");
+      return claudeAvailability(env);
     case "opencode":
       return packageAvailability(provider, "@opencode-ai/sdk/v2");
     case "pi":
@@ -90,6 +91,20 @@ function codexAvailability(env: NodeJS.ProcessEnv): LocalAgentProviderAvailabili
         note: "available",
       }
     : availability;
+}
+
+function claudeAvailability(env: NodeJS.ProcessEnv): LocalAgentProviderAvailability {
+  const availability = packageAvailability("claude", "@anthropic-ai/claude-agent-sdk");
+  if (!availability.available) return availability;
+  if (process.platform !== "win32" || claudeUnsandboxedWindowsEnabled(env)) return availability;
+  return {
+    name: "claude",
+    available: false,
+    reason: [
+      "native Windows restricted execution requires Claude sandbox support; run under WSL2 or set",
+      "DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS=1 to explicitly accept unsandboxed shell authority",
+    ].join(" "),
+  };
 }
 
 function commandAvailability(

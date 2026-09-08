@@ -27,6 +27,21 @@ import {
   assert.equal(checkLocalAgentProviderAvailability("pi").available, true);
 }
 
+if (process.platform === "win32") {
+  const blocked = checkLocalAgentProviderAvailability("claude", {
+    ...process.env,
+    DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: undefined,
+  });
+  assert.equal(blocked.available, false);
+  assert.match(blocked.reason ?? "", /DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS=1/);
+
+  const optedIn = checkLocalAgentProviderAvailability("claude", {
+    ...process.env,
+    DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1",
+  });
+  assert.equal(optedIn.available, true);
+}
+
 {
   const snapshot = getLocalAgentProviderAvailabilitySnapshot({
     ...process.env,
