@@ -1752,6 +1752,15 @@ export function createServer(
     next();
   });
 
+  app.get("/.well-known/oauth-protected-resource", (_req, res) => {
+    res.json({
+      resource: resourceServerUrl.href,
+      authorization_servers: [new URL(config.publicBaseUrl).href],
+      scopes_supported: config.oauth.scopes,
+      resource_name: "DevSpace",
+    });
+  });
+
   app.use(
     mcpAuthRouter({
       provider: oauthProvider,

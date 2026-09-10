@@ -20,6 +20,31 @@ import { WorkspaceRegistry } from "./workspaces.js";
 const PROTOCOL_VERSION = "2025-06-18";
 const WORKSPACE_APP_URI = "ui://devspace/workspace-app.html";
 
+test("OAuth protected-resource metadata is available at root and MCP-specific discovery URLs", async (t) => {
+  const fixture = await startFixture();
+  t.after(() => cleanupFixture(fixture));
+
+  const rootMetadataUrl = new URL("/.well-known/oauth-protected-resource", fixture.endpoint);
+  const mcpMetadataUrl = new URL("/.well-known/oauth-protected-resource/mcp", fixture.endpoint);
+  const [rootResponse, mcpResponse] = await Promise.all([
+    fetch(rootMetadataUrl),
+    fetch(mcpMetadataUrl),
+  ]);
+
+  assert.equal(rootResponse.status, 200);
+  assert.equal(mcpResponse.status, 200);
+
+  const rootMetadata = await rootResponse.json();
+  const mcpMetadata = await mcpResponse.json();
+  assert.deepEqual(rootMetadata, mcpMetadata);
+  assert.deepEqual(rootMetadata, {
+    resource: "http://127.0.0.1:1/mcp",
+    authorization_servers: ["http://127.0.0.1:1/"],
+    scopes_supported: ["devspace"],
+    resource_name: "DevSpace",
+  });
+});
+
 test("sustained stateless cycles release every request server", async (t) => {
   await ensureUiBuildFixture(t);
   const originalConnect = McpServer.prototype.connect;
