@@ -296,6 +296,11 @@ Set `DEVSPACE_LOG_FORMAT=pretty` for local debugging.
 Set `DEVSPACE_LOG_SHELL_COMMANDS=1` only when you intentionally want command
 previews in logs.
 
+Set `DEVSPACE_TRUST_PROXY=1` only when DevSpace is behind a user-controlled
+reverse proxy or tunnel. When enabled, DevSpace trusts exactly one upstream
+proxy hop for forwarded client IP metadata; it does not trust an arbitrary
+forwarded proxy chain.
+
 ## Env-Only Example
 
 ```bash

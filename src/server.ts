@@ -1702,7 +1702,7 @@ export function createServer(
   });
   const mcpUrl = new URL("/mcp", config.publicBaseUrl);
   const resourceServerUrl = resourceUrlFromServerUrl(mcpUrl);
-  const oauthProvider = new SingleUserOAuthProvider(config.oauth, mcpUrl, config.stateDir);
+  const oauthProvider = new SingleUserOAuthProvider(config.oauth, mcpUrl, config.stateDir, config.logging);
   const bearerAuth = requireBearerAuth({
     verifier: oauthProvider,
     requiredScopes: [config.oauth.scopes[0] ?? "devspace"],
@@ -1726,7 +1726,10 @@ export function createServer(
   );
 
   if (config.logging.trustProxy) {
-    app.set("trust proxy", true);
+    // DevSpace is expected to sit behind one user-controlled tunnel/reverse proxy.
+    // Trusting every forwarded hop lets arbitrary clients spoof their source IP
+    // and triggers express-rate-limit's permissive-trust-proxy warning.
+    app.set("trust proxy", 1);
   }
 
   app.use((req, res, next) => {

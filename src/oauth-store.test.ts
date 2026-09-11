@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { InvalidGrantError, InvalidTokenError } from "@modelcontextprotocol/sdk/server/auth/errors.js";
 import { databasePath, openDatabase } from "./db/client.js";
+import type { LoggingConfig } from "./logger.js";
 import { SingleUserOAuthProvider } from "./oauth-provider.js";
 import { SqliteOAuthClientsStore, SqliteOAuthStore } from "./oauth-store.js";
 
@@ -18,6 +19,15 @@ const oauthConfig = {
 };
 const mcpUrl = new URL("https://agent.example.com/mcp");
 const redirectUri = "https://chatgpt.com/connector_platform_oauth_redirect";
+const loggingConfig: LoggingConfig = {
+  level: "info",
+  format: "json",
+  requests: true,
+  assets: false,
+  toolCalls: true,
+  shellCommands: false,
+  trustProxy: false,
+};
 
 try {
   await testDatabaseConfiguration(join(root, "database-configuration"));
@@ -217,7 +227,17 @@ async function testProviderRestartRotationAndRevocation(stateDir: string): Promi
   assert.ok(issued.refresh_token);
   firstProvider.close();
 
-  const secondProvider = new SingleUserOAuthProvider(oauthConfig, mcpUrl, stateDir);
+  const secondProvider = new SingleUserOAuthProvider(oauthConfig, mcpUrl, stateDir, loggingConfig);
+  const infoLogs: string[] = [];
+  const warnLogs: string[] = [];
+  const originalLog = console.log;
+  const originalWarn = console.warn;
+  console.log = (...args: unknown[]) => {
+    infoLogs.push(args.map(String).join(" "));
+  };
+  console.warn = (...args: unknown[]) => {
+    warnLogs.push(args.map(String).join(" "));
+  };
   try {
     const verified = await secondProvider.verifyAccessToken(issued.access_token);
     assert.equal(verified.clientId, client.client_id);
@@ -236,6 +256,28 @@ async function testProviderRestartRotationAndRevocation(stateDir: string): Promi
       InvalidGrantError,
     );
 
+    const successLog = infoLogs
+      .map((line) => JSON.parse(line) as Record<string, unknown>)
+      .find((entry) => entry.event === "oauth_refresh_success");
+    assert.ok(successLog);
+    assert.equal(successLog.clientIdPrefix, client.client_id.slice(0, 8));
+    assert.deepEqual(successLog.scopes, ["devspace"]);
+    assert.equal(successLog.accessTokenTtlSeconds, oauthConfig.accessTokenTtlSeconds);
+    assert.equal(successLog.refreshTokenTtlSeconds, oauthConfig.refreshTokenTtlSeconds);
+
+    const failureLog = warnLogs
+      .map((line) => JSON.parse(line) as Record<string, unknown>)
+      .find((entry) => entry.event === "oauth_refresh_failed");
+    assert.ok(failureLog);
+    assert.equal(failureLog.clientIdPrefix, client.client_id.slice(0, 8));
+    assert.equal(failureLog.reason, "not_found");
+
+    const auditText = [...infoLogs, ...warnLogs].join("\n");
+    assert.equal(auditText.includes(issued.access_token), false);
+    assert.equal(auditText.includes(issued.refresh_token), false);
+    assert.equal(auditText.includes(refreshed.access_token), false);
+    assert.equal(auditText.includes(refreshed.refresh_token), false);
+
     await secondProvider.revokeToken(client, { token: refreshed.access_token });
     await assert.rejects(secondProvider.verifyAccessToken(refreshed.access_token), InvalidTokenError);
 
@@ -245,6 +287,8 @@ async function testProviderRestartRotationAndRevocation(stateDir: string): Promi
       InvalidGrantError,
     );
   } finally {
+    console.log = originalLog;
+    console.warn = originalWarn;
     secondProvider.close();
   }
 }
