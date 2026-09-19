@@ -336,6 +336,339 @@ Therefore distinguish these evidence classes in future work:
 
 Never promote class 2 evidence into class 3 in documentation or acceptance.
 
+## External implementation evidence reviewed on 2026-09-19
+
+The local experiments above were supplemented with a review of public Jev
+applications and two concrete Computer Use integrations. These are external
+architecture observations, not local production acceptance evidence.
+
+### OpenRouter Jev usage pattern
+
+The public OpenRouter Jev 1.13 app list showed several very large workloads,
+including benchmark/classification apps and Jev-centric tagger/classifier apps.
+The exact ranking is time-sensitive and only covers public apps that participate
+in OpenRouter usage tracking, so token counts should not be treated as a global
+market-share ranking.
+
+The more useful architectural observation is the repeated workload shape:
+
+```text
+many incoming items
+        ↓
+same bounded schema
+        ↓
+Jev Choice / Noul / Score
+        ↓
+deterministic routing / tagging / escalation
+```
+
+This reinforces a key selection criterion that was not explicit in the first
+version of this document: Jev is most compelling when the *same semantic
+decision is repeated at high volume*. A single difficult fuzzy question is a
+weaker fit than thousands or millions of similarly shaped decisions that can be
+calibrated against a frozen label contract.
+
+This pattern directly supports PKD facet / relation classification more strongly
+than generic DevSpace context filtering.
+
+### Audit of the `servasyy_ai` Jev analysis
+
+Source:
+
+- `https://x.com/servasyy_ai/status/2101132667056185544`
+
+The article was checked against TypeSafe material, OpenRouter, Jev public repos,
+and the author's described experiment design.
+
+Assessment:
+
+- product/mechanism facts were generally accurate;
+- its distinction between type-safe output and semantic correctness was sound;
+- its caution around TypeSafe's vendor benchmark was justified;
+- its `jev-ultrafast` discussion was broadly faithful to the repo's published
+  measurements;
+- the `217 projects -> 15 usable` claim was weak evidence because Jev itself
+  supplied the classifications and there was no independent ground-truth audit;
+- the 100-article / 300-judgment Chinese test was a useful engineering smoke
+  test but not a statistical calibration study because the cases were generated
+  from only 25 templates and the confidence bins were highly imbalanced;
+- `high confidence -> high observed accuracy` demonstrated useful selective
+  prediction / ranking, but did not establish probability calibration in the
+  formal sense;
+- the statement that confidence-based routing is Jev's *only* valuable use case
+  was too broad. High-volume classification and bounded low-latency action
+  selection are independently valuable patterns.
+
+The article's final deployment method was nevertheless strong and agrees with
+the local methodology here:
+
+```text
+identify a bounded decision
+        ↓
+freeze real historical data + human gold labels
+        ↓
+shadow replay
+        ↓
+measure coverage / error vs confidence
+        ↓
+start with a conservative threshold
+        ↓
+promote only after real-domain validation
+```
+
+Do not import any universal `0.90` threshold from that article. Thresholds must
+be calibrated per task and per frozen model/version.
+
+## External Computer Use implementations
+
+### `Sac-Y/Jev-cu`
+
+Source:
+
+- `https://github.com/Sac-Y/Jev-cu`
+
+Snapshot reviewed on 2026-09-19:
+
+- created 2026-09-18;
+- one repository commit at review time;
+- approximately 41 GitHub stars / 4 forks at review time;
+- 18 local unit/regression tests;
+- 12 frozen P0 AX-selection fixtures across Calendar, Calculator, and
+  NetEaseMusic.
+
+Architecture:
+
+```text
+Codex high-level planner
+        ↓
+macOS AX accessibility state
+        ↓
+deterministic candidate ranking
+        ↓
+Jev: target / action / done / risk
+        ↓
+local policy gate
+        ↓
+Codex CUA executor
+        ↓
+re-observe / verify
+```
+
+This is best understood as a **Codex Computer Use fast lane**, not a replacement
+for Codex planning. The code itself states the split plainly: Codex determines
+what to do; Jev determines where to act.
+
+#### Independent local P0 replay
+
+The public 12-case P0 fixture was replayed independently using the repository's
+own AX parsing, candidate selection, and question construction, with only the
+transport changed to the already configured OpenRouter `typesafe/jev-1.13`.
+
+Results:
+
+- element selection: `12/12 PASS`;
+- P50 Jev request latency: about `322 ms`;
+- maximum observed request latency: `608 ms`;
+- total input tokens: `29,625`;
+- total cost: about `$0.00124425`.
+
+Most target-choice confidence values were `0.98-1.00`; one Calculator
+`evaluate expression` case scored `0.63` but still selected the correct target.
+
+The repository's own unit suite was also run locally:
+
+- `18/18 PASS`;
+- no failures.
+
+This establishes that the core mechanism — bounded AX text -> Jev target
+selection — is real and reproducible on the supplied fixture.
+
+It does **not** establish the author's marketing claim that this is the fastest
+Codex Computer Use path or that it makes Codex `10x` faster. At review time the
+repo contained no matched end-to-end A/B benchmark with task-success rate,
+median/P95 latency, intervention rate, or token accounting. The public claim is
+therefore unverified.
+
+Other limitations observed:
+
+- only text-accessible / AX-rich UI is in scope;
+- canvas, image-layout, 3D, and weak-accessibility interfaces remain outside the
+  demonstrated fast path;
+- default `jev-latest` harms reproducibility unless pinned for qualification;
+- candidate clipping and app/task heuristics can omit targets on dense trees;
+- text/AX labels can still contain private content; URL stripping is not a
+  privacy sanitizer;
+- the repo had package-level ISC metadata but no explicit repository LICENSE
+  file at review time, so direct code reuse should confirm licensing first.
+
+Disposition: **architecture PASS / early prototype / performance claim not yet
+proven**.
+
+### Cline `plugins/jev-browser`
+
+Source:
+
+- `https://github.com/cline/plugins/tree/main/plugins/jev-browser`
+
+Snapshot reviewed on 2026-09-19:
+
+- merged as one plugin commit on 2026-09-18;
+- package version `0.2.2`;
+- MIT licensed;
+- six test files covering setup, credentials, IPC, Jev behavior, navigation
+  observation, and plugin integration.
+
+This implementation is materially different from `Jev-cu`.
+
+Architecture:
+
+```text
+Cline delegates one bounded browser goal
+        ↓
+isolated Playwright Chromium runtime
+        ↓
+structured DOM observation
+        ↓
+Jev chooses one combined operation+target
+        ↓
+Playwright executes
+        ↓
+DOM is re-observed
+        ↓
+repeat inside plugin
+        ↓
+DONE / REVIEW / BLOCKED
+        ↓
+Cline independently verifies final screenshot
+```
+
+Unlike `Jev-cu`, the frontier model is largely removed from the repeated inner
+loop. The main Cline agent defines the bounded goal and verifies the outcome;
+Jev performs the repeated navigation decisions inside the plugin runtime.
+
+The decision schema is also cleaner than independent target/action questions.
+Each offered choice represents a complete action such as:
+
+```text
+CLICK:<target>
+TYPE_TEXT:<target>
+SELECT:<target>
+SCROLL_UP
+SCROLL_DOWN
+WAIT
+DONE
+REVIEW
+BLOCKED
+```
+
+All options compete in one Choice distribution. This reduces the possibility of
+independently selecting an incompatible action and target.
+
+Jev cannot generate arbitrary field text. When Jev selects `TYPE_TEXT`, the
+plugin delegates field-value generation to a small text model (default Gemini
+2.5 Flash-Lite), keeping the navigation loop cheap while retaining generative
+capability when necessary.
+
+The browser implementation has a much richer state representation than
+`Jev-cu`'s current AX fast path:
+
+- up to 200 action targets;
+- up to 6,000 visible text characters;
+- selected form state;
+- offscreen control summaries;
+- target role / selected / checked / expanded / current-value metadata;
+- ten-action short-term history;
+- stale-observation and no-progress handling.
+
+Security is split differently:
+
+- strong isolation: dedicated Chromium, no inherited host environment,
+  extensions disabled, downloads blocked, navigation allowlists available;
+- `REVIEW` is still model guidance, not a deterministic security authority;
+- Cline tool approval is expected to remain enabled for consequential work;
+- page text and visible field values are sent through Vercel AI Gateway; only
+  password/file fields are excluded automatically, so authenticated/private
+  pages still have a data-governance boundary.
+
+Completion is deliberately reported as `done_unverified`: the Jev loop may say
+the goal is complete, but the main Cline agent must independently inspect the
+final screenshot. This is a strong contract and should be preferred over
+treating semantic `DONE` as proof.
+
+The README explicitly states that actual end-to-end speed and live-model
+reliability have **not** been benchmarked. Therefore this repo is stronger
+architectural evidence than performance evidence.
+
+Disposition: **strong architecture reference / early implementation / no
+end-to-end performance claim yet**.
+
+## Revised Jev architecture patterns
+
+The external Computer Use implementations expose two distinct patterns that
+should no longer be conflated.
+
+### Pattern A — semantic gate inside an existing Host loop
+
+```text
+Host state / proposed action
+        ↓
+bounded semantic judgment
+        ↓
+Jev
+        ↓
+Host policy: allow / ask / escalate
+```
+
+Examples:
+
+- PKD facet / relation classification;
+- DevSpace pre-execution intent/scope safety gate;
+- FIRE answer-level entailment/completeness verification.
+
+This pattern is appropriate when the Host still owns the workflow and one
+specific semantic ambiguity cannot be reduced to deterministic logic.
+
+### Pattern B — delegate an entire bounded repetitive inner loop
+
+```text
+frontier model / Host
+        ↓
+define one closed-world goal + success contract
+        ↓
+Jev micro-runtime
+    observe
+    choose
+    act
+    observe
+    choose
+    ...
+        ↓
+stop / review / blocked
+        ↓
+Host independently verifies
+```
+
+The Cline browser plugin is the clearest reviewed example of this pattern.
+
+This pattern may produce a much larger latency and token benefit than inserting
+Jev as one extra gate in a frontier-model loop, because it removes repeated
+frontier-model round trips rather than merely accelerating one judgment.
+
+The first-principles requirement is that the delegated subtask must be a true
+closed world:
+
+- bounded state representation;
+- bounded legal actions;
+- explicit stop / review / uncertainty exits;
+- no need for open-ended synthesis on every step;
+- deterministic executor and observation layer;
+- independent final verification by the Host/frontier model;
+- acceptable privacy boundary for the delegated state.
+
+This is a stronger formulation of the original rule in this document: Jev's
+largest value may come not from adding another decision to an existing agent,
+but from **removing an entire repetitive decision loop from the frontier model**.
+
 ## Current disposition by use case
 
 | Use case | Disposition |
@@ -345,6 +678,7 @@ Never promote class 2 evidence into class 3 in documentation or acceptance.
 | DevSpace context admission | NO-GO |
 | DevSpace bounded review gate | Technically works, but redundant |
 | DevSpace pre-execution semantic safety gate | PROMISING |
+| Bounded delegated inner-loop runtime | PROMISING; strongest external pattern |
 | FIRE entailment / completeness | Technically promising; production HOLD |
 | FIRE literal equality | Prefer deterministic Host |
 | FIRE source authority | Prefer deterministic Host |
@@ -353,7 +687,7 @@ Never promote class 2 evidence into class 3 in documentation or acceptance.
 
 ## Architecture rule for future Jev work
 
-The strongest reusable pattern is:
+For isolated semantic judgments, the strongest reusable pattern remains:
 
 ```text
 deterministic Host acquisition / hard policy
@@ -379,11 +713,26 @@ Good Jev candidates should satisfy all of the following:
    stronger reasoning rather than silently proceeding.
 6. Jev removes a real human/frontier-model decision instead of duplicating
    existing Host logic.
+7. Prefer workloads where the same question/schema repeats often enough to
+   justify calibration and confidence/coverage measurement.
 
-The current two strongest candidates are therefore:
+For agentic workflows, add a second question before inserting Jev as another
+gate:
+
+> Can the entire repeated inner loop be expressed as a closed-world runtime and
+> delegated away from the frontier model instead?
+
+If yes, Pattern B should be tested before adding multiple per-step semantic
+hooks. The potential gain is larger because frontier-model round trips are
+removed, not merely supplemented.
+
+The current strongest candidates are therefore:
 
 - PKD source-local facet / relation decisions;
-- DevSpace pre-execution semantic intent/scope safety gating.
+- DevSpace pre-execution semantic intent/scope safety gating;
+- future closed-world browser/GUI or other deterministic subtask runtimes where
+  a Jev inner loop can replace repeated frontier-model decisions and the Host
+  retains final verification.
 
 ## Repository impact of these experiments
 
