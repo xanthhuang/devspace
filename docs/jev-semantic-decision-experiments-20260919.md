@@ -868,6 +868,198 @@ For Pattern C, report at least two separate dimensions:
 Never report repeated calls on a small number of frozen cases as if they were an
 equivalent number of independent test cases.
 
+### Pattern C2 — online completion / progress verifier
+
+Additional source reviewed on 2026-09-20:
+
+- `https://x.com/omarsar0/status/2101443311454036477`
+- related prior implementation: `https://github.com/thruwire/foreman`
+
+The proposed idea is to use Jev as a cheap verifier inside an agent harness so
+that the worker does not remain the sole authority on whether a goal is complete.
+
+The conservative first version is:
+
+```text
+worker executes task
+        ↓
+worker claims DONE
+        ↓
+goal contract + observable evidence
+        ↓
+Jev completion verifier
+        ↓
+FINISH / CONTINUE / VERIFY / ASK
+```
+
+The author clarified that the current experiment verifies when the agent claims
+completion. Verifying every turn or every few steps is only a proposed follow-up,
+not an established result. This distinction matters because frequent verification
+can itself perturb a trajectory that would otherwise succeed.
+
+This pattern is related to Pattern C but differs operationally:
+
+- offline evaluator: scores frozen outputs after the fact;
+- online verifier: participates in the live control plane and can affect whether
+  the agent stops, continues, verifies further, or escalates.
+
+The idea is not unique to the cited post. `thruwire/foreman` had already exposed
+a Jev-based coding-agent supervisor that evaluates progress, requirements,
+verification, stuckness, and readiness to finish. The useful contribution here
+is therefore the simplified harness framing: **cheap independent completion
+verification can become frequent enough to change agent-control economics**.
+
+#### Do not verify the worker's self-report; verify evidence
+
+Weak design:
+
+```text
+worker: "everything is implemented and tests pass"
+        ↓
+Jev: "is the task complete?"
+```
+
+Preferred design:
+
+```text
+goal / requirement contract
+        +
+deterministic evidence
+  - test exit status
+  - changed files
+  - artifact existence
+  - schema / build / runtime checks
+        +
+bounded semantic evidence
+  - relevant diff excerpts
+  - requirement-to-change mapping
+        ↓
+Jev semantic verification
+```
+
+Anything that can be established deterministically should remain Host logic.
+Jev should answer only the residual semantic questions that deterministic tests
+cannot settle.
+
+#### Prefer obligation-level verification over one coarse DONE question
+
+A single `Is the goal complete?` Noul is too coarse for non-trivial tasks.
+Compile the goal into explicit obligations first, for example:
+
+```text
+O1 implementation exists
+O2 requested behavior is satisfied
+O3 required tests pass
+O4 no requested requirement is omitted
+O5 required artifact exists
+O6 sufficient verification evidence exists
+```
+
+Then evaluate bounded semantic obligations separately and let deterministic Host
+policy decide whether completion is allowed.
+
+Also distinguish:
+
+```text
+requirement_satisfied?
+evidence_sufficient?
+```
+
+Missing evidence is not equivalent to proof of incompleteness. An explicit
+`INSUFFICIENT_EVIDENCE` / ASK path is preferable to forcing every case into
+complete vs incomplete.
+
+#### Main failure modes to benchmark
+
+The central risk is not average verifier accuracy. It is the cost of wrong
+intervention:
+
+- **false finish**: verifier accepts an incomplete task and stops the agent;
+- **false rejection**: verifier rejects a genuinely complete task and causes
+  unnecessary further changes;
+- **premature intervention**: a mid-run verifier blocks or redirects a
+  trajectory that would have completed successfully;
+- **verification redundancy**: the verifier merely repeats deterministic tests
+  and adds latency without finding residual semantic failures.
+
+The most important metric is therefore the false-accept rate on incomplete
+goals, not aggregate accuracy alone.
+
+Recommended scheduling experiment:
+
+```text
+A. no semantic verifier
+B. verify only when worker claims DONE
+C. verify at DONE + selected checkpoints/events
+```
+
+Do not start with per-turn verification.
+
+Measure:
+
+- final task success;
+- incomplete-task false-accept rate;
+- false rejection rate;
+- premature-intervention rate;
+- extra worker turns induced by verification;
+- worker turns avoided;
+- total wall-clock latency;
+- total model/token cost;
+- verifier call count;
+- human escalation rate.
+
+Only increase verifier frequency if checkpoint verification improves final task
+success or reduces wasted work more than it harms trajectories.
+
+#### Worth trying in current projects
+
+The following applications are worth retaining for future experiments:
+
+1. **PKD facet / NEW prefill** — highest immediate value because it directly
+   removes current human adjudication friction. This remains the first priority.
+2. **PKD relation/evidence verifier** — verify whether a proposed relation is
+   actually supported and whether evidence is sufficient; use only after the
+   lower-friction facet workflow is stable.
+3. **PKD regression judge** — score frozen, human-corrected cases across releases
+   using repeated calls to measure both correctness and stability.
+4. **DevSpace completion verifier** — when a coding worker claims DONE, compare
+   the task contract and actual acceptance evidence before allowing the harness
+   to finish. This is currently the most interesting non-PKD candidate.
+5. **DevSpace progress/checkpoint verifier** — experimental only; evaluate after
+   every meaningful milestone rather than every turn, and only if historical
+   replay shows it catches failures without derailing valid trajectories.
+6. **Closed-world browser/GUI inner loops** — delegate repetitive navigation to
+   Jev while the Host retains goal definition, hard policy, and final
+   verification.
+7. **FIRE answer entailment/completeness shadow verifier** — retain as a research
+   candidate only; current production remains HOLD because no current failure
+   justifies changing the accepted pipeline.
+
+#### Practical next experiment for DevSpace
+
+Do not integrate this verifier directly into production first. Use historical
+evidence:
+
+```text
+find real prior cases where:
+  tests/build passed or worker claimed completion
+  BUT a requested semantic requirement was still missing
+        ↓
+freeze task contract + final artifacts + acceptance evidence
+        ↓
+replay Jev completion obligations
+        ↓
+compare with historical human/postmortem disposition
+```
+
+This test is only valuable if Jev detects residual failures that deterministic
+acceptance checks missed while maintaining a low false-reject rate on genuinely
+complete cases.
+
+Disposition: **WORTH TRYING / not production-qualified**. Start with
+`worker-claims-DONE -> verify`; checkpoint or per-step verification requires
+separate evidence.
+
 ## Current disposition by use case
 
 | Use case | Disposition |
@@ -878,6 +1070,8 @@ equivalent number of independent test cases.
 | DevSpace context admission | NO-GO |
 | DevSpace bounded review gate | Technically works, but redundant |
 | DevSpace pre-execution semantic safety gate | PROMISING |
+| DevSpace completion verifier at worker-DONE | WORTH TRYING; historical replay first |
+| DevSpace checkpoint/progress verifier | EXPERIMENTAL; do not use per-turn by default |
 | Bounded delegated inner-loop runtime | PROMISING; strongest external pattern |
 | FIRE entailment / completeness | Technically promising; production HOLD |
 | FIRE literal equality | Prefer deterministic Host |
@@ -933,6 +1127,8 @@ The current strongest candidates are therefore:
 
 - PKD source-local facet / relation decisions;
 - PKD regression evaluation over frozen, human-corrected real cases;
+- DevSpace completion verification at the worker-DONE boundary, if historical
+  replay demonstrates residual value beyond deterministic acceptance;
 - DevSpace pre-execution semantic intent/scope safety gating;
 - future closed-world browser/GUI or other deterministic subtask runtimes where
   a Jev inner loop can replace repeated frontier-model decisions and the Host
