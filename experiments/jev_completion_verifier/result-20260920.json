@@ -1,0 +1,1924 @@
+{
+  "schema_version": "jev-devspace-completion-replay-v1",
+  "generated_at": "2026-09-20T07:25:08.778675+00:00",
+  "endpoint": "https://api.typesafe.ai/v1/systemone",
+  "requested_model": "jev-1.13.0",
+  "case_count": 5,
+  "authentic_done_case_count": 2,
+  "auxiliary_case_count": 3,
+  "repeats_per_mode": 10,
+  "gold_labels_sent_to_model": false,
+  "cases": [
+    {
+      "case_id": "AUTH-DONE-6C57FE9",
+      "kind": "authentic_worker_done",
+      "checkpoint": "6c57fe9",
+      "gold_complete": false,
+      "gold_source": "later Codex implementation review: P1 blind-adjudication / structured-output / retry-accounting blockers"
+    },
+    {
+      "case_id": "AUTH-DONE-5F06F8E",
+      "kind": "authentic_worker_done",
+      "checkpoint": "5f06f8e",
+      "gold_complete": false,
+      "gold_source": "later Astra closure review: P0=0/P1=6/P2=2 NOT READY"
+    },
+    {
+      "case_id": "AUX-CHECKPOINT-821BF38",
+      "kind": "auxiliary_checkpoint",
+      "checkpoint": "821bf38",
+      "gold_complete": false,
+      "gold_source": "independent Astra final closure review: P0=0/P1=6/P2=1 NOT READY"
+    },
+    {
+      "case_id": "AUX-COMPLETE-02F7F0D",
+      "kind": "auxiliary_checkpoint",
+      "checkpoint": "02f7f0d",
+      "gold_complete": true,
+      "gold_source": "live-readiness preflight + bounded post-fix independent review READY"
+    },
+    {
+      "case_id": "AUX-COMPLETE-F9E0C5C",
+      "kind": "auxiliary_checkpoint",
+      "checkpoint": "f9e0c5c",
+      "gold_complete": true,
+      "gold_source": "official Phase 2 closure artifacts and regression verification"
+    }
+  ],
+  "modes": {
+    "sparse": {
+      "threshold_metrics": {
+        "0.50": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.60": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.70": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.80": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.85": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.90": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.95": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        }
+      },
+      "case_summary": {
+        "AUTH-DONE-6C57FE9": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Codex implementation review: P1 blind-adjudication / structured-output / retry-accounting blockers",
+          "scores": {
+            "satisfied": {
+              "mean": 0.405,
+              "median": 0.405,
+              "min": 0.38,
+              "max": 0.43,
+              "range": 0.04999999999999999,
+              "pstdev": 0.016881943016134122,
+              "values": [
+                0.42,
+                0.4,
+                0.4,
+                0.43,
+                0.42,
+                0.38,
+                0.38,
+                0.42,
+                0.39,
+                0.41
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.428,
+              "median": 0.43,
+              "min": 0.41,
+              "max": 0.44,
+              "range": 0.030000000000000027,
+              "pstdev": 0.008717797887081356,
+              "values": [
+                0.42,
+                0.42,
+                0.44,
+                0.44,
+                0.43,
+                0.41,
+                0.43,
+                0.43,
+                0.43,
+                0.43
+              ]
+            },
+            "material_omission": {
+              "mean": 0.492,
+              "median": 0.495,
+              "min": 0.46,
+              "max": 0.53,
+              "range": 0.07,
+              "pstdev": 0.021354156504062635,
+              "values": [
+                0.48,
+                0.49,
+                0.5,
+                0.5,
+                0.46,
+                0.52,
+                0.47,
+                0.47,
+                0.53,
+                0.5
+              ]
+            }
+          }
+        },
+        "AUTH-DONE-5F06F8E": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Astra closure review: P0=0/P1=6/P2=2 NOT READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.318,
+              "median": 0.32,
+              "min": 0.3,
+              "max": 0.33,
+              "range": 0.030000000000000027,
+              "pstdev": 0.009797958971132722,
+              "values": [
+                0.32,
+                0.32,
+                0.32,
+                0.3,
+                0.33,
+                0.31,
+                0.33,
+                0.31,
+                0.31,
+                0.33
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.23299999999999998,
+              "median": 0.235,
+              "min": 0.22,
+              "max": 0.24,
+              "range": 0.01999999999999999,
+              "pstdev": 0.007810249675906649,
+              "values": [
+                0.22,
+                0.24,
+                0.24,
+                0.24,
+                0.23,
+                0.24,
+                0.24,
+                0.22,
+                0.23,
+                0.23
+              ]
+            },
+            "material_omission": {
+              "mean": 0.622,
+              "median": 0.62,
+              "min": 0.61,
+              "max": 0.64,
+              "range": 0.030000000000000027,
+              "pstdev": 0.011661903789690611,
+              "values": [
+                0.61,
+                0.61,
+                0.61,
+                0.63,
+                0.62,
+                0.62,
+                0.61,
+                0.64,
+                0.64,
+                0.63
+              ]
+            }
+          }
+        },
+        "AUX-CHECKPOINT-821BF38": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": false,
+          "gold_source": "independent Astra final closure review: P0=0/P1=6/P2=1 NOT READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.241,
+              "median": 0.24,
+              "min": 0.23,
+              "max": 0.25,
+              "range": 0.01999999999999999,
+              "pstdev": 0.0069999999999999975,
+              "values": [
+                0.25,
+                0.25,
+                0.24,
+                0.23,
+                0.25,
+                0.23,
+                0.24,
+                0.24,
+                0.24,
+                0.24
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.236,
+              "median": 0.235,
+              "min": 0.22,
+              "max": 0.26,
+              "range": 0.04000000000000001,
+              "pstdev": 0.011999999999999999,
+              "values": [
+                0.23,
+                0.22,
+                0.25,
+                0.24,
+                0.24,
+                0.23,
+                0.26,
+                0.22,
+                0.24,
+                0.23
+              ]
+            },
+            "material_omission": {
+              "mean": 0.542,
+              "median": 0.54,
+              "min": 0.52,
+              "max": 0.56,
+              "range": 0.040000000000000036,
+              "pstdev": 0.013266499161421611,
+              "values": [
+                0.55,
+                0.54,
+                0.52,
+                0.54,
+                0.52,
+                0.54,
+                0.55,
+                0.54,
+                0.56,
+                0.56
+              ]
+            }
+          }
+        },
+        "AUX-COMPLETE-02F7F0D": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "live-readiness preflight + bounded post-fix independent review READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.449,
+              "median": 0.45,
+              "min": 0.42,
+              "max": 0.47,
+              "range": 0.04999999999999999,
+              "pstdev": 0.014456832294800966,
+              "values": [
+                0.46,
+                0.45,
+                0.44,
+                0.45,
+                0.43,
+                0.46,
+                0.46,
+                0.45,
+                0.47,
+                0.42
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.435,
+              "median": 0.44,
+              "min": 0.41,
+              "max": 0.45,
+              "range": 0.040000000000000036,
+              "pstdev": 0.013601470508735456,
+              "values": [
+                0.41,
+                0.44,
+                0.45,
+                0.42,
+                0.43,
+                0.44,
+                0.45,
+                0.42,
+                0.45,
+                0.44
+              ]
+            },
+            "material_omission": {
+              "mean": 0.232,
+              "median": 0.23,
+              "min": 0.21,
+              "max": 0.25,
+              "range": 0.04000000000000001,
+              "pstdev": 0.010770329614269008,
+              "values": [
+                0.23,
+                0.24,
+                0.24,
+                0.23,
+                0.21,
+                0.23,
+                0.22,
+                0.23,
+                0.25,
+                0.24
+              ]
+            }
+          }
+        },
+        "AUX-COMPLETE-F9E0C5C": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "official Phase 2 closure artifacts and regression verification",
+          "scores": {
+            "satisfied": {
+              "mean": 0.62,
+              "median": 0.62,
+              "min": 0.6,
+              "max": 0.65,
+              "range": 0.050000000000000044,
+              "pstdev": 0.01483239697419134,
+              "values": [
+                0.6,
+                0.62,
+                0.6,
+                0.65,
+                0.61,
+                0.62,
+                0.63,
+                0.63,
+                0.63,
+                0.61
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.431,
+              "median": 0.43,
+              "min": 0.41,
+              "max": 0.45,
+              "range": 0.040000000000000036,
+              "pstdev": 0.011357816691600558,
+              "values": [
+                0.43,
+                0.42,
+                0.45,
+                0.43,
+                0.43,
+                0.44,
+                0.44,
+                0.44,
+                0.41,
+                0.42
+              ]
+            },
+            "material_omission": {
+              "mean": 0.433,
+              "median": 0.43,
+              "min": 0.4,
+              "max": 0.48,
+              "range": 0.07999999999999996,
+              "pstdev": 0.024103941586387893,
+              "values": [
+                0.42,
+                0.46,
+                0.45,
+                0.4,
+                0.42,
+                0.43,
+                0.44,
+                0.4,
+                0.43,
+                0.48
+              ]
+            }
+          }
+        }
+      }
+    },
+    "enriched": {
+      "threshold_metrics": {
+        "0.50": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.60": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.70": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.80": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.85": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.90": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        },
+        "0.95": {
+          "all": {
+            "evaluations": 50,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 30,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          },
+          "authentic_worker_done": {
+            "evaluations": 20,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 0,
+            "true_continue": 20,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": null
+          },
+          "auxiliary_checkpoint": {
+            "evaluations": 30,
+            "true_finish": 0,
+            "false_finish": 0,
+            "false_reject": 20,
+            "true_continue": 10,
+            "false_finish_rate_on_incomplete": 0.0,
+            "false_reject_rate_on_complete": 1.0
+          }
+        }
+      },
+      "case_summary": {
+        "AUTH-DONE-6C57FE9": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Codex implementation review: P1 blind-adjudication / structured-output / retry-accounting blockers",
+          "scores": {
+            "satisfied": {
+              "mean": 0.191,
+              "median": 0.19,
+              "min": 0.18,
+              "max": 0.21,
+              "range": 0.03,
+              "pstdev": 0.008306623862918076,
+              "values": [
+                0.19,
+                0.19,
+                0.18,
+                0.19,
+                0.19,
+                0.19,
+                0.18,
+                0.21,
+                0.2,
+                0.19
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.268,
+              "median": 0.275,
+              "min": 0.24,
+              "max": 0.29,
+              "range": 0.04999999999999999,
+              "pstdev": 0.016613247725836156,
+              "values": [
+                0.28,
+                0.28,
+                0.28,
+                0.28,
+                0.24,
+                0.24,
+                0.26,
+                0.27,
+                0.29,
+                0.26
+              ]
+            },
+            "material_omission": {
+              "mean": 0.848,
+              "median": 0.85,
+              "min": 0.84,
+              "max": 0.86,
+              "range": 0.020000000000000018,
+              "pstdev": 0.006000000000000005,
+              "values": [
+                0.84,
+                0.84,
+                0.85,
+                0.85,
+                0.86,
+                0.85,
+                0.85,
+                0.85,
+                0.84,
+                0.85
+              ]
+            }
+          }
+        },
+        "AUTH-DONE-5F06F8E": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Astra closure review: P0=0/P1=6/P2=2 NOT READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.083,
+              "median": 0.08,
+              "min": 0.08,
+              "max": 0.09,
+              "range": 0.009999999999999995,
+              "pstdev": 0.004582575694955838,
+              "values": [
+                0.08,
+                0.08,
+                0.08,
+                0.08,
+                0.08,
+                0.08,
+                0.09,
+                0.08,
+                0.09,
+                0.09
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.099,
+              "median": 0.1,
+              "min": 0.09,
+              "max": 0.1,
+              "range": 0.010000000000000009,
+              "pstdev": 0.0030000000000000027,
+              "values": [
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.09,
+                0.1,
+                0.1
+              ]
+            },
+            "material_omission": {
+              "mean": 0.925,
+              "median": 0.925,
+              "min": 0.92,
+              "max": 0.93,
+              "range": 0.010000000000000009,
+              "pstdev": 0.0050000000000000044,
+              "values": [
+                0.92,
+                0.92,
+                0.92,
+                0.93,
+                0.92,
+                0.93,
+                0.93,
+                0.93,
+                0.93,
+                0.92
+              ]
+            }
+          }
+        },
+        "AUX-CHECKPOINT-821BF38": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": false,
+          "gold_source": "independent Astra final closure review: P0=0/P1=6/P2=1 NOT READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.063,
+              "median": 0.06,
+              "min": 0.06,
+              "max": 0.07,
+              "range": 0.010000000000000009,
+              "pstdev": 0.004582575694955844,
+              "values": [
+                0.06,
+                0.06,
+                0.06,
+                0.06,
+                0.07,
+                0.07,
+                0.06,
+                0.06,
+                0.07,
+                0.06
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.1,
+              "median": 0.1,
+              "min": 0.09,
+              "max": 0.11,
+              "range": 0.020000000000000004,
+              "pstdev": 0.004472135954999581,
+              "values": [
+                0.1,
+                0.09,
+                0.11,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1
+              ]
+            },
+            "material_omission": {
+              "mean": 0.938,
+              "median": 0.94,
+              "min": 0.93,
+              "max": 0.94,
+              "range": 0.009999999999999898,
+              "pstdev": 0.003999999999999959,
+              "values": [
+                0.94,
+                0.94,
+                0.94,
+                0.94,
+                0.93,
+                0.94,
+                0.94,
+                0.94,
+                0.93,
+                0.94
+              ]
+            }
+          }
+        },
+        "AUX-COMPLETE-02F7F0D": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "live-readiness preflight + bounded post-fix independent review READY",
+          "scores": {
+            "satisfied": {
+              "mean": 0.501,
+              "median": 0.5,
+              "min": 0.47,
+              "max": 0.53,
+              "range": 0.06000000000000005,
+              "pstdev": 0.017000000000000015,
+              "values": [
+                0.48,
+                0.49,
+                0.53,
+                0.51,
+                0.5,
+                0.47,
+                0.52,
+                0.51,
+                0.5,
+                0.5
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.359,
+              "median": 0.36,
+              "min": 0.33,
+              "max": 0.38,
+              "range": 0.04999999999999999,
+              "pstdev": 0.01374772708486752,
+              "values": [
+                0.35,
+                0.37,
+                0.36,
+                0.37,
+                0.36,
+                0.33,
+                0.35,
+                0.38,
+                0.37,
+                0.35
+              ]
+            },
+            "material_omission": {
+              "mean": 0.328,
+              "median": 0.33,
+              "min": 0.31,
+              "max": 0.34,
+              "range": 0.030000000000000027,
+              "pstdev": 0.009797958971132722,
+              "values": [
+                0.32,
+                0.33,
+                0.31,
+                0.33,
+                0.34,
+                0.32,
+                0.34,
+                0.32,
+                0.33,
+                0.34
+              ]
+            }
+          }
+        },
+        "AUX-COMPLETE-F9E0C5C": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "official Phase 2 closure artifacts and regression verification",
+          "scores": {
+            "satisfied": {
+              "mean": 0.615,
+              "median": 0.62,
+              "min": 0.6,
+              "max": 0.62,
+              "range": 0.020000000000000018,
+              "pstdev": 0.006708203932499375,
+              "values": [
+                0.61,
+                0.62,
+                0.62,
+                0.62,
+                0.61,
+                0.61,
+                0.62,
+                0.62,
+                0.6,
+                0.62
+              ]
+            },
+            "evidence_sufficient": {
+              "mean": 0.35000000000000003,
+              "median": 0.34,
+              "min": 0.33,
+              "max": 0.38,
+              "range": 0.04999999999999999,
+              "pstdev": 0.015491933384829655,
+              "values": [
+                0.34,
+                0.38,
+                0.36,
+                0.37,
+                0.33,
+                0.34,
+                0.36,
+                0.34,
+                0.34,
+                0.34
+              ]
+            },
+            "material_omission": {
+              "mean": 0.494,
+              "median": 0.495,
+              "min": 0.44,
+              "max": 0.54,
+              "range": 0.10000000000000003,
+              "pstdev": 0.030066592756745825,
+              "values": [
+                0.52,
+                0.46,
+                0.44,
+                0.52,
+                0.52,
+                0.5,
+                0.49,
+                0.48,
+                0.54,
+                0.47
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "raw_runs": {
+    "sparse": [
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.42,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.48
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.32,
+            "evidence_sufficient": 0.22,
+            "material_omission": 0.61
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.25,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.55
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.46,
+            "evidence_sufficient": 0.41,
+            "material_omission": 0.23
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.6,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.42
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb41fef7c689d4fed0eed367cd9",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 665.654
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.4,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.49
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.32,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.61
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.25,
+            "evidence_sufficient": 0.22,
+            "material_omission": 0.54
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.45,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.24
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.46
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb422da7a748e9a6b9981293475",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 574.145
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.4,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.5
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.32,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.61
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.24,
+            "evidence_sufficient": 0.25,
+            "material_omission": 0.52
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.44,
+            "evidence_sufficient": 0.45,
+            "material_omission": 0.24
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.6,
+            "evidence_sufficient": 0.45,
+            "material_omission": 0.45
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb42617736fa1275386da59dcc8",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 554.089
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.43,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.5
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.3,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.63
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.23,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.54
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.45,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.23
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.65,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.4
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb4292c7330b7b37a18a4bb961d",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 589.85
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.42,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.46
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.33,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.62
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.25,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.52
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.43,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.21
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.61,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.42
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb42c6a7d808584a8124c0da59c",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 606.721
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.38,
+            "evidence_sufficient": 0.41,
+            "material_omission": 0.52
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.31,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.62
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.23,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.54
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.46,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.23
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.43
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb42fa77fa5a18b50f89a7da3c3",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 570.919
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.38,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.47
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.33,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.61
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.24,
+            "evidence_sufficient": 0.26,
+            "material_omission": 0.55
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.46,
+            "evidence_sufficient": 0.45,
+            "material_omission": 0.22
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.63,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.44
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb432a677debff8246b8e9869fb",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 552.278
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.42,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.47
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.31,
+            "evidence_sufficient": 0.22,
+            "material_omission": 0.64
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.24,
+            "evidence_sufficient": 0.22,
+            "material_omission": 0.54
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.45,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.23
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.63,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.4
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb435cc700ea9a422336b8a4dbd",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 618.022
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.39,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.53
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.31,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.64
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.24,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.56
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.47,
+            "evidence_sufficient": 0.45,
+            "material_omission": 0.25
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.63,
+            "evidence_sufficient": 0.41,
+            "material_omission": 0.43
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb4393d78c394253c2727cf8c07",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 576.823
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.41,
+            "evidence_sufficient": 0.43,
+            "material_omission": 0.5
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.33,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.63
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.24,
+            "evidence_sufficient": 0.23,
+            "material_omission": 0.56
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.42,
+            "evidence_sufficient": 0.44,
+            "material_omission": 0.24
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.61,
+            "evidence_sufficient": 0.42,
+            "material_omission": 0.48
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb43be57247897a7b497074dfdd",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2224,
+            "output_tokens": 349
+          },
+          "latency_ms": 619.615
+        }
+      }
+    ],
+    "enriched": [
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.28,
+            "material_omission": 0.84
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.92
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.48,
+            "evidence_sufficient": 0.35,
+            "material_omission": 0.32
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.61,
+            "evidence_sufficient": 0.34,
+            "material_omission": 0.52
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb43f5871d0aeadaaaf3ba8e14e",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 552.92
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.28,
+            "material_omission": 0.84
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.92
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.09,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.49,
+            "evidence_sufficient": 0.37,
+            "material_omission": 0.33
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.38,
+            "material_omission": 0.46
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb4426a7716808edbac474eee87",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 601.659
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.18,
+            "evidence_sufficient": 0.28,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.92
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.11,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.53,
+            "evidence_sufficient": 0.36,
+            "material_omission": 0.31
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.36,
+            "material_omission": 0.44
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb445b87c03bacc0568ad551310",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 599.253
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.28,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.51,
+            "evidence_sufficient": 0.37,
+            "material_omission": 0.33
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.37,
+            "material_omission": 0.52
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb448f57b4f93a695c7d92e87fa",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 578.456
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.86
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.92
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.07,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.5,
+            "evidence_sufficient": 0.36,
+            "material_omission": 0.34
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.61,
+            "evidence_sufficient": 0.33,
+            "material_omission": 0.52
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb44c2475b2bb1a01426fa40795",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 532.305
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.24,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.07,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.47,
+            "evidence_sufficient": 0.33,
+            "material_omission": 0.32
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.61,
+            "evidence_sufficient": 0.34,
+            "material_omission": 0.5
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb44f2777a6bc3a378926a53b1d",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 553.504
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.18,
+            "evidence_sufficient": 0.26,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.09,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.52,
+            "evidence_sufficient": 0.35,
+            "material_omission": 0.34
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.36,
+            "material_omission": 0.49
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb4522b7aef96cd39db411c82ee",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 591.564
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.21,
+            "evidence_sufficient": 0.27,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.08,
+            "evidence_sufficient": 0.09,
+            "material_omission": 0.93
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.51,
+            "evidence_sufficient": 0.38,
+            "material_omission": 0.32
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.34,
+            "material_omission": 0.48
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb455717240b1439faed60a5f0f",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 563.959
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.2,
+            "evidence_sufficient": 0.29,
+            "material_omission": 0.84
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.09,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.07,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.93
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.5,
+            "evidence_sufficient": 0.37,
+            "material_omission": 0.33
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.6,
+            "evidence_sufficient": 0.34,
+            "material_omission": 0.54
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb4589f79eab9d6298928b51a55",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 602.007
+        }
+      },
+      {
+        "scores": {
+          "AUTH-DONE-6C57FE9": {
+            "satisfied": 0.19,
+            "evidence_sufficient": 0.26,
+            "material_omission": 0.85
+          },
+          "AUTH-DONE-5F06F8E": {
+            "satisfied": 0.09,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.92
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "satisfied": 0.06,
+            "evidence_sufficient": 0.1,
+            "material_omission": 0.94
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "satisfied": 0.5,
+            "evidence_sufficient": 0.35,
+            "material_omission": 0.34
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "satisfied": 0.62,
+            "evidence_sufficient": 0.34,
+            "material_omission": 0.47
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb45bf176959ddfeca959070230",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2798,
+            "output_tokens": 349
+          },
+          "latency_ms": 560.591
+        }
+      }
+    ]
+  }
+}

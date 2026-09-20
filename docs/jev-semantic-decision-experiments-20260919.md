@@ -1070,7 +1070,7 @@ separate evidence.
 | DevSpace context admission | NO-GO |
 | DevSpace bounded review gate | Technically works, but redundant |
 | DevSpace pre-execution semantic safety gate | PROMISING |
-| DevSpace completion verifier at worker-DONE | WORTH TRYING; historical replay first |
+| DevSpace completion verifier at worker-DONE | Historical pilot complete: conservative VERIFY gate viable; standalone semantic detector not qualified; production HOLD |
 | DevSpace checkpoint/progress verifier | EXPERIMENTAL; do not use per-turn by default |
 | Bounded delegated inner-loop runtime | PROMISING; strongest external pattern |
 | FIRE entailment / completeness | Technically promising; production HOLD |
@@ -1127,8 +1127,15 @@ The current strongest candidates are therefore:
 
 - PKD source-local facet / relation decisions;
 - PKD regression evaluation over frozen, human-corrected real cases;
-- DevSpace completion verification at the worker-DONE boundary, if historical
-  replay demonstrates residual value beyond deterministic acceptance;
+- DevSpace completion verification at the worker-DONE boundary has now been
+  historically replayed. Sparse evidence produced zero false FINISH on the
+  available incomplete checkpoints but mostly chose VERIFY rather than finding
+  a concrete omission. Oracle-like enriched evidence separated complete vs
+  incomplete cleanly, but that result exposes an evidence-acquisition bottleneck
+  rather than production readiness. See
+  `docs/jev-devspace-completion-verifier-replay-20260920.md`; production remains
+  HOLD unless requirement-linked evidence can be acquired cheaply without a
+  frontier reviewer rediscovering the defect first;
 - DevSpace pre-execution semantic intent/scope safety gating;
 - future closed-world browser/GUI or other deterministic subtask runtimes where
   a Jev inner loop can replace repeated frontier-model decisions and the Host

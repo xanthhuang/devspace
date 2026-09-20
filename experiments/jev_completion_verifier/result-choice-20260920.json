@@ -1,0 +1,2275 @@
+{
+  "schema_version": "jev-devspace-completion-choice-replay-v1",
+  "generated_at": "2026-09-20T07:26:17.239413+00:00",
+  "requested_model": "jev-1.13.0",
+  "gold_labels_sent_to_model": false,
+  "repeats_per_mode": 10,
+  "modes": {
+    "sparse": {
+      "false_finish": 0,
+      "incomplete_evaluations": 30,
+      "false_finish_rate_on_incomplete": 0.0,
+      "false_reject": 9,
+      "complete_evaluations": 20,
+      "false_reject_rate_on_complete": 0.45,
+      "case_summary": {
+        "AUTH-DONE-6C57FE9": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Codex implementation review: P1 blind-adjudication / structured-output / retry-accounting blockers",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 0,
+            "VERIFY": 10
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.703,
+          "confidence_min": 0.67,
+          "confidence_max": 0.72,
+          "answers": [
+            {
+              "choice": "VERIFY",
+              "confidence": 0.72,
+              "probabilities": {
+                "CONTINUE": 0.12,
+                "VERIFY": 0.8099999999999999,
+                "FINISH": 0.07
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.7,
+              "probabilities": {
+                "FINISH": 0.08,
+                "VERIFY": 0.8,
+                "CONTINUE": 0.12
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.69,
+              "probabilities": {
+                "VERIFY": 0.79,
+                "FINISH": 0.07,
+                "CONTINUE": 0.14
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.69,
+              "probabilities": {
+                "VERIFY": 0.79,
+                "FINISH": 0.09,
+                "CONTINUE": 0.12
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.71,
+              "probabilities": {
+                "VERIFY": 0.81,
+                "CONTINUE": 0.13,
+                "FINISH": 0.06
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.72,
+              "probabilities": {
+                "VERIFY": 0.81,
+                "FINISH": 0.09,
+                "CONTINUE": 0.1
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.72,
+              "probabilities": {
+                "VERIFY": 0.8200000000000001,
+                "FINISH": 0.06,
+                "CONTINUE": 0.12
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.69,
+              "probabilities": {
+                "VERIFY": 0.8,
+                "CONTINUE": 0.12,
+                "FINISH": 0.08
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.67,
+              "probabilities": {
+                "VERIFY": 0.78,
+                "FINISH": 0.08,
+                "CONTINUE": 0.14
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.72,
+              "probabilities": {
+                "FINISH": 0.08,
+                "VERIFY": 0.82,
+                "CONTINUE": 0.1
+              }
+            }
+          ]
+        },
+        "AUTH-DONE-5F06F8E": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Astra closure review: P0=0/P1=6/P2=2 NOT READY",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 0,
+            "VERIFY": 10
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.584,
+          "confidence_min": 0.56,
+          "confidence_max": 0.63,
+          "answers": [
+            {
+              "choice": "VERIFY",
+              "confidence": 0.57,
+              "probabilities": {
+                "CONTINUE": 0.28,
+                "VERIFY": 0.71,
+                "FINISH": 0.01
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.63,
+              "probabilities": {
+                "FINISH": 0.02,
+                "VERIFY": 0.75,
+                "CONTINUE": 0.23
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.62,
+              "probabilities": {
+                "VERIFY": 0.75,
+                "FINISH": 0.01,
+                "CONTINUE": 0.24
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.56,
+              "probabilities": {
+                "VERIFY": 0.7,
+                "FINISH": 0.02,
+                "CONTINUE": 0.28
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.57,
+              "probabilities": {
+                "VERIFY": 0.71,
+                "CONTINUE": 0.27,
+                "FINISH": 0.02
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.58,
+              "probabilities": {
+                "VERIFY": 0.72,
+                "FINISH": 0.02,
+                "CONTINUE": 0.26
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.57,
+              "probabilities": {
+                "VERIFY": 0.71,
+                "FINISH": 0.02,
+                "CONTINUE": 0.27
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.6,
+              "probabilities": {
+                "VERIFY": 0.73,
+                "CONTINUE": 0.25,
+                "FINISH": 0.02
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.57,
+              "probabilities": {
+                "VERIFY": 0.71,
+                "FINISH": 0.02,
+                "CONTINUE": 0.27
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.57,
+              "probabilities": {
+                "FINISH": 0.02,
+                "VERIFY": 0.71,
+                "CONTINUE": 0.27
+              }
+            }
+          ]
+        },
+        "AUX-CHECKPOINT-821BF38": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": false,
+          "gold_source": "independent Astra final closure review: P0=0/P1=6/P2=1 NOT READY",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 0,
+            "VERIFY": 10
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.756,
+          "confidence_min": 0.72,
+          "confidence_max": 0.79,
+          "answers": [
+            {
+              "choice": "VERIFY",
+              "confidence": 0.79,
+              "probabilities": {
+                "CONTINUE": 0.13,
+                "VERIFY": 0.86,
+                "FINISH": 0.01
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.75,
+              "probabilities": {
+                "FINISH": 0.02,
+                "VERIFY": 0.83,
+                "CONTINUE": 0.15
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.76,
+              "probabilities": {
+                "VERIFY": 0.84,
+                "FINISH": 0.02,
+                "CONTINUE": 0.14
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.75,
+              "probabilities": {
+                "VERIFY": 0.84,
+                "FINISH": 0.02,
+                "CONTINUE": 0.14
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.78,
+              "probabilities": {
+                "VERIFY": 0.85,
+                "CONTINUE": 0.13,
+                "FINISH": 0.02
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.74,
+              "probabilities": {
+                "VERIFY": 0.82,
+                "FINISH": 0.02,
+                "CONTINUE": 0.16
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.76,
+              "probabilities": {
+                "VERIFY": 0.83,
+                "FINISH": 0.02,
+                "CONTINUE": 0.15
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.74,
+              "probabilities": {
+                "VERIFY": 0.83,
+                "CONTINUE": 0.15,
+                "FINISH": 0.02
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.72,
+              "probabilities": {
+                "VERIFY": 0.81,
+                "FINISH": 0.02,
+                "CONTINUE": 0.17
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.77,
+              "probabilities": {
+                "FINISH": 0.02,
+                "VERIFY": 0.85,
+                "CONTINUE": 0.13
+              }
+            }
+          ]
+        },
+        "AUX-COMPLETE-02F7F0D": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "live-readiness preflight + bounded post-fix independent review READY",
+          "choice_counts": {
+            "FINISH": 1,
+            "CONTINUE": 0,
+            "VERIFY": 9
+          },
+          "choice_flip": true,
+          "confidence_mean": 0.263,
+          "confidence_min": 0.2,
+          "confidence_max": 0.35,
+          "answers": [
+            {
+              "choice": "VERIFY",
+              "confidence": 0.32,
+              "probabilities": {
+                "CONTINUE": 0.07,
+                "VERIFY": 0.55,
+                "FINISH": 0.38
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.25,
+              "probabilities": {
+                "FINISH": 0.41,
+                "VERIFY": 0.5,
+                "CONTINUE": 0.09
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.35,
+              "probabilities": {
+                "VERIFY": 0.57,
+                "FINISH": 0.36,
+                "CONTINUE": 0.07
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.2,
+              "probabilities": {
+                "VERIFY": 0.46,
+                "FINISH": 0.45999999999999996,
+                "CONTINUE": 0.08
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.25,
+              "probabilities": {
+                "VERIFY": 0.5,
+                "CONTINUE": 0.07,
+                "FINISH": 0.43
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.25,
+              "probabilities": {
+                "VERIFY": 0.5,
+                "FINISH": 0.41,
+                "CONTINUE": 0.09
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.25,
+              "probabilities": {
+                "VERIFY": 0.5,
+                "FINISH": 0.42,
+                "CONTINUE": 0.08
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.22,
+              "probabilities": {
+                "VERIFY": 0.48,
+                "CONTINUE": 0.07,
+                "FINISH": 0.45
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.32,
+              "probabilities": {
+                "VERIFY": 0.55,
+                "FINISH": 0.35,
+                "CONTINUE": 0.1
+              }
+            },
+            {
+              "choice": "VERIFY",
+              "confidence": 0.22,
+              "probabilities": {
+                "FINISH": 0.42,
+                "VERIFY": 0.48,
+                "CONTINUE": 0.1
+              }
+            }
+          ]
+        },
+        "AUX-COMPLETE-F9E0C5C": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "official Phase 2 closure artifacts and regression verification",
+          "choice_counts": {
+            "FINISH": 10,
+            "CONTINUE": 0,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.586,
+          "confidence_min": 0.54,
+          "confidence_max": 0.62,
+          "answers": [
+            {
+              "choice": "FINISH",
+              "confidence": 0.62,
+              "probabilities": {
+                "CONTINUE": 0.04,
+                "VERIFY": 0.21,
+                "FINISH": 0.75
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.6,
+              "probabilities": {
+                "FINISH": 0.73,
+                "VERIFY": 0.22,
+                "CONTINUE": 0.05
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.61,
+              "probabilities": {
+                "VERIFY": 0.21,
+                "FINISH": 0.73,
+                "CONTINUE": 0.06
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.6,
+              "probabilities": {
+                "VERIFY": 0.22,
+                "FINISH": 0.73,
+                "CONTINUE": 0.05
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.57,
+              "probabilities": {
+                "VERIFY": 0.23,
+                "CONTINUE": 0.06,
+                "FINISH": 0.71
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.55,
+              "probabilities": {
+                "VERIFY": 0.24,
+                "FINISH": 0.7,
+                "CONTINUE": 0.06
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.54,
+              "probabilities": {
+                "VERIFY": 0.25,
+                "FINISH": 0.69,
+                "CONTINUE": 0.06
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.58,
+              "probabilities": {
+                "VERIFY": 0.22,
+                "CONTINUE": 0.06,
+                "FINISH": 0.72
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.59,
+              "probabilities": {
+                "VERIFY": 0.21,
+                "FINISH": 0.73,
+                "CONTINUE": 0.06
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.6,
+              "probabilities": {
+                "FINISH": 0.73,
+                "VERIFY": 0.22,
+                "CONTINUE": 0.05
+              }
+            }
+          ]
+        }
+      }
+    },
+    "enriched": {
+      "false_finish": 0,
+      "incomplete_evaluations": 30,
+      "false_finish_rate_on_incomplete": 0.0,
+      "false_reject": 0,
+      "complete_evaluations": 20,
+      "false_reject_rate_on_complete": 0.0,
+      "case_summary": {
+        "AUTH-DONE-6C57FE9": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Codex implementation review: P1 blind-adjudication / structured-output / retry-accounting blockers",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 10,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.894,
+          "confidence_min": 0.87,
+          "confidence_max": 0.92,
+          "answers": [
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.9,
+              "probabilities": {
+                "VERIFY": 0.06,
+                "FINISH": 0.01,
+                "CONTINUE": 0.93
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.91,
+              "probabilities": {
+                "FINISH": 0.01,
+                "VERIFY": 0.05,
+                "CONTINUE": 0.94
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.88,
+              "probabilities": {
+                "FINISH": 0.01,
+                "VERIFY": 0.07,
+                "CONTINUE": 0.92
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.92,
+              "probabilities": {
+                "FINISH": 0.01,
+                "VERIFY": 0.05,
+                "CONTINUE": 0.94
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.88,
+              "probabilities": {
+                "VERIFY": 0.07,
+                "FINISH": 0.01,
+                "CONTINUE": 0.92
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.89,
+              "probabilities": {
+                "VERIFY": 0.07,
+                "CONTINUE": 0.92,
+                "FINISH": 0.01
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.9,
+              "probabilities": {
+                "VERIFY": 0.06,
+                "FINISH": 0.01,
+                "CONTINUE": 0.93
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.9,
+              "probabilities": {
+                "FINISH": 0.01,
+                "CONTINUE": 0.93,
+                "VERIFY": 0.06
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.87,
+              "probabilities": {
+                "VERIFY": 0.08,
+                "FINISH": 0.01,
+                "CONTINUE": 0.91
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.89,
+              "probabilities": {
+                "VERIFY": 0.07,
+                "FINISH": 0.01,
+                "CONTINUE": 0.92
+              }
+            }
+          ]
+        },
+        "AUTH-DONE-5F06F8E": {
+          "kind": "authentic_worker_done",
+          "gold_complete": false,
+          "gold_source": "later Astra closure review: P0=0/P1=6/P2=2 NOT READY",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 10,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.994,
+          "confidence_min": 0.99,
+          "confidence_max": 1.0,
+          "answers": [
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0,
+                "FINISH": 0.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "FINISH": 0.0,
+                "CONTINUE": 1.0,
+                "VERIFY": 0.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            }
+          ]
+        },
+        "AUX-CHECKPOINT-821BF38": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": false,
+          "gold_source": "independent Astra final closure review: P0=0/P1=6/P2=1 NOT READY",
+          "choice_counts": {
+            "FINISH": 0,
+            "CONTINUE": 10,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.995,
+          "confidence_min": 0.99,
+          "confidence_max": 1.0,
+          "answers": [
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "FINISH": 0.0,
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "CONTINUE": 1.0,
+                "FINISH": 0.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "FINISH": 0.0,
+                "CONTINUE": 1.0,
+                "VERIFY": 0.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 1.0,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            },
+            {
+              "choice": "CONTINUE",
+              "confidence": 0.99,
+              "probabilities": {
+                "VERIFY": 0.0,
+                "FINISH": 0.0,
+                "CONTINUE": 1.0
+              }
+            }
+          ]
+        },
+        "AUX-COMPLETE-02F7F0D": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "live-readiness preflight + bounded post-fix independent review READY",
+          "choice_counts": {
+            "FINISH": 10,
+            "CONTINUE": 0,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.358,
+          "confidence_min": 0.32,
+          "confidence_max": 0.45,
+          "answers": [
+            {
+              "choice": "FINISH",
+              "confidence": 0.33,
+              "probabilities": {
+                "VERIFY": 0.32,
+                "FINISH": 0.55,
+                "CONTINUE": 0.13
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.37,
+              "probabilities": {
+                "FINISH": 0.58,
+                "CONTINUE": 0.12,
+                "VERIFY": 0.3
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.37,
+              "probabilities": {
+                "FINISH": 0.58,
+                "VERIFY": 0.3,
+                "CONTINUE": 0.12
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.37,
+              "probabilities": {
+                "FINISH": 0.58,
+                "VERIFY": 0.29,
+                "CONTINUE": 0.13
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.36,
+              "probabilities": {
+                "VERIFY": 0.31,
+                "FINISH": 0.58,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.45,
+              "probabilities": {
+                "CONTINUE": 0.12,
+                "VERIFY": 0.25,
+                "FINISH": 0.63
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.32,
+              "probabilities": {
+                "VERIFY": 0.32,
+                "FINISH": 0.55,
+                "CONTINUE": 0.13
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.34,
+              "probabilities": {
+                "FINISH": 0.56,
+                "CONTINUE": 0.12,
+                "VERIFY": 0.32
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.32,
+              "probabilities": {
+                "VERIFY": 0.31,
+                "FINISH": 0.55,
+                "CONTINUE": 0.14
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.35,
+              "probabilities": {
+                "VERIFY": 0.31,
+                "FINISH": 0.5599999999999999,
+                "CONTINUE": 0.13
+              }
+            }
+          ]
+        },
+        "AUX-COMPLETE-F9E0C5C": {
+          "kind": "auxiliary_checkpoint",
+          "gold_complete": true,
+          "gold_source": "official Phase 2 closure artifacts and regression verification",
+          "choice_counts": {
+            "FINISH": 10,
+            "CONTINUE": 0,
+            "VERIFY": 0
+          },
+          "choice_flip": false,
+          "confidence_mean": 0.45899999999999996,
+          "confidence_min": 0.41,
+          "confidence_max": 0.51,
+          "answers": [
+            {
+              "choice": "FINISH",
+              "confidence": 0.48,
+              "probabilities": {
+                "VERIFY": 0.23,
+                "FINISH": 0.66,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.42,
+              "probabilities": {
+                "FINISH": 0.62,
+                "CONTINUE": 0.11,
+                "VERIFY": 0.27
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.47,
+              "probabilities": {
+                "FINISH": 0.64,
+                "VERIFY": 0.25,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.45,
+              "probabilities": {
+                "FINISH": 0.64,
+                "VERIFY": 0.25,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.47,
+              "probabilities": {
+                "VERIFY": 0.24,
+                "FINISH": 0.64,
+                "CONTINUE": 0.12
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.46,
+              "probabilities": {
+                "VERIFY": 0.25,
+                "CONTINUE": 0.11,
+                "FINISH": 0.64
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.44,
+              "probabilities": {
+                "VERIFY": 0.26,
+                "FINISH": 0.63,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.51,
+              "probabilities": {
+                "FINISH": 0.68,
+                "CONTINUE": 0.11,
+                "VERIFY": 0.21
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.48,
+              "probabilities": {
+                "VERIFY": 0.23,
+                "FINISH": 0.66,
+                "CONTINUE": 0.11
+              }
+            },
+            {
+              "choice": "FINISH",
+              "confidence": 0.41,
+              "probabilities": {
+                "VERIFY": 0.26,
+                "FINISH": 0.61,
+                "CONTINUE": 0.13
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "raw_runs": {
+    "sparse": [
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.72,
+            "probabilities": {
+              "CONTINUE": 0.12,
+              "VERIFY": 0.8099999999999999,
+              "FINISH": 0.07
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.57,
+            "probabilities": {
+              "CONTINUE": 0.28,
+              "VERIFY": 0.71,
+              "FINISH": 0.01
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.79,
+            "probabilities": {
+              "CONTINUE": 0.13,
+              "VERIFY": 0.86,
+              "FINISH": 0.01
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.32,
+            "probabilities": {
+              "CONTINUE": 0.07,
+              "VERIFY": 0.55,
+              "FINISH": 0.38
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.62,
+            "probabilities": {
+              "CONTINUE": 0.04,
+              "VERIFY": 0.21,
+              "FINISH": 0.75
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb52cdf7e2d92052de5c9cdd7ed",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 599.593
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.7,
+            "probabilities": {
+              "FINISH": 0.08,
+              "VERIFY": 0.8,
+              "CONTINUE": 0.12
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.63,
+            "probabilities": {
+              "FINISH": 0.02,
+              "VERIFY": 0.75,
+              "CONTINUE": 0.23
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.75,
+            "probabilities": {
+              "FINISH": 0.02,
+              "VERIFY": 0.83,
+              "CONTINUE": 0.15
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.25,
+            "probabilities": {
+              "FINISH": 0.41,
+              "VERIFY": 0.5,
+              "CONTINUE": 0.09
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.6,
+            "probabilities": {
+              "FINISH": 0.73,
+              "VERIFY": 0.22,
+              "CONTINUE": 0.05
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb52fd171ccac8105d4ec525238",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 682.016
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.69,
+            "probabilities": {
+              "VERIFY": 0.79,
+              "FINISH": 0.07,
+              "CONTINUE": 0.14
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.62,
+            "probabilities": {
+              "VERIFY": 0.75,
+              "FINISH": 0.01,
+              "CONTINUE": 0.24
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.76,
+            "probabilities": {
+              "VERIFY": 0.84,
+              "FINISH": 0.02,
+              "CONTINUE": 0.14
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.35,
+            "probabilities": {
+              "VERIFY": 0.57,
+              "FINISH": 0.36,
+              "CONTINUE": 0.07
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.61,
+            "probabilities": {
+              "VERIFY": 0.21,
+              "FINISH": 0.73,
+              "CONTINUE": 0.06
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb533677be5851cf2d2974304ee",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 576.677
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.69,
+            "probabilities": {
+              "VERIFY": 0.79,
+              "FINISH": 0.09,
+              "CONTINUE": 0.12
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.56,
+            "probabilities": {
+              "VERIFY": 0.7,
+              "FINISH": 0.02,
+              "CONTINUE": 0.28
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.75,
+            "probabilities": {
+              "VERIFY": 0.84,
+              "FINISH": 0.02,
+              "CONTINUE": 0.14
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.2,
+            "probabilities": {
+              "VERIFY": 0.46,
+              "FINISH": 0.45999999999999996,
+              "CONTINUE": 0.08
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.6,
+            "probabilities": {
+              "VERIFY": 0.22,
+              "FINISH": 0.73,
+              "CONTINUE": 0.05
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb536487441b54b632e3fd4ce4c",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 205
+          },
+          "latency_ms": 604.072
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.71,
+            "probabilities": {
+              "VERIFY": 0.81,
+              "CONTINUE": 0.13,
+              "FINISH": 0.06
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.57,
+            "probabilities": {
+              "VERIFY": 0.71,
+              "CONTINUE": 0.27,
+              "FINISH": 0.02
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.78,
+            "probabilities": {
+              "VERIFY": 0.85,
+              "CONTINUE": 0.13,
+              "FINISH": 0.02
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.25,
+            "probabilities": {
+              "VERIFY": 0.5,
+              "CONTINUE": 0.07,
+              "FINISH": 0.43
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.57,
+            "probabilities": {
+              "VERIFY": 0.23,
+              "CONTINUE": 0.06,
+              "FINISH": 0.71
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb539887c0fb2707d3b67f12835",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 555.006
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.72,
+            "probabilities": {
+              "VERIFY": 0.81,
+              "FINISH": 0.09,
+              "CONTINUE": 0.1
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.58,
+            "probabilities": {
+              "VERIFY": 0.72,
+              "FINISH": 0.02,
+              "CONTINUE": 0.26
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.74,
+            "probabilities": {
+              "VERIFY": 0.82,
+              "FINISH": 0.02,
+              "CONTINUE": 0.16
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.25,
+            "probabilities": {
+              "VERIFY": 0.5,
+              "FINISH": 0.41,
+              "CONTINUE": 0.09
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.55,
+            "probabilities": {
+              "VERIFY": 0.24,
+              "FINISH": 0.7,
+              "CONTINUE": 0.06
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb53c3470dcb7f3894f350e2d11",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 589.341
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.72,
+            "probabilities": {
+              "VERIFY": 0.8200000000000001,
+              "FINISH": 0.06,
+              "CONTINUE": 0.12
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.57,
+            "probabilities": {
+              "VERIFY": 0.71,
+              "FINISH": 0.02,
+              "CONTINUE": 0.27
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.76,
+            "probabilities": {
+              "VERIFY": 0.83,
+              "FINISH": 0.02,
+              "CONTINUE": 0.15
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.25,
+            "probabilities": {
+              "VERIFY": 0.5,
+              "FINISH": 0.42,
+              "CONTINUE": 0.08
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.54,
+            "probabilities": {
+              "VERIFY": 0.25,
+              "FINISH": 0.69,
+              "CONTINUE": 0.06
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb53f277c74aebffa62e682cd84",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 592.514
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.69,
+            "probabilities": {
+              "VERIFY": 0.8,
+              "CONTINUE": 0.12,
+              "FINISH": 0.08
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.6,
+            "probabilities": {
+              "VERIFY": 0.73,
+              "CONTINUE": 0.25,
+              "FINISH": 0.02
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.74,
+            "probabilities": {
+              "VERIFY": 0.83,
+              "CONTINUE": 0.15,
+              "FINISH": 0.02
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.22,
+            "probabilities": {
+              "VERIFY": 0.48,
+              "CONTINUE": 0.07,
+              "FINISH": 0.45
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.58,
+            "probabilities": {
+              "VERIFY": 0.22,
+              "CONTINUE": 0.06,
+              "FINISH": 0.72
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb5422a79ec81d86f9d61fc2e6d",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 571.01
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.67,
+            "probabilities": {
+              "VERIFY": 0.78,
+              "FINISH": 0.08,
+              "CONTINUE": 0.14
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.57,
+            "probabilities": {
+              "VERIFY": 0.71,
+              "FINISH": 0.02,
+              "CONTINUE": 0.27
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.72,
+            "probabilities": {
+              "VERIFY": 0.81,
+              "FINISH": 0.02,
+              "CONTINUE": 0.17
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.32,
+            "probabilities": {
+              "VERIFY": 0.55,
+              "FINISH": 0.35,
+              "CONTINUE": 0.1
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.59,
+            "probabilities": {
+              "VERIFY": 0.21,
+              "FINISH": 0.73,
+              "CONTINUE": 0.06
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb544db776eb986a7d3f4ce8f03",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 617.981
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "VERIFY",
+            "confidence": 0.72,
+            "probabilities": {
+              "FINISH": 0.08,
+              "VERIFY": 0.82,
+              "CONTINUE": 0.1
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "VERIFY",
+            "confidence": 0.57,
+            "probabilities": {
+              "FINISH": 0.02,
+              "VERIFY": 0.71,
+              "CONTINUE": 0.27
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "VERIFY",
+            "confidence": 0.77,
+            "probabilities": {
+              "FINISH": 0.02,
+              "VERIFY": 0.85,
+              "CONTINUE": 0.13
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "VERIFY",
+            "confidence": 0.22,
+            "probabilities": {
+              "FINISH": 0.42,
+              "VERIFY": 0.48,
+              "CONTINUE": 0.1
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.6,
+            "probabilities": {
+              "FINISH": 0.73,
+              "VERIFY": 0.22,
+              "CONTINUE": 0.05
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb548317ccba01039c5ca4164bd",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 2489,
+            "output_tokens": 204
+          },
+          "latency_ms": 575.372
+        }
+      }
+    ],
+    "enriched": [
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.9,
+            "probabilities": {
+              "VERIFY": 0.06,
+              "FINISH": 0.01,
+              "CONTINUE": 0.93
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.33,
+            "probabilities": {
+              "VERIFY": 0.32,
+              "FINISH": 0.55,
+              "CONTINUE": 0.13
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.48,
+            "probabilities": {
+              "VERIFY": 0.23,
+              "FINISH": 0.66,
+              "CONTINUE": 0.11
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb54b477b00b790649843d30ce2",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 561.53
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.91,
+            "probabilities": {
+              "FINISH": 0.01,
+              "VERIFY": 0.05,
+              "CONTINUE": 0.94
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.37,
+            "probabilities": {
+              "FINISH": 0.58,
+              "CONTINUE": 0.12,
+              "VERIFY": 0.3
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.42,
+            "probabilities": {
+              "FINISH": 0.62,
+              "CONTINUE": 0.11,
+              "VERIFY": 0.27
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb54e8478198de096d763dff879",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 561.008
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.88,
+            "probabilities": {
+              "FINISH": 0.01,
+              "VERIFY": 0.07,
+              "CONTINUE": 0.92
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.37,
+            "probabilities": {
+              "FINISH": 0.58,
+              "VERIFY": 0.3,
+              "CONTINUE": 0.12
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.47,
+            "probabilities": {
+              "FINISH": 0.64,
+              "VERIFY": 0.25,
+              "CONTINUE": 0.11
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb551447b1da0e21b0a3612eade",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 560.437
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.92,
+            "probabilities": {
+              "FINISH": 0.01,
+              "VERIFY": 0.05,
+              "CONTINUE": 0.94
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "FINISH": 0.0,
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.37,
+            "probabilities": {
+              "FINISH": 0.58,
+              "VERIFY": 0.29,
+              "CONTINUE": 0.13
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.45,
+            "probabilities": {
+              "FINISH": 0.64,
+              "VERIFY": 0.25,
+              "CONTINUE": 0.11
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb5547e7412bf97e5d6ca17102e",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 590.11
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.88,
+            "probabilities": {
+              "VERIFY": 0.07,
+              "FINISH": 0.01,
+              "CONTINUE": 0.92
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.36,
+            "probabilities": {
+              "VERIFY": 0.31,
+              "FINISH": 0.58,
+              "CONTINUE": 0.11
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.47,
+            "probabilities": {
+              "VERIFY": 0.24,
+              "FINISH": 0.64,
+              "CONTINUE": 0.12
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb557b2751692b87bf933e055d8",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 553.136
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.89,
+            "probabilities": {
+              "VERIFY": 0.07,
+              "CONTINUE": 0.92,
+              "FINISH": 0.01
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0,
+              "FINISH": 0.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "CONTINUE": 1.0,
+              "FINISH": 0.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.45,
+            "probabilities": {
+              "CONTINUE": 0.12,
+              "VERIFY": 0.25,
+              "FINISH": 0.63
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.46,
+            "probabilities": {
+              "VERIFY": 0.25,
+              "CONTINUE": 0.11,
+              "FINISH": 0.64
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb55aaf755088e154c83aeede89",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 615.484
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.9,
+            "probabilities": {
+              "VERIFY": 0.06,
+              "FINISH": 0.01,
+              "CONTINUE": 0.93
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.32,
+            "probabilities": {
+              "VERIFY": 0.32,
+              "FINISH": 0.55,
+              "CONTINUE": 0.13
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.44,
+            "probabilities": {
+              "VERIFY": 0.26,
+              "FINISH": 0.63,
+              "CONTINUE": 0.11
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb55dfb724d9b1226f5698e12a9",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 584.087
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.9,
+            "probabilities": {
+              "FINISH": 0.01,
+              "CONTINUE": 0.93,
+              "VERIFY": 0.06
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "FINISH": 0.0,
+              "CONTINUE": 1.0,
+              "VERIFY": 0.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "FINISH": 0.0,
+              "CONTINUE": 1.0,
+              "VERIFY": 0.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.34,
+            "probabilities": {
+              "FINISH": 0.56,
+              "CONTINUE": 0.12,
+              "VERIFY": 0.32
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.51,
+            "probabilities": {
+              "FINISH": 0.68,
+              "CONTINUE": 0.11,
+              "VERIFY": 0.21
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb5615272e2bbe840364cafa319",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 696.42
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.87,
+            "probabilities": {
+              "VERIFY": 0.08,
+              "FINISH": 0.01,
+              "CONTINUE": 0.91
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 1.0,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.32,
+            "probabilities": {
+              "VERIFY": 0.31,
+              "FINISH": 0.55,
+              "CONTINUE": 0.14
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.48,
+            "probabilities": {
+              "VERIFY": 0.23,
+              "FINISH": 0.66,
+              "CONTINUE": 0.11
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb564707036b68b848a6c2671e3",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 572.066
+        }
+      },
+      {
+        "answers": {
+          "AUTH-DONE-6C57FE9": {
+            "choice": "CONTINUE",
+            "confidence": 0.89,
+            "probabilities": {
+              "VERIFY": 0.07,
+              "FINISH": 0.01,
+              "CONTINUE": 0.92
+            }
+          },
+          "AUTH-DONE-5F06F8E": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-CHECKPOINT-821BF38": {
+            "choice": "CONTINUE",
+            "confidence": 0.99,
+            "probabilities": {
+              "VERIFY": 0.0,
+              "FINISH": 0.0,
+              "CONTINUE": 1.0
+            }
+          },
+          "AUX-COMPLETE-02F7F0D": {
+            "choice": "FINISH",
+            "confidence": 0.35,
+            "probabilities": {
+              "VERIFY": 0.31,
+              "FINISH": 0.5599999999999999,
+              "CONTINUE": 0.13
+            }
+          },
+          "AUX-COMPLETE-F9E0C5C": {
+            "choice": "FINISH",
+            "confidence": 0.41,
+            "probabilities": {
+              "VERIFY": 0.26,
+              "FINISH": 0.61,
+              "CONTINUE": 0.13
+            }
+          }
+        },
+        "metadata": {
+          "request_id": "req_01a0bdb5670b7a8fa27117d623441ab2",
+          "requested_model": "jev-1.13.0",
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3063,
+            "output_tokens": 208
+          },
+          "latency_ms": 617.453
+        }
+      }
+    ]
+  }
+}
