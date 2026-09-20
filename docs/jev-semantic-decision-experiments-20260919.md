@@ -602,10 +602,183 @@ architectural evidence than performance evidence.
 Disposition: **strong architecture reference / early implementation / no
 end-to-end performance claim yet**.
 
+### LangChain / LangSmith: Jev as an agent evaluator
+
+Source:
+
+- `https://www.langchain.com/blog/jev-agent-evals-langsmith`
+- public benchmark artifacts in `danielgshea/jev-as-a-judge`
+
+Reviewed on 2026-09-20.
+
+This article adds a materially different Jev use case from classification or
+action selection: **bounded semantic evaluation of frozen agent traces**.
+
+The experiment froze five weather-agent runs, assigned a human reference label,
+and then evaluated the exact same traces repeatedly with Jev and several
+autoregressive model judges. Each judge was run 100 times per frozen case.
+
+The important methodological distinction is:
+
+```text
+cross-case correctness
+    = does the judge agree with the human reference?
+
+same-case repeatability
+    = does the judge give stable answers/scores when the exact input is rerun?
+```
+
+These must not be collapsed into a single "accuracy" number.
+
+The headline `500/500` Jev result is therefore not evidence for 500 independent
+correct agent evaluations. The independent task sample is only five frozen
+agent cases; the 100 repetitions per case strengthen repeatability evidence,
+not generalization evidence.
+
+The more interesting result was the variance of the continuous quality score.
+The published benchmark reports Jev quality-score variance of approximately
+`0.0000149`, materially below the repeated-score variance of the compared Luna,
+Terra, and Claude Sonnet judges. The published variance ratios were large, but
+the confidence intervals were also wide because the bootstrap unit was the five
+frozen cases. This should be read as **strong evidence of low repeated-decision
+variance on this small benchmark**, not as a universal judge ranking.
+
+Published mean latency / cost per call were approximately:
+
+| Judge | Mean latency | Mean cost/call |
+| --- | ---: | ---: |
+| Jev | `0.44 s` | `$0.00035` |
+| GPT-5.6 Luna | `2.50 s` | `$0.00039` |
+| GPT-5.6 Terra | `2.83 s` | `$0.00289` |
+| Claude Sonnet 4.6 | `2.16 s` | `$0.02811` |
+
+Against Luna, the distinctive advantage was therefore primarily latency and
+repeatability rather than raw per-call cost. Against larger judges, Jev also
+had a substantial cost advantage.
+
+The experiment has important limitations:
+
+- only five unique agent cases;
+- only one human reviewer / reference label source;
+- repeated calls do not increase the number of independent task examples;
+- comparator inference parameters such as temperature/seed were not fully
+  normalized, so the variance comparison reflects deployed defaults rather
+  than a controlled causal test of architecture alone;
+- the hosted Jev service version was not recorded in the benchmark metadata,
+  which weakens long-term reproducibility.
+
+The correct conclusion is therefore:
+
+> Jev is a credible candidate for cheap, low-latency, highly repeatable bounded
+> evaluation and regression scoring. This benchmark does not establish broad
+> evaluator accuracy from only five unique cases.
+
+#### New method: accuracy and stability must both be measured
+
+Previous local Jev qualification mostly used one call per test item and measured
+accuracy / confidence. The LangChain result adds a second axis that should be
+measured on frozen real-domain cases:
+
+```text
+N frozen real cases
+        ×
+R repeated Jev calls per case
+        ↓
+measure both:
+
+1. correctness across cases
+   - human agreement
+   - precision / recall
+   - assignment accuracy
+   - coverage vs confidence
+
+2. stability within each case
+   - choice flip rate
+   - Noul variance
+   - Score variance
+   - confidence variance
+```
+
+This is especially useful for borderline semantic cases. For example, if one
+PKD region produces `F03` on all 20 repeats while another alternates among
+`F03`, `F07`, and `NEW`, the second case is an obvious escalation candidate even
+if one individual call reports high confidence.
+
+Repeated-choice stability is therefore a useful uncertainty signal in addition
+to single-call confidence. It should not replace human-grounded accuracy, but it
+can improve case triage and regression detection.
+
+#### New role: Jev as a regression judge
+
+Jev can now be considered in three distinct roles:
+
+```text
+actor / classifier
+    bounded state -> Jev -> production decision
+
+inner-loop controller
+    bounded goal -> repeated Jev decisions -> deterministic executor
+
+evaluator / regression judge
+    frozen output or trace -> bounded rubric -> Jev Noul / Choice / Score
+```
+
+The evaluator role has a lower integration risk because Jev does not control the
+production action path. It can continuously score frozen or shadow outputs and
+surface regressions without being authoritative.
+
+Suitable evaluator questions include:
+
+- is the evidence sufficient for this relation?
+- is the assigned facet supported by the region?
+- does this case genuinely require `NEW`?
+- is the answer complete with respect to the requested facets?
+- how strongly does the output satisfy a fixed rubric?
+
+The `Score` primitive deserves more attention for regression monitoring than in
+the first version of these experiments. A stable score can be useful as a trend
+signal across releases even when it should not be interpreted as an objective
+probability of correctness.
+
+#### PKD implication
+
+This does **not** change the current PKD priority: use Jev first to prefill
+`region -> existing facet / NEW` and let the human correct it, because that
+directly removes current workflow friction.
+
+The natural second stage is then:
+
+```text
+Jev prefill
+    ↓
+human correction
+    ↓
+accumulate real correction labels
+    ↓
+freeze a representative real-case set
+    ↓
+repeat Jev on each frozen case
+    ↓
+measure correctness + stability + confidence/coverage
+```
+
+This is preferable to creating another synthetic benchmark. Real corrections
+produce both product value and qualification data.
+
+One additional guardrail is required: if Jev is the actor that assigns a facet,
+Jev should not be the sole authoritative evaluator of its own assignment. Human
+corrections / frozen human labels remain the ground truth. Jev-as-a-Judge is more
+useful for outputs from other models, shadow regression monitoring, or as a
+secondary signal alongside human labels.
+
+Disposition: **PROMISING as a low-risk regression/evaluation layer; strong
+repeatability evidence, weak generalization evidence due to only five unique
+benchmark cases**.
+
 ## Revised Jev architecture patterns
 
-The external Computer Use implementations expose two distinct patterns that
-should no longer be conflated.
+The external implementations now expose three distinct patterns that should not
+be conflated.
 
 ### Pattern A — semantic gate inside an existing Host loop
 
@@ -669,12 +842,39 @@ This is a stronger formulation of the original rule in this document: Jev's
 largest value may come not from adding another decision to an existing agent,
 but from **removing an entire repetitive decision loop from the frontier model**.
 
+### Pattern C — bounded evaluator / regression judge
+
+```text
+frozen production or experiment output
+        ↓
+fixed bounded rubric
+        ↓
+Jev Noul / Choice / Score
+        ↓
+regression metrics / escalation signal
+        ↓
+human or independent model review when required
+```
+
+This pattern is intentionally non-authoritative. Its main value is cheap,
+repeatable quality monitoring and case prioritization without placing Jev in the
+production action path.
+
+For Pattern C, report at least two separate dimensions:
+
+1. **cross-case correctness** against human or deterministic ground truth;
+2. **same-case stability** under repeated evaluation of identical frozen input.
+
+Never report repeated calls on a small number of frozen cases as if they were an
+equivalent number of independent test cases.
+
 ## Current disposition by use case
 
 | Use case | Disposition |
 | --- | --- |
 | PKD facet / NEW detection | PROMISING |
 | PKD relation / evidence verification | PROMISING; not yet formally qualified |
+| PKD / agent regression evaluator | PROMISING; low-risk secondary role |
 | DevSpace context admission | NO-GO |
 | DevSpace bounded review gate | Technically works, but redundant |
 | DevSpace pre-execution semantic safety gate | PROMISING |
@@ -715,6 +915,9 @@ Good Jev candidates should satisfy all of the following:
    existing Host logic.
 7. Prefer workloads where the same question/schema repeats often enough to
    justify calibration and confidence/coverage measurement.
+8. For repeated semantic judgments, measure same-input stability separately
+   from correctness; single-call confidence is not a complete uncertainty
+   measure.
 
 For agentic workflows, add a second question before inserting Jev as another
 gate:
@@ -729,6 +932,7 @@ removed, not merely supplemented.
 The current strongest candidates are therefore:
 
 - PKD source-local facet / relation decisions;
+- PKD regression evaluation over frozen, human-corrected real cases;
 - DevSpace pre-execution semantic intent/scope safety gating;
 - future closed-world browser/GUI or other deterministic subtask runtimes where
   a Jev inner loop can replace repeated frontier-model decisions and the Host
