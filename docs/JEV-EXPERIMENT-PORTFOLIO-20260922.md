@@ -393,7 +393,7 @@ Primary outcome:
 
 **ID:** `DS-J1`  
 **Target repo:** `xanthhuang/devspace`  
-**Status:** `QUALIFIED FOR SHADOW PROTOTYPE — hybrid only; production gating not authorized`.
+**Status:** `COMPLETE — Jev production integration NO-GO at current skill scale; deterministic optional-skill routing preferred`.
 
 This is the strongest new DevSpace candidate from the TypeSafe design note.
 
@@ -438,14 +438,37 @@ rules and do not add Jev.
   instruction characters by about `71.6%` versus always loading all available
   fragments.
 
-Disposition: implement **shadow-only** hybrid admission telemetry next. Keep the
-normal full instruction context authoritative until live tasks demonstrate that
-the would-skip set is safe and that the extra Jev latency is repaid by lower
-frontier context cost/latency.
+That Stage C result established Jev's semantic capability, but a subsequent
+architecture-simplification challenge changed the product disposition. The
+instruction pool was reduced to a deterministic mandatory core plus only three
+large optional skills worth gating: `AGENT_REACH`, `EGO_BROWSER`, and
+`BEST_MINDS`. The simplified policy was frozen before selecting a fresh
+Windows-derived task set.
 
-Do not start JevHarness optimization yet: the fixed hybrid already satisfies the
-historical holdout safety gate, so optimization would add complexity before a
-live bottleneck is observed.
+Corrected Stage D fresh validation (19 independent tasks, 57 gated pairs,
+10 repeats / 570 Jev decisions):
+
+```text
+Jev:
+  required recall                100%
+  irrelevant exclusion            94%
+  global-skill context reduction   61.0%
+
+deterministic Host baseline:
+  required recall                100%
+  irrelevant exclusion            98%
+  global-skill context reduction   63.9%
+```
+
+One initially selected Windows task overlapped the consumed Stage C holdout; its
+run was rejected and the corrected set was rerun without changing policy or
+thresholds.
+
+Final disposition: **do not implement Jev shadow admission or JevHarness for
+DS-J1.** The simplified deterministic Host policy now dominates on the measured
+problem while avoiding an external semantic-call dependency. Reopen only if the
+optional-skill inventory or semantically ambiguous residual workload grows
+enough to defeat deterministic routing.
 
 Canonical result:
 
@@ -765,13 +788,11 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 
 ### DevSpace
 
-- [x] `DS-J1` historical qualification complete. Jev-only admission failed one
-      systematic required case; deterministic+Jev hybrid passed a fresh 15-task
-      holdout at 100% required recall across 10 repeats with ~71.6% instruction
-      character reduction. GO only to shadow prototype.
-- [ ] `DS-J1` add shadow-only live admission telemetry; do not alter worker
-      context yet. Measure actual skipped context, task success, retries,
-      corrections, frontier input tokens and end-to-end latency.
+- [x] `DS-J1` complete. Broad historical replay proved Jev semantic signal, but
+      the final simplified optional-skill fresh validation favored the
+      deterministic Host baseline (both 100% required recall; Host 98% vs Jev
+      94% irrelevant exclusion). Jev runtime integration/shadow telemetry NO-GO
+      at current skill scale.
 - [ ] `DS-J2` freeze real historical diff/review findings for staged prefilter
       evaluation.
 - [x] `DS-J3` fixed historical replay complete; Jev 16/16 independent cases and
@@ -779,8 +800,9 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
       deterministic-residual failures justify reopening.
 - [ ] Decide whether `typesafe-mcp` should be pinned as a DevSpace experimental
       utility after key-handling review.
-- [ ] Only after fixed-formulation signal: consider JevHarness optimization for
-      `DS-J1` / `DS-J2`.
+- [ ] JevHarness remains eligible only for an experiment that first demonstrates
+      incremental value over its deterministic baseline. `DS-J1` does not meet
+      that gate; `DS-J2` remains independent.
 - [ ] Do not start `DS-J4`-`DS-J6` until a smaller state-selection experiment
       shows measurable value.
 

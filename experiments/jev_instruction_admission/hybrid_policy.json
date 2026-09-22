@@ -1,0 +1,29 @@
+{
+  "schema": "devspace-jev-instruction-hybrid-policy-v1",
+  "frozen_before_windows_fresh_validation": true,
+  "confidence_floor": 0.3,
+  "fail_safe_rule": "INCLUDE or UNCERTAIN => load; EXCLUDE with confidence < 0.30 => load",
+  "always_load": [
+    "ROUTING",
+    "SUBAGENTS",
+    "SECURITY",
+    "DIAGNOSE_LAYER",
+    "VERIFY_REAL_PATH",
+    "TRACE_CONTRACTS",
+    "PULL_REQUESTS"
+  ],
+  "jev_gated": [
+    "AGENT_REACH",
+    "EGO_BROWSER",
+    "BEST_MINDS"
+  ],
+  "rationale": {
+    "ROUTING": "required in every sealed engineering task; semantic gating adds risk without value",
+    "SUBAGENTS": "small fragment and poor discrimination in sealed replay; always-load is cheaper than semantic gating",
+    "repo_local_core": "small 149-191 token-equivalent sections; savings are too small to justify semantic admission risk",
+    "AGENT_REACH": "large and low-frequency; semantic relevance is not reliably captured by path/keyword rules",
+    "EGO_BROWSER": "largest low-frequency skill and strongest observed admission candidate",
+    "BEST_MINDS": "large optional skill; sealed set had no positive case, so fresh positive coverage is required"
+  },
+  "qualification_note": "This policy is a post-sealed hypothesis. It must be evaluated only on fresh tasks that were not used in calibration or sealed selection, and must not be changed based on those results."
+}

@@ -21,3 +21,9 @@ Runtime availability is respected:
 Gold labels and provenance are local evaluation metadata and are never sent to
 Jev. `UNCERTAIN` is treated as INCLUDE for fail-safe admission metrics.
 
+After the sealed replay, the prospective hybrid policy was frozen in
+`hybrid_policy.json` before any Windows-derived fresh-validation cases were
+selected. That policy always loads the small/core instructions and uses Jev only
+for the large optional global skills `AGENT_REACH`, `EGO_BROWSER`, and
+`BEST_MINDS`.
+

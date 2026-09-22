@@ -1,0 +1,6466 @@
+{
+  "schema": "devspace-jev-instruction-windows-fresh-v1",
+  "generated_at": "2026-09-22T02:04:16.780707+00:00",
+  "development_platform": "macOS",
+  "windows_role": "historical evidence source only",
+  "policy_sha256": "891f8d78c73a4fe2929b83e35426109665e0993579bba57c85893752dc8c3ce5",
+  "policy": {
+    "schema": "devspace-jev-instruction-hybrid-policy-v1",
+    "frozen_before_windows_fresh_validation": true,
+    "confidence_floor": 0.3,
+    "fail_safe_rule": "INCLUDE or UNCERTAIN => load; EXCLUDE with confidence < 0.30 => load",
+    "always_load": [
+      "ROUTING",
+      "SUBAGENTS",
+      "SECURITY",
+      "DIAGNOSE_LAYER",
+      "VERIFY_REAL_PATH",
+      "TRACE_CONTRACTS",
+      "PULL_REQUESTS"
+    ],
+    "jev_gated": [
+      "AGENT_REACH",
+      "EGO_BROWSER",
+      "BEST_MINDS"
+    ],
+    "rationale": {
+      "ROUTING": "required in every sealed engineering task; semantic gating adds risk without value",
+      "SUBAGENTS": "small fragment and poor discrimination in sealed replay; always-load is cheaper than semantic gating",
+      "repo_local_core": "small 149-191 token-equivalent sections; savings are too small to justify semantic admission risk",
+      "AGENT_REACH": "large and low-frequency; semantic relevance is not reliably captured by path/keyword rules",
+      "EGO_BROWSER": "largest low-frequency skill and strongest observed admission candidate",
+      "BEST_MINDS": "large optional skill; sealed set had no positive case, so fresh positive coverage is required"
+    },
+    "qualification_note": "This policy is a post-sealed hypothesis. It must be evaluated only on fresh tasks that were not used in calibration or sealed selection, and must not be changed based on those results."
+  },
+  "model_requested": "jev-1.13.0",
+  "gold_labels_sent_to_model": false,
+  "fresh_cases_not_used_in_prior_ds_j1": true,
+  "tasks": [
+    {
+      "id": "WIN01",
+      "task": "Compare the current browser automation executors using upstream/current capability evidence plus real Google Workspace fixtures, then record which paths actually pass or fail.",
+      "provenance": "E:/AI/browser-automation-routing/docs/A-B-RESULTS-20260920.md",
+      "required_gated": [
+        "AGENT_REACH",
+        "EGO_BROWSER"
+      ]
+    },
+    {
+      "id": "WIN02",
+      "task": "Given the completed browser A/B evidence, decide the cross-platform automation routing policy and the conditions under which agent-browser, Playwright MCP, browser harness, desktop UIA, or vision should be used. This is an architecture/design trade-off, not a single factual lookup.",
+      "provenance": "E:/AI/browser-automation-routing/docs/ROUTING-AND-APPLICABILITY.md",
+      "required_gated": [
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "WIN03",
+      "task": "Exercise the real authenticated Google Workspace production fixtures: open Apps Script deployment management, inspect AppSheet Redux state, and read known Google Sheets cells without modifying data.",
+      "provenance": "E:/AI/browser-automation-routing/docs/A-B-RESULTS-20260920.md real fixtures",
+      "required_gated": [
+        "EGO_BROWSER"
+      ]
+    },
+    {
+      "id": "WIN04",
+      "task": "Research the current Google Gemini API Free Tier limits and model capabilities to determine whether they are sufficient for the Local AI RAG cloud experiment; verify the current public provider information rather than relying on memory.",
+      "provenance": "Windows DevSpace historical task, 2026-09-01 Local AI RAG Gemini Free Tier evaluation",
+      "required_gated": [
+        "AGENT_REACH"
+      ]
+    },
+    {
+      "id": "WIN05",
+      "task": "From first principles, double-steelman and Occam's razor, choose the next validation plan for the current FIRE/local-knowledge experiment after the latest causal test. The task is to compare plausible experiment strategies and converge on the smallest informative next step.",
+      "provenance": "Windows DevSpace historical task, 2026-09-01 FIRE next-experiment planning",
+      "required_gated": [
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "WIN06",
+      "task": "Evaluate the Cisco Nexus 3550 chapter-PDF representation by comparing the accepted 11-revision retrieval against one logical-manual representation while holding query expansion and other variables fixed.",
+      "provenance": "E:/AI/local-ai-rag-v1/experiments/CISCO-LOGICAL-MANUAL-AB-20260901.md",
+      "required_gated": []
+    },
+    {
+      "id": "WIN07",
+      "task": "Implement deterministic evidence-window compaction inside the already-selected Local AI RAG chunks without adding model calls or changing source authority, then validate the frozen regression cases.",
+      "provenance": "E:/AI/local-ai-rag-v1 git:5495218 Add deterministic evidence window compaction",
+      "required_gated": []
+    },
+    {
+      "id": "WIN08",
+      "task": "Refine Local AI RAG deterministic evidence-window coverage for the known regression while preserving exact evidence IDs, revision provenance, and the accepted retrieval architecture.",
+      "provenance": "E:/AI/local-ai-rag-v1 git:0802da0 Refine deterministic evidence window coverage",
+      "required_gated": []
+    },
+    {
+      "id": "WIN09",
+      "task": "Run the Local AI RAG production-acceptance checks against the pinned accepted implementation and corpus artifacts; do not redesign retrieval or add new providers.",
+      "provenance": "E:/AI/local-ai-rag-v1 git:57e85aa + production acceptance artifacts",
+      "required_gated": []
+    },
+    {
+      "id": "WIN10",
+      "task": "Qualify the FIRE cloud core lookup implementation against the frozen regression and production contract, preserving deterministic evidence/source behavior.",
+      "provenance": "E:/AI/local-knowledge-agent-phase1 git:c4ebd5f feat: qualify FIRE cloud core lookup",
+      "required_gated": []
+    },
+    {
+      "id": "WIN11",
+      "task": "Freeze and document the FIRE Mac migration baseline after the accepted cloud-core release so later migration work can reproduce the exact production identity.",
+      "provenance": "E:/AI/local-knowledge-agent-phase1 git:1408c14 docs: freeze FIRE Mac migration baseline",
+      "required_gated": []
+    },
+    {
+      "id": "WIN12",
+      "task": "Close the scoped RAG V2 small-model phase from the existing frozen evaluation artifacts and record the bounded conclusion; do not expand the model search beyond the declared phase.",
+      "provenance": "E:/AI/rag-model-bakeoff git:c4cd1d8 experiment: close scoped RAG V2 small-model phase",
+      "required_gated": []
+    },
+    {
+      "id": "WIN13",
+      "task": "Given the completed Round-2 model bakeoff evidence, decide whether to activate the reserve model candidate, expand the search, or close the round with the current Qwen baseline. This is a strategy/trade-off decision under uncertain quality evidence.",
+      "provenance": "E:/AI/rag-model-bakeoff/artifacts/ROUND2-FINAL-CLOSURE-20260823.json",
+      "required_gated": [
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "WIN14",
+      "task": "Build and verify the generic Windows portable DevSpace installer from the pinned source, including typecheck/tests/build, stateless MCP behavior, Scheduled Task supervision, local/public health and process-session continuation.",
+      "provenance": "E:/AI/devspace-windows-portable/VALIDATION.md + git:803203a",
+      "required_gated": []
+    },
+    {
+      "id": "WIN15",
+      "task": "Implement structured Windows UIA support for native desktop controls so standard toggles and edit fields can be observed and changed without screenshot-coordinate automation.",
+      "provenance": "E:/AI/desktop-harness-windows git:58682cb and 84d8ab8",
+      "required_gated": []
+    },
+    {
+      "id": "WIN16",
+      "task": "Persist the deterministic OpenChatCut Electron MCP control path and ensure browser/editor ownership does not conflict with the external MCP transport.",
+      "provenance": "E:/AI/browser-automation-routing git:e862220 + docs/OPENCHATCUT-ELECTRON-MCP.md",
+      "required_gated": []
+    },
+    {
+      "id": "WIN17",
+      "task": "Secure the Playwright existing-Chrome reconnect workflow so the reconnect token is handled as a credential and can be reused without placing plaintext in Git or reports.",
+      "provenance": "E:/AI/browser-automation-routing git:f4d1d37",
+      "required_gated": []
+    },
+    {
+      "id": "WIN18",
+      "task": "Fix the Local AI RAG Windows browser UI query transport and verify the user-facing query flow in the actual browser UI rather than inferring success only from the backend call.",
+      "provenance": "E:/AI/local-ai-rag-v1-ui git:1f3f8bf fix Windows UI query transport",
+      "required_gated": [
+        "EGO_BROWSER"
+      ]
+    },
+    {
+      "id": "WIN19",
+      "task": "Stabilize OpenChatCut camera-media Rec.709 export rendering and verify the existing rendering/output tests; no current web research or browser interaction is requested.",
+      "provenance": "E:/AI/OpenChatCut git:6b5ee3b3 fix(export): stabilize camera media Rec.709 rendering",
+      "required_gated": []
+    },
+    {
+      "id": "WIN20",
+      "task": "Harden the engineering-bridge executor termination lifecycle so interrupted controlled patch tasks terminate cleanly and preserve the bounded task contract.",
+      "provenance": "E:/AI/engineering-bridge git:7e3201f fix executor termination lifecycle hangs",
+      "required_gated": []
+    }
+  ],
+  "deterministic_baseline": {
+    "pairs": 60,
+    "required_pairs": 8,
+    "irrelevant_pairs": 52,
+    "required_recall": 1.0,
+    "irrelevant_exclusion_rate": 0.9807692307692307,
+    "missed_required": [],
+    "false_includes": [
+      "WIN19__EGO_BROWSER"
+    ],
+    "by_skill": {
+      "AGENT_REACH": {
+        "required": 2,
+        "irrelevant": 18,
+        "hit": 2,
+        "excluded": 18,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 1.0
+      },
+      "EGO_BROWSER": {
+        "required": 3,
+        "irrelevant": 17,
+        "hit": 3,
+        "excluded": 16,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 0.9411764705882353
+      },
+      "BEST_MINDS": {
+        "required": 3,
+        "irrelevant": 17,
+        "hit": 3,
+        "excluded": 17,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 1.0
+      }
+    },
+    "hybrid_context_char_reduction": 0.6394049727743882
+  },
+  "summary": {
+    "independent_tasks": 20,
+    "required_gated_pairs": 8,
+    "repeats": 10,
+    "evaluations": 600,
+    "mean_required_recall": 1.0,
+    "min_required_recall": 1.0,
+    "mean_irrelevant_exclusion": 0.9615384615384616,
+    "mean_hybrid_context_char_reduction": 0.6336340178005204,
+    "runs_with_required_miss": 0,
+    "misses_by_run": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "by_skill_mean": {
+      "AGENT_REACH": {
+        "required_cases": 2,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 0.9444444444444444
+      },
+      "EGO_BROWSER": {
+        "required_cases": 3,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 0.9411764705882353
+      },
+      "BEST_MINDS": {
+        "required_cases": 3,
+        "required_recall": 1.0,
+        "irrelevant_exclusion": 1.0
+      }
+    }
+  },
+  "raw_runs": [
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "INCLUDE": 0.8,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.13
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.98,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.01
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.39,
+          "probabilities": {
+            "INCLUDE": 0.22,
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.59
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.81,
+          "probabilities": {
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.87
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.86,
+          "probabilities": {
+            "INCLUDE": 0.91,
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.05
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "INCLUDE": 0.19,
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.77
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.69
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.92
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "INCLUDE": 0.81,
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.69,
+          "probabilities": {
+            "EXCLUDE": 0.79,
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.54,
+          "probabilities": {
+            "EXCLUDE": 0.69,
+            "UNCERTAIN": 0.23,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "EXCLUDE": 0.69,
+            "UNCERTAIN": 0.23,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.69,
+          "probabilities": {
+            "EXCLUDE": 0.79,
+            "UNCERTAIN": 0.17,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.74,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.81,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.87,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.85
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.22
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.83,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "INCLUDE": 0.76,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.08
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "INCLUDE": 0.47,
+            "EXCLUDE": 0.33,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.15,
+            "EXCLUDE": 0.74,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.77,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "EXCLUDE": 0.86,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.85
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.74
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.93
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.41,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.6,
+            "EXCLUDE": 0.27
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.96
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6dada5e77fdae16394ee474bb04",
+          "latency_ms": 607.004,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6dadd5f757a8137290d0c089f22",
+          "latency_ms": 571.007,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6dae0507103914e4fa064f24e3d",
+          "latency_ms": 615.874,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6dae2fa7468969786efe782adc8",
+          "latency_ms": 610.091,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.83,
+            "EXCLUDE": 0.09,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.44,
+          "probabilities": {
+            "INCLUDE": 0.18,
+            "EXCLUDE": 0.62,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.83,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "INCLUDE": 0.89,
+            "EXCLUDE": 0.07,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "INCLUDE": 0.17,
+            "EXCLUDE": 0.78,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.47,
+          "probabilities": {
+            "INCLUDE": 0.12,
+            "EXCLUDE": 0.65,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.92,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "INCLUDE": 0.77,
+            "EXCLUDE": 0.14,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.77,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.73,
+            "UNCERTAIN": 0.19
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.74
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.73
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.89
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.84
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.6900000000000001
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.81,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.87
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "INCLUDE": 0.68,
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.13
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.16,
+          "probabilities": {
+            "INCLUDE": 0.44,
+            "UNCERTAIN": 0.22,
+            "EXCLUDE": 0.34
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "INCLUDE": 0.12,
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.76
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.78
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.82
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.81,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.88
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.38,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "INCLUDE": 0.16,
+            "EXCLUDE": 0.59
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.95
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.52,
+            "EXCLUDE": 0.33
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.9299999999999999
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.99,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6dae6147442a0319a6d152aae9c",
+          "latency_ms": 656.37,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6dae92676ca884192a607be8f06",
+          "latency_ms": 700.255,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6daec167ffc95a1f127efe850d6",
+          "latency_ms": 591.06,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6daeee577a680e327cb0209f183",
+          "latency_ms": 623.348,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "EXCLUDE": 0.08,
+            "INCLUDE": 0.86,
+            "UNCERTAIN": 0.06
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "EXCLUDE": 0.64,
+            "INCLUDE": 0.17,
+            "UNCERTAIN": 0.19
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "EXCLUDE": 0.74,
+            "INCLUDE": 0.21,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.7,
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "EXCLUDE": 0.91,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "EXCLUDE": 0.13,
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.79
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "EXCLUDE": 0.96,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.09,
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.7
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.8
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.7,
+            "UNCERTAIN": 0.22
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.67,
+            "UNCERTAIN": 0.29
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.86,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.67,
+            "UNCERTAIN": 0.27
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.83,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "INCLUDE": 0.79,
+            "EXCLUDE": 0.07,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "INCLUDE": 0.49,
+            "EXCLUDE": 0.32,
+            "UNCERTAIN": 0.19
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.17,
+            "EXCLUDE": 0.7,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.09,
+            "EXCLUDE": 0.74,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.85
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "INCLUDE": 0.12,
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.68
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.06,
+            "EXCLUDE": 0.92
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.26,
+          "probabilities": {
+            "INCLUDE": 0.51,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.33
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.06,
+            "EXCLUDE": 0.92
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6daf220712f905c7bad7973a4b6",
+          "latency_ms": 572.718,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6daf5057f48a379bb7b1ed0a65e",
+          "latency_ms": 620.299,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6daf82377bf8d76af88206b8851",
+          "latency_ms": 680.158,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6dafb8178cc9fe92960008ac8a4",
+          "latency_ms": 603.618,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.09,
+            "INCLUDE": 0.83,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.38,
+          "probabilities": {
+            "EXCLUDE": 0.59,
+            "INCLUDE": 0.18,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "EXCLUDE": 0.82,
+            "INCLUDE": 0.08,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "EXCLUDE": 0.94,
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "EXCLUDE": 0.81,
+            "INCLUDE": 0.15,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.54,
+          "probabilities": {
+            "EXCLUDE": 0.69,
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "EXCLUDE": 0.92,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.69,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.8,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.8,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.74,
+            "INCLUDE": 0.05
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.88,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.9,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.96,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.68,
+            "INCLUDE": 0.11
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.78,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.75
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.25,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "EXCLUDE": 0.73,
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.05
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.15,
+            "EXCLUDE": 0.83
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "INCLUDE": 0.72,
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.17,
+          "probabilities": {
+            "EXCLUDE": 0.34,
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.44
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.12
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.09
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.81,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.07,
+            "INCLUDE": 0.05
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.45,
+          "probabilities": {
+            "EXCLUDE": 0.64,
+            "INCLUDE": 0.13,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "INCLUDE": 0.51,
+            "EXCLUDE": 0.34,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "EXCLUDE": 0.96,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.03
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6dafea671bdbf5958130a63b2c2",
+          "latency_ms": 613.296,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db01a97dbea0e5ff981fd3fdef",
+          "latency_ms": 586.28,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db049d7f25a334699b936a0a7f",
+          "latency_ms": 629.852,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db07d07969897680882593b39c",
+          "latency_ms": 612.768,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.73,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.82,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.43,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.19,
+            "EXCLUDE": 0.62
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.84
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.9,
+            "EXCLUDE": 0.06
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "INCLUDE": 0.15,
+            "EXCLUDE": 0.8
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.11,
+            "EXCLUDE": 0.6799999999999999
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.93
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.81,
+            "EXCLUDE": 0.11
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.07,
+            "EXCLUDE": 0.8
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.75
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.87
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.88
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.23,
+            "EXCLUDE": 0.67
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.84
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.78
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "UNCERTAIN": 0.23,
+            "EXCLUDE": 0.69,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.73,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.88,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.86,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.49,
+          "probabilities": {
+            "UNCERTAIN": 0.28,
+            "EXCLUDE": 0.66,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.87,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.56,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.11,
+            "INCLUDE": 0.7
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.2,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.32,
+            "INCLUDE": 0.47000000000000003
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.77,
+            "INCLUDE": 0.11
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.76,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.88,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.67,
+            "INCLUDE": 0.12
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.94,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.26,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.34,
+            "INCLUDE": 0.5
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.96,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db0ac279d094dd979b2cd6abfe",
+          "latency_ms": 635.344,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db0d9d7a32b6b03f0ddb57695f",
+          "latency_ms": 568.666,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db10a6733b94cc5680055630f5",
+          "latency_ms": 633.301,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db137a7e82be09b0359e3e6323",
+          "latency_ms": 614.068,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.69,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.79
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.99
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.43,
+          "probabilities": {
+            "EXCLUDE": 0.61,
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.19
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.84,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.88
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.77,
+            "INCLUDE": 0.18
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "UNCERTAIN": 0.22,
+            "EXCLUDE": 0.67,
+            "INCLUDE": 0.11
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.94,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.77
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.85
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.74
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.86
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.88
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.95
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.08,
+            "UNCERTAIN": 0.22,
+            "EXCLUDE": 0.7
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.8
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.76
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "EXCLUDE": 0.89,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.11,
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.7
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.33,
+          "probabilities": {
+            "EXCLUDE": 0.27,
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.55
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.13
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.1
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "EXCLUDE": 0.86,
+            "UNCERTAIN": 0.07,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.87,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "INCLUDE": 0.12,
+            "EXCLUDE": 0.67,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.93,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.3,
+          "probabilities": {
+            "INCLUDE": 0.53,
+            "EXCLUDE": 0.32,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.94,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db163175aa983612d76b474b72",
+          "latency_ms": 587.292,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db18e67ef18db2b1147491f735",
+          "latency_ms": 566.698,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db1bc17bca93af069513cf31dc",
+          "latency_ms": 587.139,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db1ed27b71834f8718b16235d4",
+          "latency_ms": 578.687,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.79
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "EXCLUDE": 0.58,
+            "UNCERTAIN": 0.23,
+            "INCLUDE": 0.19
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.88
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.99
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "EXCLUDE": 0.75,
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.21
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "EXCLUDE": 0.68,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.11
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "EXCLUDE": 0.91,
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.79
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.05
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "EXCLUDE": 0.73,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "EXCLUDE": 0.9,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "EXCLUDE": 0.96,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "EXCLUDE": 0.74,
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "EXCLUDE": 0.81,
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.68,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "EXCLUDE": 0.71,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.04
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.84
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "EXCLUDE": 0.6900000000000001,
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.25
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.86,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.1,
+            "INCLUDE": 0.74
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "EXCLUDE": 0.32,
+            "INCLUDE": 0.47,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.73,
+            "INCLUDE": 0.14
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "EXCLUDE": 0.76,
+            "INCLUDE": 0.08,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "EXCLUDE": 0.89,
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "EXCLUDE": 0.68,
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.12
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "EXCLUDE": 0.93,
+            "UNCERTAIN": 0.05,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.3,
+          "probabilities": {
+            "EXCLUDE": 0.32,
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.53
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "EXCLUDE": 0.93,
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db21d675119df7557a52627963",
+          "latency_ms": 644.26,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db249a7209abaf717f82c61659",
+          "latency_ms": 586.398,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db279c77fb8df4392e4bd0a1eb",
+          "latency_ms": 583.285,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db2a997bce8d3561e760ba3de3",
+          "latency_ms": 591.614,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "INCLUDE": 0.82,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "INCLUDE": 0.17,
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.64
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.9
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.86,
+          "probabilities": {
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.06
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.95
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "INCLUDE": 0.22,
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.73
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "INCLUDE": 0.11,
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.72
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.92
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.73,
+          "probabilities": {
+            "INCLUDE": 0.82,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "EXCLUDE": 0.73,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.87,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "INCLUDE": 0.09,
+            "EXCLUDE": 0.65,
+            "UNCERTAIN": 0.26
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "INCLUDE": 0.05,
+            "EXCLUDE": 0.77,
+            "UNCERTAIN": 0.18
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.49,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.67
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.27,
+            "EXCLUDE": 0.7
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.89
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.86
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.47,
+          "probabilities": {
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.28,
+            "EXCLUDE": 0.65
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.85
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "INCLUDE": 0.68,
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.11
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "INCLUDE": 0.58,
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.25
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "INCLUDE": 0.17,
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.69
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.76
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.06,
+            "EXCLUDE": 0.88
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.87,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.66,
+            "INCLUDE": 0.13
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.93,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.32,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.29,
+            "INCLUDE": 0.55
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.96,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db2da07722b7a3d02cc13f7099",
+          "latency_ms": 589.08,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db30c27fa6a8122870510e8608",
+          "latency_ms": 693.785,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db33c972d892e3c9d0c3e225dc",
+          "latency_ms": 573.224,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db369076e6a5ae6a4c2383d792",
+          "latency_ms": 637.663,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "INCLUDE": 0.84,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.09
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "INCLUDE": 0.15,
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.64
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.83
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.06
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.95
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "INCLUDE": 0.21,
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.74
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "INCLUDE": 0.11,
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.68
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.92
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.12
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.06
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.83,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.89
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.56,
+          "probabilities": {
+            "EXCLUDE": 0.71,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.08
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.73,
+          "probabilities": {
+            "EXCLUDE": 0.82,
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "INCLUDE": 0.05,
+            "EXCLUDE": 0.76,
+            "UNCERTAIN": 0.19
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.58,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.7,
+            "UNCERTAIN": 0.27,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.02
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.49,
+          "probabilities": {
+            "EXCLUDE": 0.66,
+            "UNCERTAIN": 0.27,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "EXCLUDE": 0.11,
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.73
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "EXCLUDE": 0.33,
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.46
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.7,
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.14
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "EXCLUDE": 0.72,
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.1
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.87
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.47,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.15,
+            "EXCLUDE": 0.65
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.94
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.31,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.54,
+            "EXCLUDE": 0.32
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.94
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db39c7726b8709223268999758",
+          "latency_ms": 634.472,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db3cf1761aa5c27ffa54aef6fd",
+          "latency_ms": 681.423,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db40597ef3b2c5152eb1603f6b",
+          "latency_ms": 651.71,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db438a74fcb17e47b53c7fc83a",
+          "latency_ms": 557.744,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    },
+    {
+      "answers": {
+        "WIN01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "EXCLUDE": 0.09,
+            "UNCERTAIN": 0.09,
+            "INCLUDE": 0.82
+          }
+        },
+        "WIN01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98
+          }
+        },
+        "WIN01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.35,
+          "probabilities": {
+            "EXCLUDE": 0.5599999999999999,
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.22
+          }
+        },
+        "WIN02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "EXCLUDE": 0.83,
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.07
+          }
+        },
+        "WIN02__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "EXCLUDE": 0.05,
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.91
+          }
+        },
+        "WIN03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.03
+          }
+        },
+        "WIN03__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.99
+          }
+        },
+        "WIN03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "WIN04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "EXCLUDE": 0.77,
+            "UNCERTAIN": 0.04,
+            "INCLUDE": 0.19
+          }
+        },
+        "WIN04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN05__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "EXCLUDE": 0.71,
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.11
+          }
+        },
+        "WIN05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "EXCLUDE": 0.92,
+            "UNCERTAIN": 0.07,
+            "INCLUDE": 0.01
+          }
+        },
+        "WIN05__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.09,
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.83
+          }
+        },
+        "WIN06__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.1,
+            "EXCLUDE": 0.75
+          }
+        },
+        "WIN06__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.52,
+          "probabilities": {
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.1,
+            "EXCLUDE": 0.68
+          }
+        },
+        "WIN06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN07__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98
+          }
+        },
+        "WIN07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.9
+          }
+        },
+        "WIN07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN08__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.97
+          }
+        },
+        "WIN08__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.89
+          }
+        },
+        "WIN08__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN09__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.96
+          }
+        },
+        "WIN09__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.74
+          }
+        },
+        "WIN09__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN10__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.82
+          }
+        },
+        "WIN10__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.77
+          }
+        },
+        "WIN10__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "WIN11__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.68
+          }
+        },
+        "WIN11__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.73
+          }
+        },
+        "WIN11__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN12__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.02,
+            "EXCLUDE": 0.9
+          }
+        },
+        "WIN12__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.84
+          }
+        },
+        "WIN12__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN13__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "INCLUDE": 0.08,
+            "EXCLUDE": 0.6799999999999999
+          }
+        },
+        "WIN13__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.87
+          }
+        },
+        "WIN13__BEST_MINDS": {
+          "choice": "INCLUDE",
+          "confidence": 0.56,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.71,
+            "EXCLUDE": 0.1
+          }
+        },
+        "WIN14__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.25,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.5,
+            "EXCLUDE": 0.3
+          }
+        },
+        "WIN14__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.14,
+            "EXCLUDE": 0.73
+          }
+        },
+        "WIN14__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0
+          }
+        },
+        "WIN15__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.09,
+            "EXCLUDE": 0.75
+          }
+        },
+        "WIN15__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.09,
+            "EXCLUDE": 0.81
+          }
+        },
+        "WIN15__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "WIN16__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "EXCLUDE": 0.86,
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "WIN16__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "EXCLUDE": 0.67,
+            "INCLUDE": 0.12,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "WIN16__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN17__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "EXCLUDE": 0.94,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "WIN17__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "EXCLUDE": 0.34,
+            "INCLUDE": 0.51,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "WIN17__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.92,
+          "probabilities": {
+            "EXCLUDE": 0.95,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "WIN18__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN18__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN19__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "WIN20__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN20__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "WIN20__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6db460772c2b2f2a7213a0359d8",
+          "latency_ms": 603.286,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3347,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db49177705a3532abed140cccf",
+          "latency_ms": 702.353,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3295,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db4ca07cbba26dc63319fc723d",
+          "latency_ms": 617.342,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3315,
+            "output_tokens": 743
+          }
+        },
+        {
+          "request_id": "req_01a0c6db4fb47112ad33c017475699ef",
+          "latency_ms": 725.617,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 3292,
+            "output_tokens": 743
+          }
+        }
+      ],
+      "metrics": {
+        "pairs": 60,
+        "required_pairs": 8,
+        "irrelevant_pairs": 52,
+        "required_recall": 1.0,
+        "irrelevant_exclusion_rate": 0.9615384615384616,
+        "missed_required": [],
+        "false_includes": [
+          "WIN14__AGENT_REACH",
+          "WIN17__EGO_BROWSER"
+        ],
+        "by_skill": {
+          "AGENT_REACH": {
+            "required": 2,
+            "irrelevant": 18,
+            "hit": 2,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9444444444444444
+          },
+          "EGO_BROWSER": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 16,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 0.9411764705882353
+          },
+          "BEST_MINDS": {
+            "required": 3,
+            "irrelevant": 17,
+            "hit": 3,
+            "excluded": 17,
+            "required_recall": 1.0,
+            "irrelevant_exclusion": 1.0
+          }
+        }
+      },
+      "hybrid_context_char_reduction": 0.6336340178005204
+    }
+  ]
+}

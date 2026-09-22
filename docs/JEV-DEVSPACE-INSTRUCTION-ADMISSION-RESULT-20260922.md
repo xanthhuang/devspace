@@ -3,15 +3,19 @@
 ## Status
 
 ```text
-fixed Jev-only admission:      HOLD / not safe enough
-deterministic + Jev hybrid:    GO TO SHADOW PROTOTYPE
-production context gating:     NOT AUTHORIZED
+fixed Jev-only admission:          HOLD / not safe enough
+broad deterministic + Jev hybrid: historical capability PASS
+simplified optional-skill gate:    deterministic Host baseline wins
+Jev production integration:        NO-GO at current skill scale
+production context gating:         NOT AUTHORIZED
 ```
 
 This experiment was performed only after checking
 `/Users/xanth/Github/project-registry`. It uses the canonical macOS DevSpace
-source checkout, does not modify production routing/runtime, does not use
-Windows, and does not interfere with the ongoing product-repository convergence.
+source checkout, does not modify production routing/runtime, and does not
+interfere with the ongoing product-repository convergence. The final Stage D
+uses Windows DevSpace repositories only as **read-only historical evidence**;
+all experiment code and Jev calls still run on macOS.
 
 The purpose was to test the TypeSafe design-note hypothesis that bounded
 System-One decisions can reduce instruction/context load while leaving explicit
@@ -362,7 +366,7 @@ design note and our own earlier experiments:
 > deterministic Host authority + bounded semantic primitive is stronger than
 > giving the semantic model sole workflow authority.
 
-## 11. Disposition
+## 11. Stage C disposition at the time
 
 ### What is accepted
 
@@ -370,6 +374,13 @@ design note and our own earlier experiments:
 DS-J1 hybrid instruction admission
     -> qualified for SHADOW PROTOTYPE
 ```
+
+This was the correct disposition after Stage C, but it is **superseded by Stage
+D below**. Stage C answered whether a broad deterministic+Jev union could repair
+the broad deterministic policy's semantic misses. It could. Stage D asked the
+more important architectural question: after simplifying the instruction model
+to only the few large optional skills that are actually worth gating, is Jev
+still needed at all?
 
 ### What is not accepted
 
@@ -400,13 +411,14 @@ Shadow telemetry should record:
 Promotion beyond shadow requires real live-task evidence that context reduction
 improves end-to-end cost/latency without creating required-context misses.
 
-## 12. Limitations
+## 12. Limitations before Stage D
 
 1. Gold is manually assigned from real task/commit semantics.
 2. Candidate pool is small: five global skills plus five DevSpace repo-local
    sections.
-3. `BEST_MINDS` and `PULL_REQUESTS` have no positive case in these frozen sets;
-   only false-positive behavior is observed for them.
+3. `BEST_MINDS` had no positive case in Stages A-C. Stage D adds three fresh
+   positive `BEST_MINDS` cases. `PULL_REQUESTS` still has no positive case and is
+   not part of the Stage D optional-skill gate.
 4. Character count is a stable local context-size proxy, not the actual frontier
    provider tokenizer.
 5. This experiment did not run workers with omitted instructions, so task success,
@@ -414,7 +426,7 @@ improves end-to-end cost/latency without creating required-context misses.
 6. Fragment descriptors are hand-authored and must be versioned with fragment
    hashes if used in a runtime implementation.
 
-## 13. Artifacts
+## 13. Stage A-C artifacts
 
 ```text
 experiments/jev_instruction_admission/README.md
@@ -424,5 +436,222 @@ experiments/jev_instruction_admission/sealed_replay.py
 experiments/jev_instruction_admission/sealed-result-20260922.json
 experiments/jev_instruction_admission/hybrid_holdout.py
 experiments/jev_instruction_admission/hybrid-holdout-result-20260922.json
+```
+
+## 14. Stage D — architecture simplification challenge
+
+Stage C showed that a broad deterministic policy had poor semantic recall and
+that adding Jev could fill those gaps. Before implementing shadow telemetry, the
+instruction economics were re-examined.
+
+The important observation was that the broad 10-fragment problem was itself
+overcomplicated:
+
+```text
+ROUTING
+  -> required by essentially every engineering task
+
+SUBAGENTS
+  -> small (~631 token-equivalent) and poorly discriminated by Jev
+
+repo-local core AGENTS sections
+  -> only ~149-191 token-equivalent each
+
+AGENT_REACH / EGO_BROWSER / BEST_MINDS
+  -> large, optional, low-frequency skills where admission could materially
+     reduce context
+```
+
+Therefore a smaller prospective policy was frozen **before** selecting the
+Stage D task set:
+
+```text
+always load:
+  ROUTING
+  SUBAGENTS
+  small repo-local core sections when available
+
+conditionally gate only:
+  AGENT_REACH
+  EGO_BROWSER
+  BEST_MINDS
+
+fail-safe:
+  INCLUDE / UNCERTAIN -> load
+  EXCLUDE confidence < 0.30 -> load
+```
+
+Machine policy:
+
+```text
+experiments/jev_instruction_admission/hybrid_policy.json
+```
+
+This is a stricter Occam test than Stage C: Jev must beat a simple Host policy
+on the **small residual semantic problem**, not merely beat an intentionally
+broad keyword router on every instruction fragment.
+
+### Windows historical evidence source
+
+Under the current repository governance, Windows was not used as a development
+environment. It supplied fresh historical task evidence from repositories such
+as:
+
+- browser automation routing;
+- Local AI RAG;
+- FIRE/local knowledge;
+- RAG model bakeoff;
+- Windows portable DevSpace;
+- desktop harness;
+- OpenChatCut;
+- engineering-bridge.
+
+The first Stage D replay accidentally included one historical Gemini Free Tier
+task already consumed in the Stage C holdout. That run was rejected before any
+promotion decision. Its raw artifact is retained only as rejected evidence:
+
+```text
+experiments/jev_instruction_admission/
+windows-fresh-result-rejected-overlap-20260922.json
+```
+
+The overlapping task was removed. The policy, confidence floor, descriptors,
+gold rubric and remaining tasks were not tuned afterward.
+
+### Corrected fresh set
+
+```text
+independent tasks:             19
+gated task x skill pairs:      57
+required gated pairs:           7
+irrelevant gated pairs:        50
+repeats:                       10
+total Jev decisions:          570
+```
+
+Positive coverage:
+
+```text
+AGENT_REACH required cases:    1
+EGO_BROWSER required cases:    3
+BEST_MINDS required cases:     3
+```
+
+The set includes current/upstream browser research, authenticated browser
+operation, architecture/strategy trade-offs, Local AI RAG browser-UI
+verification, and many ordinary coding/RAG/deployment/desktop tasks as
+negatives.
+
+### Jev result
+
+Across all ten repeats:
+
+```text
+required recall:               100.0%
+minimum required recall/run:   100.0%
+runs with required miss:          0 / 10
+irrelevant exclusion:           94.0%
+hybrid context-char reduction:  61.0%
+```
+
+By skill:
+
+| Skill | Required cases | Required recall | Irrelevant exclusion |
+| --- | ---: | ---: | ---: |
+| `AGENT_REACH` | 1 | 100% | 94.44% |
+| `EGO_BROWSER` | 3 | 100% | 87.50% |
+| `BEST_MINDS` | 3 | 100% | 100% |
+
+Jev produced three stable/near-stable false includes in the fresh workload,
+mainly around tasks mentioning browser-adjacent infrastructure or public/runtime
+verification without actually needing browser/web research.
+
+Replay request latency over 40 batched calls:
+
+```text
+p50: ~595 ms
+range: ~545-665 ms
+```
+
+Again, this batched timing is not treated as an exact one-task production
+latency, but it establishes an additional external request and availability
+dependency.
+
+### Frozen deterministic Host baseline
+
+The deterministic residual router was evaluated **before the Jev fresh run**.
+It uses direct task-language triggers for the three optional skills only.
+
+Result:
+
+```text
+required recall:               100.0%
+irrelevant exclusion:           98.0%
+hybrid context-char reduction:  63.9%
+```
+
+By skill:
+
+```text
+AGENT_REACH: 100% required recall, 100% irrelevant exclusion
+EGO_BROWSER: 100% required recall, 93.75% irrelevant exclusion
+BEST_MINDS:  100% required recall, 100% irrelevant exclusion
+```
+
+The deterministic baseline had one false include caused by a negated phrase
+(`no ... browser interaction is requested`). Jev understood that particular
+negation, but produced more false includes elsewhere. Aggregate performance
+still favored the deterministic Host policy.
+
+## 15. Final interpretation and disposition
+
+The complete DS-J1 evidence supports two statements at the same time:
+
+1. **Jev has genuine semantic instruction-relevance capability.** The broad
+   Stages B/C showed cases that a simplistic broad deterministic router missed.
+2. **That capability is not currently needed in the production architecture.**
+   Once the instruction problem is reduced to only the three large optional
+   skills worth gating, a simple Host policy matches required recall and is more
+   selective.
+
+Therefore the Stage C shadow-prototype recommendation is superseded:
+
+```text
+Jev universal instruction controller:       NO-GO
+Jev optional-skill controller today:        NO-GO
+deterministic optional-skill admission:      preferred if gating is needed
+JevHarness optimization for DS-J1:           NOT JUSTIFIED
+Jev shadow runtime telemetry for DS-J1:      NOT JUSTIFIED
+worker A/B for Jev instruction omission:     NOT JUSTIFIED
+```
+
+The reason to stop is architectural, not model quality. Jev would add:
+
+- external API availability and latency;
+- model/version drift;
+- confidence/fail-safe policy;
+- runtime telemetry and failure handling;
+- calibration/requalification burden;
+
+without improving the fresh simplified decision problem.
+
+This directly triggers the portfolio stop rule:
+
+> If deterministic Host logic already solves the decision with less complexity,
+> do not add Jev.
+
+Reopen DS-J1 only if the environment materially changes — for example, dozens
+or hundreds of optional skills, a real ambiguous residual set that defeats the
+Host router, or a measured instruction/tool context tax large enough that a
+semantic router would replace more expensive reasoning rather than duplicate a
+small rule set.
+
+### Stage D artifacts
+
+```text
+experiments/jev_instruction_admission/hybrid_policy.json
+experiments/jev_instruction_admission/windows_fresh_replay.py
+experiments/jev_instruction_admission/windows-fresh-result-20260922.json
+experiments/jev_instruction_admission/windows-fresh-result-rejected-overlap-20260922.json
 ```
 
