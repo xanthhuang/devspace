@@ -393,7 +393,7 @@ Primary outcome:
 
 **ID:** `DS-J1`  
 **Target repo:** `xanthhuang/devspace`  
-**Status:** `COMPLETE — Jev production integration NO-GO at current skill scale; deterministic optional-skill routing preferred`.
+**Status:** `HISTORICAL QUALIFICATION COMPLETE — deterministic authority retained; Jev shadow observer authorized`.
 
 This is the strongest new DevSpace candidate from the TypeSafe design note.
 
@@ -464,11 +464,19 @@ One initially selected Windows task overlapped the consumed Stage C holdout; its
 run was rejected and the corrected set was rerun without changing policy or
 thresholds.
 
-Final disposition: **do not implement Jev shadow admission or JevHarness for
-DS-J1.** The simplified deterministic Host policy now dominates on the measured
-problem while avoiding an external semantic-call dependency. Reopen only if the
-optional-skill inventory or semantically ambiguous residual workload grows
-enough to defeat deterministic routing.
+Final authority disposition: **do not let Jev prune context or control routing,
+and do not start JevHarness.** The simplified deterministic Host policy dominates
+the measured runtime classification problem.
+
+However, that deterministic router is manually authored. To measure whether Jev
+can reduce lifecycle/routing-maintenance work or identify useful semantic
+residual cases, a record-only Jev shadow observer is authorized for real future
+tasks. It must not alter the worker context, block task execution, or become a
+production dependency. Evaluate only meaningful deterministic/Jev disagreements.
+
+Canonical shadow decision:
+
+`docs/JEV-DEVSPACE-SHADOW-OBSERVATION-DECISION-20260922.md`
 
 Canonical result:
 
@@ -478,7 +486,7 @@ Canonical result:
 
 **ID:** `DS-J2`  
 **Target repo:** `xanthhuang/devspace`  
-**Status:** `READY` for historical replay / shadow only.
+**Status:** `HOLD — technically plausible, but no measured DevSpace reviewer-context bottleneck currently justifies the experiment`.
 
 Borrow the `jev-review` architecture, not its authority:
 
@@ -514,6 +522,31 @@ Metrics:
 
 Final merge/block authority remains with the frontier/human/deterministic
 acceptance path.
+
+2026-09-22 necessity review:
+
+- the current macOS DevSpace state DB contains 11 generic Codex sessions and 4
+  generic Claude sessions in the inspected period;
+- there are **zero explicit `astra-review` / `claude-review` profile sessions**
+  in that local runtime state;
+- historical product work contains many review artifacts, but that does not
+  establish that DevSpace's frontier reviewer is currently a high-frequency
+  context/latency bottleneck;
+- `jev-review` also demonstrates that broad screening can create a candidate
+  explosion unless evidence/search budgeting is already a measured problem.
+
+Therefore do not start DS-J2 merely because the primitive is promising. Reopen
+only when at least one of these becomes observable:
+
+1. independent reviewer calls become frequent enough to matter;
+2. reviewers repeatedly reread large diffs/repos and token/context cost is
+   measurable;
+3. material findings are concentrated in a small subset of files/hunks that a
+   prefilter could plausibly isolate;
+4. review latency/cost is delaying the normal development loop.
+
+Until then, DS-J2 is lower value than collecting real DS-J1 shadow disagreement
+evidence from normal work.
 
 ### P1/P2 — DevSpace: post-tool result classifier and recovery routing
 
@@ -745,12 +778,16 @@ if signal:
     LAR-J1  JevHarness optimization
     LAR-C0  cloud-generator matched A/B
 
-in parallel, once DevSpace canonical tree is settled:
-    DS-J1  conditional instructions
-    DS-J2  staged review prefilter
-    DS-J3  post-tool failure classification
+DevSpace current priority:
+    DS-J1  collect record-only shadow disagreement evidence during normal work
 
-only if those show measurable value:
+DevSpace HOLD until a measured bottleneck exists:
+    DS-J2  staged review prefilter
+
+DevSpace closed/hold from completed pilots:
+    DS-J3  broad post-tool classifier
+
+only if a smaller state-selection problem later shows measurable value:
     DS-J4  subagent context packaging
     DS-J5  tool-schema lazy loading
     DS-J6  graded context reconstruction
@@ -788,13 +825,15 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 
 ### DevSpace
 
-- [x] `DS-J1` complete. Broad historical replay proved Jev semantic signal, but
-      the final simplified optional-skill fresh validation favored the
-      deterministic Host baseline (both 100% required recall; Host 98% vs Jev
-      94% irrelevant exclusion). Jev runtime integration/shadow telemetry NO-GO
-      at current skill scale.
-- [ ] `DS-J2` freeze real historical diff/review findings for staged prefilter
-      evaluation.
+- [x] `DS-J1` historical qualification complete. Broad replay proved Jev
+      semantic signal; deterministic Host remains authoritative at current
+      scale. Record-only Jev shadow observation is authorized to measure real
+      incremental semantic/lifecycle value without changing worker context.
+- [ ] `DS-J1` implement/collect shadow disagreement telemetry only when it can be
+      added without affecting the normal task path; adjudicate meaningful
+      disagreements rather than every task.
+- [ ] `DS-J2` HOLD. Do not build the staged diff-review prefilter until reviewer
+      frequency/context/latency becomes a measured DevSpace bottleneck.
 - [x] `DS-J3` fixed historical replay complete; Jev 16/16 independent cases and
       deterministic baseline 16/16. Broad integration HOLD; only ambiguous
       deterministic-residual failures justify reopening.

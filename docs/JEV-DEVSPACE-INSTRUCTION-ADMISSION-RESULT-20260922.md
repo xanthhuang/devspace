@@ -618,11 +618,11 @@ Therefore the Stage C shadow-prototype recommendation is superseded:
 
 ```text
 Jev universal instruction controller:       NO-GO
-Jev optional-skill controller today:        NO-GO
-deterministic optional-skill admission:      preferred if gating is needed
-JevHarness optimization for DS-J1:           NOT JUSTIFIED
-Jev shadow runtime telemetry for DS-J1:      NOT JUSTIFIED
-worker A/B for Jev instruction omission:     NOT JUSTIFIED
+Jev optional-skill authority today:         NO-GO
+deterministic optional-skill admission:     preferred authority today
+JevHarness optimization for DS-J1:          NOT JUSTIFIED
+Jev shadow observer:                        GO — record only, no context effect
+worker A/B for Jev instruction omission:    NOT YET JUSTIFIED
 ```
 
 The reason to stop is architectural, not model quality. Jev would add:
@@ -639,6 +639,24 @@ This directly triggers the portfolio stop rule:
 
 > If deterministic Host logic already solves the decision with less complexity,
 > do not add Jev.
+
+### Runtime simplicity versus lifecycle automation
+
+Stage D compares **runtime classification**. The deterministic baseline is not
+self-authoring: a human first had to understand the skill space and encode task
+language/triggers. Therefore Stage D does not prove that deterministic routing
+has lower total lifecycle cost than Jev.
+
+At the current stable skill inventory this does not justify giving Jev authority,
+but it does leave one practical question open: on real future tasks, does Jev
+produce useful semantic decisions that the manually-authored router misses or
+does it merely duplicate it?
+
+That question will be evaluated through a record-only shadow observer. The
+shadow path must not alter the actual worker context or task routing. Canonical
+decision and telemetry contract:
+
+`docs/JEV-DEVSPACE-SHADOW-OBSERVATION-DECISION-20260922.md`
 
 Reopen DS-J1 only if the environment materially changes — for example, dozens
 or hundreds of optional skills, a real ambiguous residual set that defeats the
