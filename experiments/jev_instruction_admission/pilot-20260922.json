@@ -1,0 +1,4617 @@
+{
+  "schema": "devspace-jev-instruction-admission-v1",
+  "generated_at": "2026-09-22T01:35:38.083159+00:00",
+  "model_requested": "jev-1.13.0",
+  "gold_labels_sent_to_model": false,
+  "future_outcomes_sent_to_model": false,
+  "size_metric": "UTF-8/Python character count; approx_tokens=ceil(chars/4), not provider tokenizer",
+  "fragments": {
+    "ROUTING": {
+      "scope": "global",
+      "descriptor": "DevSpace engineering agent-routing policy: Host handles deterministic investigation/verification, Codex implements bounded known contracts, Claude resolves ambiguous architecture/root cause, independent review is exceptional and bounded.",
+      "source": "~/.agents/skills/devspace-agent-routing/SKILL.md",
+      "chars": 7968,
+      "approx_tokens": 1992,
+      "sha256": "a8f172c26fe9a68f97bf209e799e056bb11ebc9812c4ea7e13b0c0f8876345f5"
+    },
+    "AGENT_REACH": {
+      "scope": "global",
+      "descriptor": "Internet research/router skill. Required for current web research, URLs, GitHub/code search, Twitter/social platforms and source-level web verification; selects the appropriate read-only backend.",
+      "source": "~/.agents/skills/agent-reach/SKILL.md",
+      "chars": 5278,
+      "approx_tokens": 1320,
+      "sha256": "54523fde76c1b6708a31e82b0ea73f574bba8b7cf014d877e9489a52d88df196"
+    },
+    "EGO_BROWSER": {
+      "scope": "global",
+      "descriptor": "Browser-operation skill for opening/operating websites, logged-in flows, forms, web-app testing, browser QA and bug investigation; prefers the user's persistent Ego browser session.",
+      "source": "~/.agents/skills/ego-browser/SKILL.md",
+      "chars": 19554,
+      "approx_tokens": 4889,
+      "sha256": "9402bf03db895209a755d5e2af9b436dbf98eed0911907110a4ea482c30632de"
+    },
+    "SUBAGENTS": {
+      "scope": "global",
+      "descriptor": "DevSpace subagent delegation instructions: choose an agent target, give a self-contained bounded brief, inspect/continue the worker, and use delegation for focused implementation/research/review/verification.",
+      "source": "skills/subagents/SKILL.md",
+      "chars": 2522,
+      "approx_tokens": 631,
+      "sha256": "29fbb364ecfcf5c87a7c7a33e13f5448aeb82eac9e0b7471617d2b1b94c954e4"
+    },
+    "BEST_MINDS": {
+      "scope": "global",
+      "descriptor": "Expert-panel simulation skill for genuinely open-ended judgment, design trade-offs, strategy, or questions asking who in the world would best explore a problem.",
+      "source": "~/.codex/skills/best-minds/SKILL.md",
+      "chars": 10407,
+      "approx_tokens": 2602,
+      "sha256": "863882361cb7204b3b2a5dafd63c206249c448e7fcf88cedcf551b5d222fca55"
+    },
+    "SECURITY": {
+      "scope": "devspace_repo",
+      "descriptor": "DevSpace AGENTS Security boundaries: local filesystem/shell authority, path validation, credentials, destructive operations, process replacement, and user-owned tunnel boundaries must remain explicit.",
+      "source": "AGENTS.md#Security boundaries",
+      "chars": 596,
+      "approx_tokens": 149,
+      "sha256": "269a7ed187df5af5821c33b80172f2ebf6366ea2a2dbd228caa2e4274093353b"
+    },
+    "DIAGNOSE_LAYER": {
+      "scope": "devspace_repo",
+      "descriptor": "DevSpace AGENTS Diagnose the correct layer: preserve the original error and identify whether failure belongs to host, MCP transport, DevSpace, adapter, provider, model, tool, or target project before changing code.",
+      "source": "AGENTS.md#Diagnose the correct layer",
+      "chars": 620,
+      "approx_tokens": 155,
+      "sha256": "d85d359ce1e034bdbfb99f7a4a2965a3013c5bf8a07bbf8b151694d4d2585060"
+    },
+    "VERIFY_REAL_PATH": {
+      "scope": "devspace_repo",
+      "descriptor": "DevSpace AGENTS Verify the real path: verify how the user actually consumes a change across source vs package, real MCP host, restart boundaries, platform/tool modes, and rendered UI/artifacts rather than relying on a narrow proxy.",
+      "source": "AGENTS.md#Verify the real path",
+      "chars": 714,
+      "approx_tokens": 179,
+      "sha256": "28ecb611948e049916b9c99a7ff208ea2751ff254dae62f80ce0322fac71c346"
+    },
+    "TRACE_CONTRACTS": {
+      "scope": "devspace_repo",
+      "descriptor": "DevSpace AGENTS Trace affected contracts: for cross-cutting concepts check the actual MCP schema/handler, workspace/instructions, roots, lifecycle, tool surfaces, artifacts/widgets, persistence/migrations, entry points and docs without speculative edits.",
+      "source": "AGENTS.md#Trace affected contracts",
+      "chars": 603,
+      "approx_tokens": 151,
+      "sha256": "45535be1e58a9640664b31cb3c4662e1b4829ac57240fef626f50fed0d9bac1a"
+    },
+    "PULL_REQUESTS": {
+      "scope": "devspace_repo",
+      "descriptor": "DevSpace AGENTS Pull requests: only create/update a PR when explicitly asked, read CONTRIBUTING first, keep it focused, and include appropriate verification or UI evidence.",
+      "source": "AGENTS.md#Pull requests",
+      "chars": 761,
+      "approx_tokens": 191,
+      "sha256": "8be69712394e8a6d6582161c19bd3c2e914544e3f68dbb79c3b3d34ed3679ed6"
+    }
+  },
+  "tasks": [
+    {
+      "id": "DVS01",
+      "repo": "xanthhuang/devspace",
+      "task": "Fix and harden OAuth refresh observability across the OAuth provider/store and server configuration, with regression coverage.",
+      "provenance": "git:c11cdc6 fix: harden oauth refresh observability",
+      "required": [
+        "ROUTING",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS",
+        "PULL_REQUESTS"
+      ]
+    },
+    {
+      "id": "DVS02",
+      "repo": "xanthhuang/devspace",
+      "task": "Fix OAuth discovery by exposing protected-resource metadata at the root URL as required by the real MCP client path, with a regression test.",
+      "provenance": "git:64bd87e fix: expose root OAuth protected-resource metadata",
+      "required": [
+        "ROUTING",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS",
+        "PULL_REQUESTS"
+      ]
+    },
+    {
+      "id": "DVS03",
+      "repo": "xanthhuang/devspace",
+      "task": "Harden the stateless MCP production runtime across callbacks, local-agent lifecycle, durable state, OAuth/store behavior, server handling and tests.",
+      "provenance": "git:a90349f feat: harden stateless MCP production runtime",
+      "required": [
+        "ROUTING",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS",
+        "PULL_REQUESTS"
+      ]
+    },
+    {
+      "id": "DVS04",
+      "repo": "xanthhuang/devspace",
+      "task": "Replay the Jev completion-verifier idea against frozen historical DevSpace DONE checkpoints and record whether it independently detects incomplete work.",
+      "provenance": "git:9af3032 experiment: replay Jev completion verifier",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS",
+        "PULL_REQUESTS"
+      ]
+    },
+    {
+      "id": "DVS05",
+      "repo": "xanthhuang/devspace",
+      "task": "Replay a Jev classifier over real historical DevSpace tool/runtime failures, preserving observed error evidence and comparing against a deterministic recovery baseline.",
+      "provenance": "git:43e0bdc experiment: replay Jev post-tool classifier",
+      "required": [
+        "ROUTING",
+        "DIAGNOSE_LAYER"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS",
+        "SECURITY",
+        "DIAGNOSE_LAYER",
+        "VERIFY_REAL_PATH",
+        "TRACE_CONTRACTS",
+        "PULL_REQUESTS"
+      ]
+    },
+    {
+      "id": "DEP01",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Build a generic portable macOS installer for a pinned DevSpace source, with reproducible verification and no machine-specific credentials or host state.",
+      "provenance": "git:098a7ac feat: generic DevSpace macOS portable installer",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP02",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Fix LaunchAgent reload behavior so DevSpace deployment remains robust when installation is performed over SSH.",
+      "provenance": "git:3902e51 fix: make LaunchAgent reload robust over SSH",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP03",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Harden deployment of the OAuth-capable DevSpace runtime by pinning the correct source and adding deployment verification.",
+      "provenance": "git:438cf65 fix: harden OAuth runtime deployment",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP04",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Enforce a single active DevSpace CLI entrypoint so the shell command cannot silently diverge from the active MCP runtime.",
+      "provenance": "git:e9948e2 fix: enforce single DevSpace CLI entrypoint",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP05",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Qualify the Cloudflare-backed DevSpace connector through the real ChatGPT MCP path, including workspace open/read, short and long commands, process continuation, and controlled restart behavior.",
+      "provenance": "docs/DEVSPACE-CLOUDFLARE-CANARY-20260917.md + git:8bf2b19",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP06",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Compare the pinned production stateless-MCP implementation with the then-current upstream implementation and record when pure upstream versus a bounded patch should be reconsidered.",
+      "provenance": "docs/STATELESS-MCP-UPSTREAM-COMPARISON-20260916.md + git:dcbf979",
+      "required": [
+        "ROUTING",
+        "AGENT_REACH"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "DEP07",
+      "repo": "xanthhuang/devspace-macos-deployment",
+      "task": "Add the global DevSpace Host/Codex/Claude agent-routing policy and bounded reviewer profiles to the portable deployment, including installer and verification support.",
+      "provenance": "git:c649a6e feat: add global DevSpace agent routing",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "HIST01",
+      "repo": "159-operations-system",
+      "task": "Investigate the real web-app invoice/PDF generation flow in the logged-in browser, remove an incorrect draft-only restriction, and verify the actual UI workflow using the correct browser routing.",
+      "provenance": "conversation:2026-09-21 159 billing/PDF browser verification",
+      "required": [
+        "ROUTING",
+        "EGO_BROWSER"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "HIST02",
+      "repo": "research-only",
+      "task": "Research current Jev claims from a public Google Doc and linked GitHub repositories, read the source material, and evaluate which ideas are genuinely useful rather than repeating README claims.",
+      "provenance": "conversation:2026-09-22 Jev Google Doc/repository evaluation",
+      "required": [
+        "AGENT_REACH"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "HIST03",
+      "repo": "xanthhuang/personal-content-distiller",
+      "task": "Run Claude Code and Codex concurrently as bounded independent architecture reviewers using minimal facts, then collect their reports without letting either redesign the project scope.",
+      "provenance": "conversation:2026-09-20 PKD external architecture review",
+      "required": [
+        "ROUTING",
+        "SUBAGENTS"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    },
+    {
+      "id": "HIST04",
+      "repo": "xanthhuang/personal-content-distiller",
+      "task": "Continue PKD from its handover in the existing worktree: verify branch, HEAD and working tree, then execute the already-bounded Phase 3 work without reopening settled Phase 2.",
+      "provenance": "conversation:2026-09-20 PKD Phase3 handover continuation",
+      "required": [
+        "ROUTING"
+      ],
+      "available": [
+        "ROUTING",
+        "AGENT_REACH",
+        "EGO_BROWSER",
+        "SUBAGENTS",
+        "BEST_MINDS"
+      ]
+    }
+  ],
+  "deterministic_baseline": {
+    "pairs": 105,
+    "required_pairs": 31,
+    "irrelevant_pairs": 74,
+    "raw_required_recall": 0.967741935483871,
+    "fail_safe_required_recall": 0.967741935483871,
+    "raw_irrelevant_exclusion_rate": 0.972972972972973,
+    "fail_safe_irrelevant_exclusion_rate": 0.972972972972973,
+    "uncertain_pairs": 0,
+    "always_load_chars": 748134,
+    "gold_minimum_required_chars": 159768,
+    "raw_loaded_chars": 166948,
+    "fail_safe_loaded_chars": 166948,
+    "raw_context_char_reduction_vs_always": 0.7768474631549963,
+    "fail_safe_context_char_reduction_vs_always": 0.7768474631549963,
+    "fail_safe_required_char_recall": 0.996119373090982,
+    "missed_required": [
+      "DVS03__DIAGNOSE_LAYER"
+    ],
+    "safe_false_includes": [
+      "DVS02__AGENT_REACH",
+      "DEP07__SUBAGENTS"
+    ]
+  },
+  "summary": {
+    "independent_tasks": 16,
+    "repeats": 3,
+    "evaluations": 315,
+    "per_run": [
+      {
+        "pairs": 105,
+        "required_pairs": 31,
+        "irrelevant_pairs": 74,
+        "raw_required_recall": 0.967741935483871,
+        "fail_safe_required_recall": 0.967741935483871,
+        "raw_irrelevant_exclusion_rate": 0.6216216216216216,
+        "fail_safe_irrelevant_exclusion_rate": 0.6216216216216216,
+        "uncertain_pairs": 0,
+        "always_load_chars": 748134,
+        "gold_minimum_required_chars": 159768,
+        "raw_loaded_chars": 291515,
+        "fail_safe_loaded_chars": 291515,
+        "raw_context_char_reduction_vs_always": 0.6103438688791045,
+        "fail_safe_context_char_reduction_vs_always": 0.6103438688791045,
+        "fail_safe_required_char_recall": 0.950127685143458,
+        "missed_required": [
+          "DVS04__ROUTING"
+        ],
+        "safe_false_includes": [
+          "DVS01__AGENT_REACH",
+          "DVS01__SUBAGENTS",
+          "DVS02__AGENT_REACH",
+          "DVS02__EGO_BROWSER",
+          "DVS02__TRACE_CONTRACTS",
+          "DVS03__SUBAGENTS",
+          "DVS04__AGENT_REACH",
+          "DVS04__SUBAGENTS",
+          "DVS04__TRACE_CONTRACTS",
+          "DVS05__AGENT_REACH",
+          "DVS05__SUBAGENTS",
+          "DVS05__SECURITY",
+          "DVS05__VERIFY_REAL_PATH",
+          "DVS05__TRACE_CONTRACTS",
+          "DEP01__AGENT_REACH",
+          "DEP01__SUBAGENTS",
+          "DEP02__SUBAGENTS",
+          "DEP03__AGENT_REACH",
+          "DEP03__SUBAGENTS",
+          "DEP05__AGENT_REACH",
+          "DEP05__EGO_BROWSER",
+          "DEP05__SUBAGENTS",
+          "DEP06__EGO_BROWSER",
+          "DEP06__SUBAGENTS",
+          "DEP07__AGENT_REACH",
+          "DEP07__SUBAGENTS",
+          "HIST02__ROUTING",
+          "HIST04__SUBAGENTS"
+        ]
+      },
+      {
+        "pairs": 105,
+        "required_pairs": 31,
+        "irrelevant_pairs": 74,
+        "raw_required_recall": 0.967741935483871,
+        "fail_safe_required_recall": 0.967741935483871,
+        "raw_irrelevant_exclusion_rate": 0.6486486486486487,
+        "fail_safe_irrelevant_exclusion_rate": 0.6351351351351351,
+        "uncertain_pairs": 1,
+        "always_load_chars": 748134,
+        "gold_minimum_required_chars": 159768,
+        "raw_loaded_chars": 281025,
+        "fail_safe_loaded_chars": 283547,
+        "raw_context_char_reduction_vs_always": 0.6243654211678656,
+        "fail_safe_context_char_reduction_vs_always": 0.6209943673192235,
+        "fail_safe_required_char_recall": 0.950127685143458,
+        "missed_required": [
+          "DEP04__ROUTING"
+        ],
+        "safe_false_includes": [
+          "DVS01__AGENT_REACH",
+          "DVS01__SUBAGENTS",
+          "DVS02__AGENT_REACH",
+          "DVS02__EGO_BROWSER",
+          "DVS02__TRACE_CONTRACTS",
+          "DVS03__SUBAGENTS",
+          "DVS04__AGENT_REACH",
+          "DVS04__SUBAGENTS",
+          "DVS04__TRACE_CONTRACTS",
+          "DVS05__AGENT_REACH",
+          "DVS05__SUBAGENTS",
+          "DVS05__SECURITY",
+          "DVS05__VERIFY_REAL_PATH",
+          "DVS05__TRACE_CONTRACTS",
+          "DEP01__AGENT_REACH",
+          "DEP01__SUBAGENTS",
+          "DEP02__SUBAGENTS",
+          "DEP03__AGENT_REACH",
+          "DEP03__SUBAGENTS",
+          "DEP05__AGENT_REACH",
+          "DEP05__EGO_BROWSER",
+          "DEP05__SUBAGENTS",
+          "DEP06__EGO_BROWSER",
+          "DEP06__SUBAGENTS",
+          "DEP07__AGENT_REACH",
+          "DEP07__SUBAGENTS",
+          "HIST04__SUBAGENTS"
+        ]
+      },
+      {
+        "pairs": 105,
+        "required_pairs": 31,
+        "irrelevant_pairs": 74,
+        "raw_required_recall": 0.9354838709677419,
+        "fail_safe_required_recall": 0.9354838709677419,
+        "raw_irrelevant_exclusion_rate": 0.6486486486486487,
+        "fail_safe_irrelevant_exclusion_rate": 0.6216216216216216,
+        "uncertain_pairs": 2,
+        "always_load_chars": 748134,
+        "gold_minimum_required_chars": 159768,
+        "raw_loaded_chars": 275747,
+        "fail_safe_loaded_chars": 280791,
+        "raw_context_char_reduction_vs_always": 0.6314203070572919,
+        "fail_safe_context_char_reduction_vs_always": 0.6246781993600077,
+        "fail_safe_required_char_recall": 0.900255370286916,
+        "missed_required": [
+          "DVS04__ROUTING",
+          "DEP04__ROUTING"
+        ],
+        "safe_false_includes": [
+          "DVS01__SUBAGENTS",
+          "DVS02__AGENT_REACH",
+          "DVS02__EGO_BROWSER",
+          "DVS02__SUBAGENTS",
+          "DVS02__TRACE_CONTRACTS",
+          "DVS03__SUBAGENTS",
+          "DVS04__AGENT_REACH",
+          "DVS04__SUBAGENTS",
+          "DVS04__TRACE_CONTRACTS",
+          "DVS05__AGENT_REACH",
+          "DVS05__SUBAGENTS",
+          "DVS05__SECURITY",
+          "DVS05__VERIFY_REAL_PATH",
+          "DVS05__TRACE_CONTRACTS",
+          "DEP01__AGENT_REACH",
+          "DEP01__SUBAGENTS",
+          "DEP02__SUBAGENTS",
+          "DEP03__AGENT_REACH",
+          "DEP03__SUBAGENTS",
+          "DEP05__AGENT_REACH",
+          "DEP05__EGO_BROWSER",
+          "DEP05__SUBAGENTS",
+          "DEP06__EGO_BROWSER",
+          "DEP06__SUBAGENTS",
+          "DEP07__AGENT_REACH",
+          "DEP07__SUBAGENTS",
+          "HIST02__ROUTING",
+          "HIST04__SUBAGENTS"
+        ]
+      }
+    ],
+    "mean": {
+      "raw_required_recall": 0.956989247311828,
+      "fail_safe_required_recall": 0.956989247311828,
+      "raw_irrelevant_exclusion_rate": 0.6396396396396397,
+      "fail_safe_irrelevant_exclusion_rate": 0.6261261261261261,
+      "raw_context_char_reduction_vs_always": 0.622043199034754,
+      "fail_safe_context_char_reduction_vs_always": 0.6186721451861119,
+      "uncertain_pairs": 1
+    },
+    "pair_stability": {
+      "DVS01__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.37666666666666665,
+        "confidence_min": 0.36,
+        "confidence_max": 0.39
+      },
+      "DVS01__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 2,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 1
+        },
+        "confidence_mean": 0.05666666666666667,
+        "confidence_min": 0.04,
+        "confidence_max": 0.07
+      },
+      "DVS01__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.4633333333333333,
+        "confidence_min": 0.43,
+        "confidence_max": 0.51
+      },
+      "DVS01__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.21666666666666667,
+        "confidence_min": 0.21,
+        "confidence_max": 0.22
+      },
+      "DVS01__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.97,
+        "confidence_min": 0.97,
+        "confidence_max": 0.97
+      },
+      "DVS01__SECURITY": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.6900000000000001,
+        "confidence_min": 0.67,
+        "confidence_max": 0.72
+      },
+      "DVS01__DIAGNOSE_LAYER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.6666666666666667,
+        "confidence_min": 0.66,
+        "confidence_max": 0.68
+      },
+      "DVS01__VERIFY_REAL_PATH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.6533333333333333,
+        "confidence_min": 0.61,
+        "confidence_max": 0.68
+      },
+      "DVS01__TRACE_CONTRACTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9666666666666667,
+        "confidence_min": 0.96,
+        "confidence_max": 0.97
+      },
+      "DVS01__PULL_REQUESTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.15333333333333335,
+        "confidence_min": 0.1,
+        "confidence_max": 0.19
+      },
+      "DVS02__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.32333333333333336,
+        "confidence_min": 0.3,
+        "confidence_max": 0.34
+      },
+      "DVS02__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.62,
+        "confidence_min": 0.59,
+        "confidence_max": 0.66
+      },
+      "DVS02__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.12000000000000001,
+        "confidence_min": 0.1,
+        "confidence_max": 0.14
+      },
+      "DVS02__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 1,
+          "EXCLUDE": 2
+        },
+        "confidence_mean": 0.04,
+        "confidence_min": 0.03,
+        "confidence_max": 0.05
+      },
+      "DVS02__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.99,
+        "confidence_min": 0.99,
+        "confidence_max": 0.99
+      },
+      "DVS02__SECURITY": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.2733333333333333,
+        "confidence_min": 0.22,
+        "confidence_max": 0.32
+      },
+      "DVS02__DIAGNOSE_LAYER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.73,
+        "confidence_min": 0.7,
+        "confidence_max": 0.75
+      },
+      "DVS02__VERIFY_REAL_PATH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9833333333333333,
+        "confidence_min": 0.98,
+        "confidence_max": 0.99
+      },
+      "DVS02__TRACE_CONTRACTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9533333333333333,
+        "confidence_min": 0.95,
+        "confidence_max": 0.96
+      },
+      "DVS02__PULL_REQUESTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.19,
+        "confidence_min": 0.17,
+        "confidence_max": 0.21
+      },
+      "DVS03__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.57,
+        "confidence_min": 0.55,
+        "confidence_max": 0.59
+      },
+      "DVS03__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.09333333333333334,
+        "confidence_min": 0.05,
+        "confidence_max": 0.13
+      },
+      "DVS03__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.13,
+        "confidence_min": 0.08,
+        "confidence_max": 0.16
+      },
+      "DVS03__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.52,
+        "confidence_min": 0.46,
+        "confidence_max": 0.57
+      },
+      "DVS03__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.7833333333333333,
+        "confidence_min": 0.77,
+        "confidence_max": 0.8
+      },
+      "DVS03__SECURITY": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.8866666666666667,
+        "confidence_min": 0.88,
+        "confidence_max": 0.89
+      },
+      "DVS03__DIAGNOSE_LAYER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.7366666666666667,
+        "confidence_min": 0.72,
+        "confidence_max": 0.75
+      },
+      "DVS03__VERIFY_REAL_PATH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.89,
+        "confidence_min": 0.88,
+        "confidence_max": 0.9
+      },
+      "DVS03__TRACE_CONTRACTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9966666666666667,
+        "confidence_min": 0.99,
+        "confidence_max": 1.0
+      },
+      "DVS03__PULL_REQUESTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.20666666666666667,
+        "confidence_min": 0.19,
+        "confidence_max": 0.24
+      },
+      "DVS04__ROUTING": {
+        "counts": {
+          "INCLUDE": 1,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 2
+        },
+        "confidence_mean": 0.11,
+        "confidence_min": 0.1,
+        "confidence_max": 0.12
+      },
+      "DVS04__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.36333333333333334,
+        "confidence_min": 0.36,
+        "confidence_max": 0.37
+      },
+      "DVS04__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.4766666666666667,
+        "confidence_min": 0.45,
+        "confidence_max": 0.5
+      },
+      "DVS04__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.09,
+        "confidence_min": 0.06,
+        "confidence_max": 0.12
+      },
+      "DVS04__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.78,
+        "confidence_min": 0.77,
+        "confidence_max": 0.79
+      },
+      "DVS04__SECURITY": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.17333333333333334,
+        "confidence_min": 0.16,
+        "confidence_max": 0.19
+      },
+      "DVS04__DIAGNOSE_LAYER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.5866666666666667,
+        "confidence_min": 0.55,
+        "confidence_max": 0.61
+      },
+      "DVS04__VERIFY_REAL_PATH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.3333333333333333,
+        "confidence_min": 0.27,
+        "confidence_max": 0.37
+      },
+      "DVS04__TRACE_CONTRACTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.11333333333333333,
+        "confidence_min": 0.09,
+        "confidence_max": 0.13
+      },
+      "DVS04__PULL_REQUESTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.8866666666666667,
+        "confidence_min": 0.86,
+        "confidence_max": 0.91
+      },
+      "DVS05__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.4633333333333333,
+        "confidence_min": 0.45,
+        "confidence_max": 0.48
+      },
+      "DVS05__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.17333333333333334,
+        "confidence_min": 0.15,
+        "confidence_max": 0.21
+      },
+      "DVS05__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.75,
+        "confidence_min": 0.71,
+        "confidence_max": 0.79
+      },
+      "DVS05__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.12666666666666668,
+        "confidence_min": 0.12,
+        "confidence_max": 0.13
+      },
+      "DVS05__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9633333333333333,
+        "confidence_min": 0.96,
+        "confidence_max": 0.97
+      },
+      "DVS05__SECURITY": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.7166666666666667,
+        "confidence_min": 0.7,
+        "confidence_max": 0.73
+      },
+      "DVS05__DIAGNOSE_LAYER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9666666666666667,
+        "confidence_min": 0.96,
+        "confidence_max": 0.97
+      },
+      "DVS05__VERIFY_REAL_PATH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.8166666666666667,
+        "confidence_min": 0.79,
+        "confidence_max": 0.84
+      },
+      "DVS05__TRACE_CONTRACTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.64,
+        "confidence_min": 0.62,
+        "confidence_max": 0.65
+      },
+      "DVS05__PULL_REQUESTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.7866666666666667,
+        "confidence_min": 0.78,
+        "confidence_max": 0.8
+      },
+      "DEP01__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.22333333333333333,
+        "confidence_min": 0.2,
+        "confidence_max": 0.24
+      },
+      "DEP01__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.45,
+        "confidence_min": 0.4,
+        "confidence_max": 0.48
+      },
+      "DEP01__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.6466666666666667,
+        "confidence_min": 0.64,
+        "confidence_max": 0.66
+      },
+      "DEP01__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.12666666666666665,
+        "confidence_min": 0.09,
+        "confidence_max": 0.18
+      },
+      "DEP01__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9766666666666667,
+        "confidence_min": 0.97,
+        "confidence_max": 0.98
+      },
+      "DEP02__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.25666666666666665,
+        "confidence_min": 0.25,
+        "confidence_max": 0.26
+      },
+      "DEP02__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.27666666666666667,
+        "confidence_min": 0.23,
+        "confidence_max": 0.36
+      },
+      "DEP02__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.8666666666666667,
+        "confidence_min": 0.86,
+        "confidence_max": 0.87
+      },
+      "DEP02__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 1,
+          "UNCERTAIN": 2,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.043333333333333335,
+        "confidence_min": 0.01,
+        "confidence_max": 0.07
+      },
+      "DEP02__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9833333333333333,
+        "confidence_min": 0.98,
+        "confidence_max": 0.99
+      },
+      "DEP03__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.2733333333333333,
+        "confidence_min": 0.24,
+        "confidence_max": 0.3
+      },
+      "DEP03__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.4966666666666667,
+        "confidence_min": 0.46,
+        "confidence_max": 0.55
+      },
+      "DEP03__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.37666666666666665,
+        "confidence_min": 0.34,
+        "confidence_max": 0.42
+      },
+      "DEP03__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.09000000000000001,
+        "confidence_min": 0.07,
+        "confidence_max": 0.13
+      },
+      "DEP03__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.97,
+        "confidence_min": 0.96,
+        "confidence_max": 0.98
+      },
+      "DEP04__ROUTING": {
+        "counts": {
+          "INCLUDE": 1,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 2
+        },
+        "confidence_mean": 0.16,
+        "confidence_min": 0.1,
+        "confidence_max": 0.23
+      },
+      "DEP04__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.55,
+        "confidence_min": 0.54,
+        "confidence_max": 0.56
+      },
+      "DEP04__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.86,
+        "confidence_min": 0.84,
+        "confidence_max": 0.87
+      },
+      "DEP04__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.12000000000000001,
+        "confidence_min": 0.1,
+        "confidence_max": 0.14
+      },
+      "DEP04__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9466666666666667,
+        "confidence_min": 0.94,
+        "confidence_max": 0.95
+      },
+      "DEP05__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.5066666666666667,
+        "confidence_min": 0.48,
+        "confidence_max": 0.55
+      },
+      "DEP05__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.31,
+        "confidence_min": 0.27,
+        "confidence_max": 0.34
+      },
+      "DEP05__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.26333333333333336,
+        "confidence_min": 0.24,
+        "confidence_max": 0.28
+      },
+      "DEP05__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.5733333333333334,
+        "confidence_min": 0.54,
+        "confidence_max": 0.59
+      },
+      "DEP05__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.96,
+        "confidence_min": 0.96,
+        "confidence_max": 0.96
+      },
+      "DEP06__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.31,
+        "confidence_min": 0.27,
+        "confidence_max": 0.35
+      },
+      "DEP06__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.8466666666666667,
+        "confidence_min": 0.84,
+        "confidence_max": 0.85
+      },
+      "DEP06__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.23666666666666666,
+        "confidence_min": 0.23,
+        "confidence_max": 0.24
+      },
+      "DEP06__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.36,
+        "confidence_min": 0.34,
+        "confidence_max": 0.37
+      },
+      "DEP06__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.31,
+        "confidence_min": 0.29,
+        "confidence_max": 0.33
+      },
+      "DEP07__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.9666666666666667,
+        "confidence_min": 0.96,
+        "confidence_max": 0.97
+      },
+      "DEP07__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.23,
+        "confidence_min": 0.23,
+        "confidence_max": 0.23
+      },
+      "DEP07__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.2633333333333333,
+        "confidence_min": 0.22,
+        "confidence_max": 0.29
+      },
+      "DEP07__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.69,
+        "confidence_min": 0.67,
+        "confidence_max": 0.71
+      },
+      "DEP07__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.7,
+        "confidence_min": 0.67,
+        "confidence_max": 0.72
+      },
+      "HIST01__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.57,
+        "confidence_min": 0.51,
+        "confidence_max": 0.61
+      },
+      "HIST01__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.3666666666666667,
+        "confidence_min": 0.32,
+        "confidence_max": 0.44
+      },
+      "HIST01__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 1.0,
+        "confidence_min": 1.0,
+        "confidence_max": 1.0
+      },
+      "HIST01__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.8433333333333333,
+        "confidence_min": 0.84,
+        "confidence_max": 0.85
+      },
+      "HIST01__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 1.0,
+        "confidence_min": 1.0,
+        "confidence_max": 1.0
+      },
+      "HIST02__ROUTING": {
+        "counts": {
+          "INCLUDE": 2,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 1
+        },
+        "confidence_mean": 0.24,
+        "confidence_min": 0.21,
+        "confidence_max": 0.26
+      },
+      "HIST02__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 1.0,
+        "confidence_min": 1.0,
+        "confidence_max": 1.0
+      },
+      "HIST02__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.6233333333333333,
+        "confidence_min": 0.61,
+        "confidence_max": 0.63
+      },
+      "HIST02__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.7866666666666666,
+        "confidence_min": 0.76,
+        "confidence_max": 0.82
+      },
+      "HIST02__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.7566666666666667,
+        "confidence_min": 0.74,
+        "confidence_max": 0.79
+      },
+      "HIST03__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.76,
+        "confidence_min": 0.72,
+        "confidence_max": 0.79
+      },
+      "HIST03__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9266666666666666,
+        "confidence_min": 0.9,
+        "confidence_max": 0.95
+      },
+      "HIST03__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.99,
+        "confidence_min": 0.99,
+        "confidence_max": 0.99
+      },
+      "HIST03__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.86,
+        "confidence_min": 0.84,
+        "confidence_max": 0.89
+      },
+      "HIST03__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.9033333333333333,
+        "confidence_min": 0.9,
+        "confidence_max": 0.91
+      },
+      "HIST04__ROUTING": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.64,
+        "confidence_min": 0.6,
+        "confidence_max": 0.67
+      },
+      "HIST04__AGENT_REACH": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.97,
+        "confidence_min": 0.97,
+        "confidence_max": 0.97
+      },
+      "HIST04__EGO_BROWSER": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 0.99,
+        "confidence_min": 0.99,
+        "confidence_max": 0.99
+      },
+      "HIST04__SUBAGENTS": {
+        "counts": {
+          "INCLUDE": 3,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 0
+        },
+        "confidence_mean": 0.23666666666666666,
+        "confidence_min": 0.22,
+        "confidence_max": 0.25
+      },
+      "HIST04__BEST_MINDS": {
+        "counts": {
+          "INCLUDE": 0,
+          "UNCERTAIN": 0,
+          "EXCLUDE": 3
+        },
+        "confidence_mean": 1.0,
+        "confidence_min": 1.0,
+        "confidence_max": 1.0
+      }
+    },
+    "deterministic_baseline": {
+      "pairs": 105,
+      "required_pairs": 31,
+      "irrelevant_pairs": 74,
+      "raw_required_recall": 0.967741935483871,
+      "fail_safe_required_recall": 0.967741935483871,
+      "raw_irrelevant_exclusion_rate": 0.972972972972973,
+      "fail_safe_irrelevant_exclusion_rate": 0.972972972972973,
+      "uncertain_pairs": 0,
+      "always_load_chars": 748134,
+      "gold_minimum_required_chars": 159768,
+      "raw_loaded_chars": 166948,
+      "fail_safe_loaded_chars": 166948,
+      "raw_context_char_reduction_vs_always": 0.7768474631549963,
+      "fail_safe_context_char_reduction_vs_always": 0.7768474631549963,
+      "fail_safe_required_char_recall": 0.996119373090982,
+      "missed_required": [
+        "DVS03__DIAGNOSE_LAYER"
+      ],
+      "safe_false_includes": [
+        "DVS02__AGENT_REACH",
+        "DEP07__SUBAGENTS"
+      ]
+    }
+  },
+  "raw_runs": [
+    {
+      "answers": {
+        "DVS01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.36,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.22,
+            "INCLUDE": 0.57
+          }
+        },
+        "DVS01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.04,
+          "probabilities": {
+            "UNCERTAIN": 0.29,
+            "EXCLUDE": 0.35,
+            "INCLUDE": 0.36
+          }
+        },
+        "DVS01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.43,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.62,
+            "INCLUDE": 0.14
+          }
+        },
+        "DVS01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.22,
+          "probabilities": {
+            "UNCERTAIN": 0.35,
+            "EXCLUDE": 0.17,
+            "INCLUDE": 0.48
+          }
+        },
+        "DVS01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0
+          }
+        },
+        "DVS01__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.05,
+            "INCLUDE": 0.79
+          }
+        },
+        "DVS01__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.78
+          }
+        },
+        "DVS01__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.79
+          }
+        },
+        "DVS01__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.98
+          }
+        },
+        "DVS01__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.17,
+          "probabilities": {
+            "UNCERTAIN": 0.32,
+            "EXCLUDE": 0.45,
+            "INCLUDE": 0.23
+          }
+        },
+        "DVS02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.34,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.28,
+            "INCLUDE": 0.56
+          }
+        },
+        "DVS02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.13,
+            "INCLUDE": 0.77
+          }
+        },
+        "DVS02__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.14,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.33,
+            "INCLUDE": 0.43
+          }
+        },
+        "DVS02__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.04,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.36,
+            "INCLUDE": 0.3
+          }
+        },
+        "DVS02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "DVS02__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.22,
+          "probabilities": {
+            "UNCERTAIN": 0.27,
+            "EXCLUDE": 0.25,
+            "INCLUDE": 0.48
+          }
+        },
+        "DVS02__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.09,
+            "INCLUDE": 0.83
+          }
+        },
+        "DVS02__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99
+          }
+        },
+        "DVS02__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.97
+          }
+        },
+        "DVS02__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.17,
+          "probabilities": {
+            "UNCERTAIN": 0.31,
+            "EXCLUDE": 0.44,
+            "INCLUDE": 0.25
+          }
+        },
+        "DVS03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.73
+          }
+        },
+        "DVS03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.05,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.36,
+            "INCLUDE": 0.3
+          }
+        },
+        "DVS03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.08,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.38,
+            "INCLUDE": 0.28
+          }
+        },
+        "DVS03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "UNCERTAIN": 0.28,
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.65
+          }
+        },
+        "DVS03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.84,
+            "INCLUDE": 0.05
+          }
+        },
+        "DVS03__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.92
+          }
+        },
+        "DVS03__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.81
+          }
+        },
+        "DVS03__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.93
+          }
+        },
+        "DVS03__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "DVS03__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.49,
+            "INCLUDE": 0.17
+          }
+        },
+        "DVS04__ROUTING": {
+          "choice": "EXCLUDE",
+          "confidence": 0.11,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "EXCLUDE": 0.39999999999999997,
+            "INCLUDE": 0.39
+          }
+        },
+        "DVS04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.36,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.25,
+            "INCLUDE": 0.57
+          }
+        },
+        "DVS04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.5,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.67,
+            "INCLUDE": 0.19
+          }
+        },
+        "DVS04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.06,
+          "probabilities": {
+            "UNCERTAIN": 0.31,
+            "EXCLUDE": 0.32,
+            "INCLUDE": 0.37
+          }
+        },
+        "DVS04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "EXCLUDE": 0.86,
+            "INCLUDE": 0.06
+          }
+        },
+        "DVS04__SECURITY": {
+          "choice": "EXCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.46,
+            "INCLUDE": 0.2
+          }
+        },
+        "DVS04__DIAGNOSE_LAYER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.74,
+            "INCLUDE": 0.12
+          }
+        },
+        "DVS04__VERIFY_REAL_PATH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.51,
+            "INCLUDE": 0.31
+          }
+        },
+        "DVS04__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.09,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.37,
+            "INCLUDE": 0.39
+          }
+        },
+        "DVS04__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.86,
+          "probabilities": {
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.91,
+            "INCLUDE": 0.02
+          }
+        },
+        "DVS05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.65,
+            "EXCLUDE": 0.19
+          }
+        },
+        "DVS05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "UNCERTAIN": 0.21,
+            "INCLUDE": 0.47,
+            "EXCLUDE": 0.32
+          }
+        },
+        "DVS05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.84
+          }
+        },
+        "DVS05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.13,
+          "probabilities": {
+            "UNCERTAIN": 0.31,
+            "INCLUDE": 0.42,
+            "EXCLUDE": 0.27
+          }
+        },
+        "DVS05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97
+          }
+        },
+        "DVS05__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.73,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.82,
+            "EXCLUDE": 0.04
+          }
+        },
+        "DVS05__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01
+          }
+        },
+        "DVS05__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "UNCERTAIN": 0.07,
+            "INCLUDE": 0.88,
+            "EXCLUDE": 0.05
+          }
+        },
+        "DVS05__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.77,
+            "EXCLUDE": 0.1
+          }
+        },
+        "DVS05__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.86
+          }
+        },
+        "DEP01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.49,
+            "EXCLUDE": 0.35
+          }
+        },
+        "DEP01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.47,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "INCLUDE": 0.65,
+            "EXCLUDE": 0.23
+          }
+        },
+        "DEP01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.13,
+            "EXCLUDE": 0.76
+          }
+        },
+        "DEP01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.18,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "INCLUDE": 0.46,
+            "EXCLUDE": 0.29
+          }
+        },
+        "DEP01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.25,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.5,
+            "EXCLUDE": 0.3
+          }
+        },
+        "DEP02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "INCLUDE": 0.26,
+            "EXCLUDE": 0.5
+          }
+        },
+        "DEP02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.86,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.91
+          }
+        },
+        "DEP02__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.05,
+          "probabilities": {
+            "UNCERTAIN": 0.34,
+            "INCLUDE": 0.37,
+            "EXCLUDE": 0.29
+          }
+        },
+        "DEP02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.3,
+          "probabilities": {
+            "UNCERTAIN": 0.17,
+            "INCLUDE": 0.53,
+            "EXCLUDE": 0.3
+          }
+        },
+        "DEP03__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.66,
+            "EXCLUDE": 0.18
+          }
+        },
+        "DEP03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "UNCERTAIN": 0.17,
+            "INCLUDE": 0.25,
+            "EXCLUDE": 0.58
+          }
+        },
+        "DEP03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.13,
+          "probabilities": {
+            "UNCERTAIN": 0.29,
+            "INCLUDE": 0.42,
+            "EXCLUDE": 0.29
+          }
+        },
+        "DEP03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97
+          }
+        },
+        "DEP04__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.15,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "EXCLUDE": 0.38,
+            "INCLUDE": 0.43
+          }
+        },
+        "DEP04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.54,
+          "probabilities": {
+            "UNCERTAIN": 0.12,
+            "EXCLUDE": 0.69,
+            "INCLUDE": 0.19
+          }
+        },
+        "DEP04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.9,
+            "INCLUDE": 0.03
+          }
+        },
+        "DEP04__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "EXCLUDE": 0.4,
+            "INCLUDE": 0.35
+          }
+        },
+        "DEP04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.01
+          }
+        },
+        "DEP05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.2,
+            "INCLUDE": 0.66
+          }
+        },
+        "DEP05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.32,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.31,
+            "INCLUDE": 0.55
+          }
+        },
+        "DEP05__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "EXCLUDE": 0.3,
+            "INCLUDE": 0.52
+          }
+        },
+        "DEP05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.73
+          }
+        },
+        "DEP05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.01
+          }
+        },
+        "DEP06__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.35,
+          "probabilities": {
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.26,
+            "INCLUDE": 0.57
+          }
+        },
+        "DEP06__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.9
+          }
+        },
+        "DEP06__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.38,
+            "INCLUDE": 0.49
+          }
+        },
+        "DEP06__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.22,
+            "INCLUDE": 0.58
+          }
+        },
+        "DEP06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.31,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.54,
+            "INCLUDE": 0.36
+          }
+        },
+        "DEP07__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.98
+          }
+        },
+        "DEP07__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.31,
+            "INCLUDE": 0.49
+          }
+        },
+        "DEP07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.29,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.52,
+            "INCLUDE": 0.24
+          }
+        },
+        "DEP07__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.8
+          }
+        },
+        "DEP07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.78,
+            "INCLUDE": 0.12
+          }
+        },
+        "HIST01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "EXCLUDE": 0.23,
+            "INCLUDE": 0.74,
+            "UNCERTAIN": 0.03
+          }
+        },
+        "HIST01__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.34,
+          "probabilities": {
+            "EXCLUDE": 0.56,
+            "INCLUDE": 0.39,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "HIST01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST01__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "EXCLUDE": 0.89,
+            "INCLUDE": 0.07,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.26,
+          "probabilities": {
+            "EXCLUDE": 0.42,
+            "INCLUDE": 0.51,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "HIST02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "EXCLUDE": 0.76,
+            "INCLUDE": 0.2,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST02__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.82,
+          "probabilities": {
+            "EXCLUDE": 0.88,
+            "INCLUDE": 0.08,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "EXCLUDE": 0.83,
+            "INCLUDE": 0.12,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "HIST03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "EXCLUDE": 0.1,
+            "INCLUDE": 0.86,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.93,
+          "probabilities": {
+            "EXCLUDE": 0.96,
+            "INCLUDE": 0.02,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "HIST03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "EXCLUDE": 0.09,
+            "INCLUDE": 0.89,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "HIST03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "EXCLUDE": 0.93,
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST04__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "EXCLUDE": 0.18,
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.22,
+          "probabilities": {
+            "EXCLUDE": 0.44,
+            "INCLUDE": 0.48,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "HIST04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6c0ed17777291c52d1742cc4e43",
+          "latency_ms": 866.471,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 8233,
+            "output_tokens": 2031
+          }
+        },
+        {
+          "request_id": "req_01a0c6c0f12b7cf588d3eaf854f9144c",
+          "latency_ms": 758.428,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 5573,
+            "output_tokens": 1248
+          }
+        },
+        {
+          "request_id": "req_01a0c6c0f4c578c6b7242e775ad4fba6",
+          "latency_ms": 782.096,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4363,
+            "output_tokens": 987
+          }
+        },
+        {
+          "request_id": "req_01a0c6c0f87c70a1ac9a855e5ad4aa18",
+          "latency_ms": 752.928,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4359,
+            "output_tokens": 1007
+          }
+        }
+      ]
+    },
+    {
+      "answers": {
+        "DVS01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.39,
+          "probabilities": {
+            "EXCLUDE": 0.23,
+            "INCLUDE": 0.59,
+            "UNCERTAIN": 0.18
+          }
+        },
+        "DVS01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.06,
+          "probabilities": {
+            "EXCLUDE": 0.37,
+            "INCLUDE": 0.38,
+            "UNCERTAIN": 0.25
+          }
+        },
+        "DVS01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.45,
+          "probabilities": {
+            "EXCLUDE": 0.63,
+            "INCLUDE": 0.15,
+            "UNCERTAIN": 0.22
+          }
+        },
+        "DVS01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.22,
+          "probabilities": {
+            "EXCLUDE": 0.15,
+            "INCLUDE": 0.48,
+            "UNCERTAIN": 0.37
+          }
+        },
+        "DVS01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DVS01__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "EXCLUDE": 0.05,
+            "INCLUDE": 0.81,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DVS01__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.68,
+          "probabilities": {
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "DVS01__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "EXCLUDE": 0.08,
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DVS01__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.98,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DVS01__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "EXCLUDE": 0.46,
+            "INCLUDE": 0.21,
+            "UNCERTAIN": 0.33
+          }
+        },
+        "DVS02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.3,
+          "probabilities": {
+            "EXCLUDE": 0.33,
+            "INCLUDE": 0.53,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DVS02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "EXCLUDE": 0.16,
+            "INCLUDE": 0.73,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "DVS02__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "EXCLUDE": 0.35,
+            "INCLUDE": 0.41,
+            "UNCERTAIN": 0.24
+          }
+        },
+        "DVS02__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.03,
+          "probabilities": {
+            "EXCLUDE": 0.36,
+            "INCLUDE": 0.32,
+            "UNCERTAIN": 0.32
+          }
+        },
+        "DVS02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "DVS02__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.28,
+          "probabilities": {
+            "EXCLUDE": 0.23,
+            "INCLUDE": 0.52,
+            "UNCERTAIN": 0.25
+          }
+        },
+        "DVS02__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.08,
+            "INCLUDE": 0.83,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "DVS02__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "DVS02__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.97,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DVS02__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "EXCLUDE": 0.47,
+            "INCLUDE": 0.22,
+            "UNCERTAIN": 0.31
+          }
+        },
+        "DVS03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.71,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "DVS03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "EXCLUDE": 0.4,
+            "INCLUDE": 0.31,
+            "UNCERTAIN": 0.29
+          }
+        },
+        "DVS03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.16,
+          "probabilities": {
+            "EXCLUDE": 0.44,
+            "INCLUDE": 0.23,
+            "UNCERTAIN": 0.33
+          }
+        },
+        "DVS03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.53,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.69,
+            "UNCERTAIN": 0.25
+          }
+        },
+        "DVS03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "DVS03__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.92,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "DVS03__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.75,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.84,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "DVS03__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.93,
+            "UNCERTAIN": 0.06
+          }
+        },
+        "DVS03__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "DVS03__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "EXCLUDE": 0.46,
+            "INCLUDE": 0.23,
+            "UNCERTAIN": 0.31
+          }
+        },
+        "DVS04__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "EXCLUDE": 0.38,
+            "INCLUDE": 0.41,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "DVS04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.36,
+          "probabilities": {
+            "EXCLUDE": 0.26,
+            "INCLUDE": 0.57,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "DVS04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "EXCLUDE": 0.65,
+            "INCLUDE": 0.2,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "DVS04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "EXCLUDE": 0.31,
+            "INCLUDE": 0.41,
+            "UNCERTAIN": 0.28
+          }
+        },
+        "DVS04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "EXCLUDE": 0.84,
+            "INCLUDE": 0.08,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "DVS04__SECURITY": {
+          "choice": "EXCLUDE",
+          "confidence": 0.17,
+          "probabilities": {
+            "EXCLUDE": 0.45,
+            "INCLUDE": 0.23,
+            "UNCERTAIN": 0.32
+          }
+        },
+        "DVS04__DIAGNOSE_LAYER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "EXCLUDE": 0.74,
+            "INCLUDE": 0.12,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DVS04__VERIFY_REAL_PATH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "EXCLUDE": 0.58,
+            "INCLUDE": 0.26,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DVS04__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.13,
+          "probabilities": {
+            "EXCLUDE": 0.34,
+            "INCLUDE": 0.42,
+            "UNCERTAIN": 0.24
+          }
+        },
+        "DVS04__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "EXCLUDE": 0.94,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "DVS05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.45,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.63,
+            "EXCLUDE": 0.21
+          }
+        },
+        "DVS05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.16,
+          "probabilities": {
+            "INCLUDE": 0.44,
+            "UNCERTAIN": 0.25,
+            "EXCLUDE": 0.31
+          }
+        },
+        "DVS05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.14,
+            "EXCLUDE": 0.81
+          }
+        },
+        "DVS05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "UNCERTAIN": 0.31,
+            "INCLUDE": 0.41,
+            "EXCLUDE": 0.28
+          }
+        },
+        "DVS05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.98
+          }
+        },
+        "DVS05__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.8,
+            "EXCLUDE": 0.04
+          }
+        },
+        "DVS05__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01
+          }
+        },
+        "DVS05__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "UNCERTAIN": 0.08,
+            "INCLUDE": 0.86,
+            "EXCLUDE": 0.06
+          }
+        },
+        "DVS05__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.76,
+            "EXCLUDE": 0.09
+          }
+        },
+        "DVS05__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "UNCERTAIN": 0.11,
+            "EXCLUDE": 0.85
+          }
+        },
+        "DEP01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.2,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.46,
+            "EXCLUDE": 0.39
+          }
+        },
+        "DEP01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.48,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.65,
+            "EXCLUDE": 0.22
+          }
+        },
+        "DEP01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.64,
+          "probabilities": {
+            "INCLUDE": 0.14,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.76
+          }
+        },
+        "DEP01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.11,
+          "probabilities": {
+            "UNCERTAIN": 0.27,
+            "INCLUDE": 0.41000000000000003,
+            "EXCLUDE": 0.32
+          }
+        },
+        "DEP01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.26,
+          "probabilities": {
+            "UNCERTAIN": 0.19,
+            "INCLUDE": 0.51,
+            "EXCLUDE": 0.3
+          }
+        },
+        "DEP02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "UNCERTAIN": 0.26,
+            "INCLUDE": 0.26,
+            "EXCLUDE": 0.48
+          }
+        },
+        "DEP02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.91
+          }
+        },
+        "DEP02__SUBAGENTS": {
+          "choice": "UNCERTAIN",
+          "confidence": 0.01,
+          "probabilities": {
+            "INCLUDE": 0.33,
+            "UNCERTAIN": 0.34,
+            "EXCLUDE": 0.33
+          }
+        },
+        "DEP02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.28,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.52,
+            "EXCLUDE": 0.3
+          }
+        },
+        "DEP03__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.7,
+            "EXCLUDE": 0.16
+          }
+        },
+        "DEP03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.34,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.24,
+            "EXCLUDE": 0.56
+          }
+        },
+        "DEP03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.07,
+          "probabilities": {
+            "UNCERTAIN": 0.31,
+            "INCLUDE": 0.37,
+            "EXCLUDE": 0.32
+          }
+        },
+        "DEP03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP04__ROUTING": {
+          "choice": "EXCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "INCLUDE": 0.34,
+            "EXCLUDE": 0.49,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "DEP04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.56,
+          "probabilities": {
+            "INCLUDE": 0.17,
+            "EXCLUDE": 0.71,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "DEP04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.91,
+            "UNCERTAIN": 0.06
+          }
+        },
+        "DEP04__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.14,
+          "probabilities": {
+            "INCLUDE": 0.34,
+            "EXCLUDE": 0.42,
+            "UNCERTAIN": 0.24
+          }
+        },
+        "DEP04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DEP05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.49,
+          "probabilities": {
+            "INCLUDE": 0.66,
+            "EXCLUDE": 0.21,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "DEP05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "INCLUDE": 0.51,
+            "EXCLUDE": 0.34,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "DEP05__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "INCLUDE": 0.5,
+            "EXCLUDE": 0.32,
+            "UNCERTAIN": 0.18
+          }
+        },
+        "DEP05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.54,
+          "probabilities": {
+            "INCLUDE": 0.69,
+            "EXCLUDE": 0.15,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DEP05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DEP06__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.31,
+          "probabilities": {
+            "INCLUDE": 0.54,
+            "EXCLUDE": 0.29,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "DEP06__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "INCLUDE": 0.9,
+            "EXCLUDE": 0.06,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "DEP06__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "INCLUDE": 0.49,
+            "EXCLUDE": 0.39,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "DEP06__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.34,
+          "probabilities": {
+            "INCLUDE": 0.56,
+            "EXCLUDE": 0.24,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "DEP06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.33,
+          "probabilities": {
+            "INCLUDE": 0.36,
+            "EXCLUDE": 0.55,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "DEP07__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "DEP07__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "INCLUDE": 0.48,
+            "EXCLUDE": 0.29,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "DEP07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.22,
+          "probabilities": {
+            "INCLUDE": 0.25,
+            "EXCLUDE": 0.48,
+            "UNCERTAIN": 0.27
+          }
+        },
+        "DEP07__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.69,
+          "probabilities": {
+            "INCLUDE": 0.8,
+            "EXCLUDE": 0.08,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "DEP07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.71,
+          "probabilities": {
+            "INCLUDE": 0.11,
+            "EXCLUDE": 0.8,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "HIST01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "EXCLUDE": 0.29,
+            "INCLUDE": 0.67,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST01__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.32,
+          "probabilities": {
+            "EXCLUDE": 0.54,
+            "INCLUDE": 0.41,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "HIST01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST01__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "EXCLUDE": 0.9,
+            "INCLUDE": 0.06,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST02__ROUTING": {
+          "choice": "EXCLUDE",
+          "confidence": 0.25,
+          "probabilities": {
+            "EXCLUDE": 0.5,
+            "INCLUDE": 0.43,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "HIST02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.63,
+          "probabilities": {
+            "EXCLUDE": 0.76,
+            "INCLUDE": 0.2,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST02__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.76,
+          "probabilities": {
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "HIST02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "EXCLUDE": 0.86,
+            "INCLUDE": 0.1,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "EXCLUDE": 0.12,
+            "INCLUDE": 0.82,
+            "UNCERTAIN": 0.06
+          }
+        },
+        "HIST03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "EXCLUDE": 0.93,
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.85,
+          "probabilities": {
+            "EXCLUDE": 0.08,
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "HIST03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.9,
+          "probabilities": {
+            "EXCLUDE": 0.93,
+            "INCLUDE": 0.05,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST04__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.65,
+          "probabilities": {
+            "EXCLUDE": 0.19,
+            "INCLUDE": 0.77,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "HIST04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "HIST04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "HIST04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.25,
+          "probabilities": {
+            "EXCLUDE": 0.4,
+            "INCLUDE": 0.5,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "HIST04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0,
+            "UNCERTAIN": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6c0fc23742a9985fb0ad18fe6ea",
+          "latency_ms": 745.125,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 8233,
+            "output_tokens": 2031
+          }
+        },
+        {
+          "request_id": "req_01a0c6c0ff8f73319dd74caabcec4140",
+          "latency_ms": 1088.36,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 5573,
+            "output_tokens": 1248
+          }
+        },
+        {
+          "request_id": "req_01a0c6c104957208b983e227c3d9ca4a",
+          "latency_ms": 761.18,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4363,
+            "output_tokens": 987
+          }
+        },
+        {
+          "request_id": "req_01a0c6c108647256a523f4b8ec603b51",
+          "latency_ms": 751.01,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4359,
+            "output_tokens": 1007
+          }
+        }
+      ]
+    },
+    {
+      "answers": {
+        "DVS01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.38,
+          "probabilities": {
+            "INCLUDE": 0.59,
+            "EXCLUDE": 0.22,
+            "UNCERTAIN": 0.19
+          }
+        },
+        "DVS01__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.07,
+          "probabilities": {
+            "INCLUDE": 0.36,
+            "EXCLUDE": 0.38,
+            "UNCERTAIN": 0.26
+          }
+        },
+        "DVS01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.51,
+          "probabilities": {
+            "INCLUDE": 0.1,
+            "EXCLUDE": 0.67,
+            "UNCERTAIN": 0.23
+          }
+        },
+        "DVS01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "INCLUDE": 0.47,
+            "EXCLUDE": 0.16,
+            "UNCERTAIN": 0.37
+          }
+        },
+        "DVS01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "DVS01__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "INCLUDE": 0.78,
+            "EXCLUDE": 0.06,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DVS01__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "INCLUDE": 0.77,
+            "EXCLUDE": 0.07,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DVS01__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.74,
+            "EXCLUDE": 0.1,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DVS01__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DVS01__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "INCLUDE": 0.26,
+            "EXCLUDE": 0.4,
+            "UNCERTAIN": 0.34
+          }
+        },
+        "DVS02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.33,
+          "probabilities": {
+            "INCLUDE": 0.56,
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.27
+          }
+        },
+        "DVS02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "INCLUDE": 0.74,
+            "EXCLUDE": 0.16,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "DVS02__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "INCLUDE": 0.4,
+            "EXCLUDE": 0.35,
+            "UNCERTAIN": 0.25
+          }
+        },
+        "DVS02__SUBAGENTS": {
+          "choice": "UNCERTAIN",
+          "confidence": 0.05,
+          "probabilities": {
+            "INCLUDE": 0.29,
+            "EXCLUDE": 0.34,
+            "UNCERTAIN": 0.37
+          }
+        },
+        "DVS02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 0.0,
+            "EXCLUDE": 1.0,
+            "UNCERTAIN": 0.0
+          }
+        },
+        "DVS02__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.32,
+          "probabilities": {
+            "INCLUDE": 0.54,
+            "EXCLUDE": 0.2,
+            "UNCERTAIN": 0.26
+          }
+        },
+        "DVS02__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.7,
+          "probabilities": {
+            "INCLUDE": 0.8,
+            "UNCERTAIN": 0.1,
+            "EXCLUDE": 0.1
+          }
+        },
+        "DVS02__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "INCLUDE": 0.99,
+            "EXCLUDE": 0.0,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "DVS02__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "INCLUDE": 0.97,
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DVS02__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "INCLUDE": 0.25,
+            "EXCLUDE": 0.46,
+            "UNCERTAIN": 0.29
+          }
+        },
+        "DVS03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.7,
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.13
+          }
+        },
+        "DVS03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.13,
+          "probabilities": {
+            "INCLUDE": 0.28,
+            "EXCLUDE": 0.42,
+            "UNCERTAIN": 0.3
+          }
+        },
+        "DVS03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.15,
+          "probabilities": {
+            "INCLUDE": 0.22,
+            "EXCLUDE": 0.43,
+            "UNCERTAIN": 0.35
+          }
+        },
+        "DVS03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.57,
+          "probabilities": {
+            "INCLUDE": 0.72,
+            "UNCERTAIN": 0.23,
+            "EXCLUDE": 0.05
+          }
+        },
+        "DVS03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "INCLUDE": 0.04,
+            "EXCLUDE": 0.86,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "DVS03__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.92,
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "DVS03__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "INCLUDE": 0.83,
+            "EXCLUDE": 0.06,
+            "UNCERTAIN": 0.11
+          }
+        },
+        "DVS03__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.88,
+          "probabilities": {
+            "INCLUDE": 0.92,
+            "EXCLUDE": 0.01,
+            "UNCERTAIN": 0.07
+          }
+        },
+        "DVS03__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "INCLUDE": 1.0,
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0
+          }
+        },
+        "DVS03__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.19,
+          "probabilities": {
+            "INCLUDE": 0.23,
+            "EXCLUDE": 0.46,
+            "UNCERTAIN": 0.31
+          }
+        },
+        "DVS04__ROUTING": {
+          "choice": "EXCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "INCLUDE": 0.4,
+            "EXCLUDE": 0.4,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "DVS04__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "INCLUDE": 0.59,
+            "EXCLUDE": 0.24,
+            "UNCERTAIN": 0.17
+          }
+        },
+        "DVS04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.45,
+          "probabilities": {
+            "INCLUDE": 0.2,
+            "EXCLUDE": 0.64,
+            "UNCERTAIN": 0.16
+          }
+        },
+        "DVS04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.09,
+          "probabilities": {
+            "INCLUDE": 0.39,
+            "EXCLUDE": 0.3,
+            "UNCERTAIN": 0.31
+          }
+        },
+        "DVS04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "INCLUDE": 0.06,
+            "EXCLUDE": 0.86,
+            "UNCERTAIN": 0.08
+          }
+        },
+        "DVS04__SECURITY": {
+          "choice": "EXCLUDE",
+          "confidence": 0.16,
+          "probabilities": {
+            "INCLUDE": 0.18,
+            "EXCLUDE": 0.44,
+            "UNCERTAIN": 0.38
+          }
+        },
+        "DVS04__DIAGNOSE_LAYER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "INCLUDE": 0.14,
+            "UNCERTAIN": 0.16,
+            "EXCLUDE": 0.7
+          }
+        },
+        "DVS04__VERIFY_REAL_PATH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.36,
+          "probabilities": {
+            "INCLUDE": 0.28,
+            "EXCLUDE": 0.57,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "DVS04__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "INCLUDE": 0.42,
+            "EXCLUDE": 0.32,
+            "UNCERTAIN": 0.26
+          }
+        },
+        "DVS04__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.93,
+            "UNCERTAIN": 0.06
+          }
+        },
+        "DVS05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.63,
+            "EXCLUDE": 0.21
+          }
+        },
+        "DVS05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.15,
+          "probabilities": {
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.44,
+            "EXCLUDE": 0.34
+          }
+        },
+        "DVS05__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.79,
+          "probabilities": {
+            "UNCERTAIN": 0.11,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.86
+          }
+        },
+        "DVS05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.13,
+          "probabilities": {
+            "UNCERTAIN": 0.3,
+            "INCLUDE": 0.42,
+            "EXCLUDE": 0.28
+          }
+        },
+        "DVS05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97
+          }
+        },
+        "DVS05__SECURITY": {
+          "choice": "INCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.81,
+            "EXCLUDE": 0.04
+          }
+        },
+        "DVS05__DIAGNOSE_LAYER": {
+          "choice": "INCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.98,
+            "EXCLUDE": 0.01
+          }
+        },
+        "DVS05__VERIFY_REAL_PATH": {
+          "choice": "INCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.89,
+            "EXCLUDE": 0.05
+          }
+        },
+        "DVS05__TRACE_CONTRACTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.62,
+          "probabilities": {
+            "UNCERTAIN": 0.14,
+            "INCLUDE": 0.75,
+            "EXCLUDE": 0.11
+          }
+        },
+        "DVS05__PULL_REQUESTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.8,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.87
+          }
+        },
+        "DEP01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "UNCERTAIN": 0.17,
+            "INCLUDE": 0.49,
+            "EXCLUDE": 0.34
+          }
+        },
+        "DEP01__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.4,
+          "probabilities": {
+            "UNCERTAIN": 0.13,
+            "INCLUDE": 0.6,
+            "EXCLUDE": 0.27
+          }
+        },
+        "DEP01__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.66,
+          "probabilities": {
+            "UNCERTAIN": 0.1,
+            "INCLUDE": 0.13,
+            "EXCLUDE": 0.77
+          }
+        },
+        "DEP01__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.09,
+          "probabilities": {
+            "UNCERTAIN": 0.25,
+            "INCLUDE": 0.4,
+            "EXCLUDE": 0.35
+          }
+        },
+        "DEP01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.26,
+          "probabilities": {
+            "UNCERTAIN": 0.18,
+            "INCLUDE": 0.51,
+            "EXCLUDE": 0.31
+          }
+        },
+        "DEP02__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.36,
+          "probabilities": {
+            "UNCERTAIN": 0.22,
+            "INCLUDE": 0.21,
+            "EXCLUDE": 0.57
+          }
+        },
+        "DEP02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "UNCERTAIN": 0.06,
+            "INCLUDE": 0.03,
+            "EXCLUDE": 0.91
+          }
+        },
+        "DEP02__SUBAGENTS": {
+          "choice": "UNCERTAIN",
+          "confidence": 0.07,
+          "probabilities": {
+            "UNCERTAIN": 0.38,
+            "INCLUDE": 0.3,
+            "EXCLUDE": 0.32
+          }
+        },
+        "DEP02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "INCLUDE": 0.0,
+            "EXCLUDE": 0.99
+          }
+        },
+        "DEP03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "UNCERTAIN": 0.2,
+            "INCLUDE": 0.49,
+            "EXCLUDE": 0.31
+          }
+        },
+        "DEP03__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.46,
+          "probabilities": {
+            "UNCERTAIN": 0.15,
+            "INCLUDE": 0.64,
+            "EXCLUDE": 0.21
+          }
+        },
+        "DEP03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.42,
+          "probabilities": {
+            "UNCERTAIN": 0.16,
+            "INCLUDE": 0.23,
+            "EXCLUDE": 0.61
+          }
+        },
+        "DEP03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.07,
+          "probabilities": {
+            "UNCERTAIN": 0.29,
+            "INCLUDE": 0.38,
+            "EXCLUDE": 0.33
+          }
+        },
+        "DEP03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "INCLUDE": 0.01,
+            "EXCLUDE": 0.97
+          }
+        },
+        "DEP04__ROUTING": {
+          "choice": "EXCLUDE",
+          "confidence": 0.1,
+          "probabilities": {
+            "EXCLUDE": 0.4,
+            "INCLUDE": 0.39,
+            "UNCERTAIN": 0.21
+          }
+        },
+        "DEP04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.7,
+            "INCLUDE": 0.16,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DEP04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.87,
+          "probabilities": {
+            "EXCLUDE": 0.92,
+            "INCLUDE": 0.03,
+            "UNCERTAIN": 0.05
+          }
+        },
+        "DEP04__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.12,
+          "probabilities": {
+            "UNCERTAIN": 0.24,
+            "EXCLUDE": 0.41,
+            "INCLUDE": 0.35
+          }
+        },
+        "DEP04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.94,
+          "probabilities": {
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.96
+          }
+        },
+        "DEP05__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.55,
+          "probabilities": {
+            "EXCLUDE": 0.18,
+            "INCLUDE": 0.7,
+            "UNCERTAIN": 0.12
+          }
+        },
+        "DEP05__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.34,
+          "probabilities": {
+            "EXCLUDE": 0.3,
+            "INCLUDE": 0.56,
+            "UNCERTAIN": 0.14
+          }
+        },
+        "DEP05__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.28,
+          "probabilities": {
+            "UNCERTAIN": 0.17,
+            "EXCLUDE": 0.32,
+            "INCLUDE": 0.51
+          }
+        },
+        "DEP05__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "INCLUDE": 0.73,
+            "UNCERTAIN": 0.15,
+            "EXCLUDE": 0.12
+          }
+        },
+        "DEP05__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.96,
+          "probabilities": {
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.01,
+            "UNCERTAIN": 0.02
+          }
+        },
+        "DEP06__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.27,
+          "probabilities": {
+            "EXCLUDE": 0.31,
+            "INCLUDE": 0.51,
+            "UNCERTAIN": 0.18
+          }
+        },
+        "DEP06__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.9,
+            "UNCERTAIN": 0.04
+          }
+        },
+        "DEP06__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "EXCLUDE": 0.38,
+            "INCLUDE": 0.49,
+            "UNCERTAIN": 0.13
+          }
+        },
+        "DEP06__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.37,
+          "probabilities": {
+            "EXCLUDE": 0.22,
+            "INCLUDE": 0.58,
+            "UNCERTAIN": 0.2
+          }
+        },
+        "DEP06__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.29,
+          "probabilities": {
+            "EXCLUDE": 0.53,
+            "INCLUDE": 0.38,
+            "UNCERTAIN": 0.09
+          }
+        },
+        "DEP07__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "EXCLUDE": 0.01,
+            "INCLUDE": 0.98,
+            "UNCERTAIN": 0.01
+          }
+        },
+        "DEP07__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 0.23,
+          "probabilities": {
+            "INCLUDE": 0.49,
+            "UNCERTAIN": 0.2,
+            "EXCLUDE": 0.31
+          }
+        },
+        "DEP07__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.28,
+          "probabilities": {
+            "EXCLUDE": 0.52,
+            "INCLUDE": 0.2,
+            "UNCERTAIN": 0.28
+          }
+        },
+        "DEP07__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.67,
+          "probabilities": {
+            "EXCLUDE": 0.07,
+            "INCLUDE": 0.78,
+            "UNCERTAIN": 0.15
+          }
+        },
+        "DEP07__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.72,
+          "probabilities": {
+            "EXCLUDE": 0.81,
+            "INCLUDE": 0.09,
+            "UNCERTAIN": 0.1
+          }
+        },
+        "HIST01__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.59,
+          "probabilities": {
+            "UNCERTAIN": 0.03,
+            "EXCLUDE": 0.24,
+            "INCLUDE": 0.73
+          }
+        },
+        "HIST01__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.44,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.63,
+            "INCLUDE": 0.32
+          }
+        },
+        "HIST01__EGO_BROWSER": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "HIST01__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.84,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.89,
+            "INCLUDE": 0.07
+          }
+        },
+        "HIST01__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "HIST02__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.21,
+          "probabilities": {
+            "UNCERTAIN": 0.07,
+            "EXCLUDE": 0.46,
+            "INCLUDE": 0.47
+          }
+        },
+        "HIST02__AGENT_REACH": {
+          "choice": "INCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 0.0,
+            "INCLUDE": 1.0
+          }
+        },
+        "HIST02__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.61,
+          "probabilities": {
+            "UNCERTAIN": 0.04,
+            "EXCLUDE": 0.74,
+            "INCLUDE": 0.22
+          }
+        },
+        "HIST02__SUBAGENTS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.78,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.85,
+            "INCLUDE": 0.1
+          }
+        },
+        "HIST02__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.74,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.82,
+            "INCLUDE": 0.13
+          }
+        },
+        "HIST03__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.77,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.11,
+            "INCLUDE": 0.84
+          }
+        },
+        "HIST03__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.95,
+          "probabilities": {
+            "UNCERTAIN": 0.02,
+            "EXCLUDE": 0.97,
+            "INCLUDE": 0.01
+          }
+        },
+        "HIST03__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.99,
+            "INCLUDE": 0.0
+          }
+        },
+        "HIST03__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.89,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.06,
+            "INCLUDE": 0.93
+          }
+        },
+        "HIST03__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.95,
+            "INCLUDE": 0.04
+          }
+        },
+        "HIST04__ROUTING": {
+          "choice": "INCLUDE",
+          "confidence": 0.6,
+          "probabilities": {
+            "UNCERTAIN": 0.05,
+            "EXCLUDE": 0.22,
+            "INCLUDE": 0.73
+          }
+        },
+        "HIST04__AGENT_REACH": {
+          "choice": "EXCLUDE",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNCERTAIN": 0.01,
+            "EXCLUDE": 0.98,
+            "INCLUDE": 0.01
+          }
+        },
+        "HIST04__EGO_BROWSER": {
+          "choice": "EXCLUDE",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        },
+        "HIST04__SUBAGENTS": {
+          "choice": "INCLUDE",
+          "confidence": 0.24,
+          "probabilities": {
+            "UNCERTAIN": 0.09,
+            "EXCLUDE": 0.42,
+            "INCLUDE": 0.49
+          }
+        },
+        "HIST04__BEST_MINDS": {
+          "choice": "EXCLUDE",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNCERTAIN": 0.0,
+            "EXCLUDE": 1.0,
+            "INCLUDE": 0.0
+          }
+        }
+      },
+      "metadata": [
+        {
+          "request_id": "req_01a0c6c10b917e96b6db3ea0d7e5c6dd",
+          "latency_ms": 774.996,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 8233,
+            "output_tokens": 2031
+          }
+        },
+        {
+          "request_id": "req_01a0c6c10ee67a2d86ce7c9d8dc52cc8",
+          "latency_ms": 796.628,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 5573,
+            "output_tokens": 1248
+          }
+        },
+        {
+          "request_id": "req_01a0c6c112ce7cff9b252c880ab36056",
+          "latency_ms": 764.06,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4363,
+            "output_tokens": 987
+          }
+        },
+        {
+          "request_id": "req_01a0c6c116757f7e912ba628ffd5fee2",
+          "latency_ms": 737.093,
+          "resolved_model": "jev-1.13.0",
+          "usage": {
+            "input_tokens": 4359,
+            "output_tokens": 1007
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# DS-J1 — Jev conditional instruction admission
+
+Historical replay over real DevSpace/macOS engineering and research tasks.
+
+This experiment tests only the first admission primitive:
+
+```text
+task + available instruction descriptor
+    -> INCLUDE / UNCERTAIN / EXCLUDE
+```
+
+It does **not** test summary generation, irreversible context deletion, production
+routing, or JevHarness optimization.
+
+Runtime availability is respected:
+
+- global skills are candidates for every task;
+- DevSpace repo-local `AGENTS.md` sections are candidates only for tasks whose
+  workspace is `xanthhuang/devspace`.
+
+Gold labels and provenance are local evaluation metadata and are never sent to
+Jev. `UNCERTAIN` is treated as INCLUDE for fail-safe admission metrics.
+

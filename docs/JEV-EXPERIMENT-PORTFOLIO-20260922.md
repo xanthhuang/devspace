@@ -393,8 +393,7 @@ Primary outcome:
 
 **ID:** `DS-J1`  
 **Target repo:** `xanthhuang/devspace`  
-**Status:** `READY` after the current repository audit establishes the canonical
-DevSpace working tree.
+**Status:** `QUALIFIED FOR SHADOW PROTOTYPE — hybrid only; production gating not authorized`.
 
 This is the strongest new DevSpace candidate from the TypeSafe design note.
 
@@ -428,9 +427,29 @@ Metrics:
 If deterministic path/task rules perform equally well, keep the deterministic
 rules and do not add Jev.
 
-JevHarness is appropriate **only after** a fixed formulation shows useful
-signal, with reward roughly based on required-instruction recall plus context
-cost/task success.
+2026-09-22 qualification result:
+
+- deterministic-only rules were precise but had poor semantic recall on fresh
+  holdout (`58%` required recall);
+- Jev-only fixed admission improved recall but had one systematic required miss
+  on the first sealed set and therefore failed the safety gate;
+- a pre-frozen second holdout tested `deterministic INCLUDE UNION Jev fail-safe
+  INCLUDE` and achieved `100%` required recall in all 10 repeats while reducing
+  instruction characters by about `71.6%` versus always loading all available
+  fragments.
+
+Disposition: implement **shadow-only** hybrid admission telemetry next. Keep the
+normal full instruction context authoritative until live tasks demonstrate that
+the would-skip set is safe and that the extra Jev latency is repaid by lower
+frontier context cost/latency.
+
+Do not start JevHarness optimization yet: the fixed hybrid already satisfies the
+historical holdout safety gate, so optimization would add complexity before a
+live bottleneck is observed.
+
+Canonical result:
+
+`docs/JEV-DEVSPACE-INSTRUCTION-ADMISSION-RESULT-20260922.md`
 
 ### P1 — DevSpace: staged diff-review evidence prefilter
 
@@ -746,8 +765,13 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 
 ### DevSpace
 
-- [ ] `DS-J1` build fixed conditional-instruction replay over real historical
-      tasks.
+- [x] `DS-J1` historical qualification complete. Jev-only admission failed one
+      systematic required case; deterministic+Jev hybrid passed a fresh 15-task
+      holdout at 100% required recall across 10 repeats with ~71.6% instruction
+      character reduction. GO only to shadow prototype.
+- [ ] `DS-J1` add shadow-only live admission telemetry; do not alter worker
+      context yet. Measure actual skipped context, task success, retries,
+      corrections, frontier input tokens and end-to-end latency.
 - [ ] `DS-J2` freeze real historical diff/review findings for staged prefilter
       evaluation.
 - [x] `DS-J3` fixed historical replay complete; Jev 16/16 independent cases and
