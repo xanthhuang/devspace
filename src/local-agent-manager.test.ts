@@ -62,6 +62,15 @@ class FakeRuntime implements LocalAgentRuntime {
       await callbacks?.onSessionId?.("thread_early");
       return Result.err(providerFailure("provider failed after session creation"));
     }
+    if (input.prompt.includes("rotate-session")) {
+      await callbacks?.onSessionId?.("thread_rotated");
+      return Result.ok({
+        provider: this.provider,
+        providerSessionId: "thread_rotated",
+        finalResponse: `response:${input.prompt}`,
+        items: [],
+      });
+    }
     if (input.prompt.includes("defect")) throw new TypeError("internal defect");
     if (input.prompt.includes("fail")) return Result.err(providerFailure("provider failed"));
     if (input.prompt.includes("hold")) {
@@ -358,7 +367,7 @@ let meterCalls = 0;
 const usageMeter: LocalAgentUsageMeter = {
   snapshot: async (provider, providerSessionId) => {
     meterCalls += 1;
-    if (meterCalls === 3) throw new Error("ccusage unavailable");
+    if (meterCalls === 4) throw new Error("ccusage unavailable");
     return {
       provider,
       providerSessionId,
@@ -392,6 +401,16 @@ const metered = unwrap(await meteringManager.start({
 }));
 await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
 assert.equal(meteringStore.usageSummary({ provider: "codex" }).totalCost, 0.5);
+unwrap(await meteringManager.continue(metered.id, "rotate-session", {}, scope));
+await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
+assert.equal(unwrap(meteringManager.get(metered.id, scope)).providerSessionId, "thread_rotated");
+const afterRotation = meteringStore.usageSummary({ provider: "codex" });
+assert.equal(afterRotation.totalCost, 0.5);
+assert.equal(
+  afterRotation.recentRuns[0]?.complete,
+  false,
+  "a rotated provider session without a DevSpace baseline is not treated as zero-based",
+);
 const meteredFailure = unwrap(await meteringManager.start({
   target: "reviewer",
   prompt: "early-fail",
@@ -406,7 +425,7 @@ assert.equal(
 );
 unwrap(await meteringManager.continue(metered.id, "meter outage is non-fatal", {}, scope));
 await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
-assert.equal(meterCalls, 3);
+assert.equal(meterCalls, 4);
 assert.equal(unwrap(meteringManager.get(metered.id, scope)).status, "idle");
 await meteringManager.close();
 
