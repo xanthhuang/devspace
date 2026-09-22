@@ -1,5 +1,13 @@
 # Jev Semantic Decision Experiments — 2026-09-19
 
+> **Current portfolio notice — 2026-09-22:** this file is the historical
+> experiment/evidence record. Cross-project priorities, repo ownership,
+> governance, current GO/HOLD/CLOSED state, and the newer TypeSafe design note /
+> `jev-review` / `typesafe-mcp` / `JevHarness` implications are tracked in
+> `docs/JEV-EXPERIMENT-PORTFOLIO-20260922.md`. Where the priority language in
+> this older file conflicts with the portfolio, use the newer portfolio; do not
+> rewrite historical experimental results to match later conclusions.
+
 ## Purpose
 
 This document records the Jev / TypeSafe experiments performed across PKD,
