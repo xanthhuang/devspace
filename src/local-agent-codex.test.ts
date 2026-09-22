@@ -6,6 +6,7 @@ import {
   CodexAppServerRuntime,
   CodexLocalAgentDriver,
   codexCommandEnvironment,
+  codexCredentialState,
   parseCodexVersion,
   resolveCodexCommand,
   sandboxFor,
@@ -81,6 +82,10 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
         output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "failed", error: { message: "fake failure" } } } });
         return;
       }
+      if (message.params.input[0].text === "auth") {
+        output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "failed", error: { message: "Your refresh token has already been used. Please log out and sign in again.", codex_error_info: "unauthorized" } } } });
+        return;
+      }
       if (message.params.input[0].text === "empty") {
         output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "completed", items: [] } } });
         return;
@@ -94,7 +99,12 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
 `, { mode: 0o700 });
   await chmod(command, 0o700);
 
-  const runtime = new CodexAppServerRuntime({ command, env: process.env });
+  let credentialState = "auth-v1";
+  const runtime = new CodexAppServerRuntime({
+    command,
+    env: process.env,
+    credentialState: () => credentialState,
+  });
   try {
     await runtime.initialize();
     let callbackSessionId: string | undefined;
@@ -145,11 +155,53 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
       assert.ok(protocolFailure.error.cause, "provider protocol cause remains available internally");
       assert.equal("cause" in toAgentErrorPayload(protocolFailure.error), false);
     }
+    const authFailure = await runtime.run({
+      prompt: "auth",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(authFailure.isErr(), true);
+    if (authFailure.isErr()) {
+      assert.equal(authFailure.error.code, "PROVIDER_AUTH_REQUIRED");
+      assert.equal(authFailure.error.provider, "codex");
+      assert.equal(authFailure.error.retryable, false);
+      assert.equal(toAgentErrorPayload(authFailure.error).message, "Codex authentication is required for the configured CODEX_HOME.");
+    }
+    const blockedAuthFailure = await runtime.run({
+      prompt: "should-not-reach-provider",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(blockedAuthFailure.isErr(), true);
+    if (blockedAuthFailure.isErr()) assert.equal(blockedAuthFailure.error.code, "PROVIDER_AUTH_REQUIRED");
+    credentialState = "auth-v2";
+    const recoveredAuth = await runtime.run({
+      prompt: "recovered-auth",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(recoveredAuth.isOk(), true);
+    if (recoveredAuth.isErr()) throw recoveredAuth.error;
+    assert.equal(recoveredAuth.value.finalResponse, "fake response 6", "blocked auth turn must not reach Codex");
     await runtime.releaseSession("thread_new");
   } finally {
     await runtime.close();
     await runtime.close();
     await rm(root, { recursive: true, force: true });
+  }
+}
+
+if (process.platform !== "win32") {
+  const credentialRoot = await mkdtemp(join(tmpdir(), "devspace-codex-credential-state-test-"));
+  try {
+    const env = { CODEX_HOME: credentialRoot };
+    const missingState = codexCredentialState(env);
+    assert.match(missingState, /^unavailable:/);
+    await writeFile(join(credentialRoot, "auth.json"), "{}\n", { mode: 0o600 });
+    const presentState = codexCredentialState(env);
+    assert.notEqual(presentState, missingState, "creating auth.json changes the credential state fingerprint");
+  } finally {
+    await rm(credentialRoot, { recursive: true, force: true });
   }
 }
 
