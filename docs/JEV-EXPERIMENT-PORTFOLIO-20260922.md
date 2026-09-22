@@ -279,47 +279,48 @@ CLOSED       already tested; do not reopen without new evidence
 **ID:** `LAR-J0`
 **Target repo:** `xanthhuang/technical-document-rag`
 **Canonical Mac checkout:** `/Users/xanth/Github/technical-document-rag`
-**Status:** `NECESSITY RECHECK REQUIRED` against the current canonical repo and
-runtime baseline before any Jev experiment is resumed.
-Do **not** assume the Jev verifier experiment remains necessary merely because
-the historical local-35B path was expensive.
+**Status:** `COMPLETE / NO-GO for Jev semantic-auditor role`.
 
-2026-09-22 update: the project is now canonicalized as **Technical Document
-RAG** (`xanthhuang/technical-document-rag`; historical name `Local AI RAG v1`).
-The existing `LAR-*` experiment IDs are retained only for continuity with prior
+2026-09-22 canonical-repo recheck resolved the earlier ambiguity. The project
+is now canonicalized as **Technical Document RAG**
+(`xanthhuang/technical-document-rag`; historical name `Local AI RAG v1`). The
+existing `LAR-*` experiment IDs are retained only for continuity with prior
 artifacts and do not indicate the current project name.
-The user also reports that its semantic path has
-since moved from a local 35B model to an OpenRouter-hosted Qwen path. This is a
-material architecture change and invalidates the old cost/latency premise for
-prioritizing Jev. The current conversation is not sufficient provenance for the
-exact production implementation, model identity, latency, cost or fallback
-behavior, so those details must be re-derived from the canonical repo after the
-repository inventory/convergence completes.
 
-Before running any Jev replay, inspect the converged repo and current production
-artifacts to establish the **actual present-day baseline**:
+The active V2 branch already contains the Jev semantic-audit qualification that
+this portfolio had previously treated as future work:
 
-- which provider/model performs the semantic verifier/audit;
-- whether that verifier is always called or only conditionally;
-- p50/p95 verifier latency and its share of end-to-end latency;
-- request/input/output token usage and real marginal cost;
-- retry/fallback/rate-limit behavior;
-- current correctness/qualification status;
-- whether deterministic checks already eliminate most semantic calls;
-- whether replacing or front-running the verifier with Jev would remove a
-  material amount of work rather than add another semantic layer.
+`docs/LOCAL-AI-RAG-JEV-SEMANTIC-AUDIT-QUALIFICATION-20260920.md`
 
-Necessity gate:
+That experiment used 39 frozen real cases with historical strict-audit labels
+(35 PASS / 4 FAIL) and isolated those labels from Jev input.
+
+Observed result:
 
 ```text
-current verifier already fast + cheap + qualified + low E2E share
-    -> LAR-J0 HOLD / do not add Jev
+proposition-level formulation:
+  historical FAIL rejected      4 / 4
+  critical false PASS           0
+  historical PASS accepted      9 / 35
+  false reject                 26 / 35
 
-current verifier remains a material latency/cost/availability bottleneck
-    -> run bounded LAR-J0 Jev fast-path qualification
+answer-level bounded Choice:
+  historical FAIL blocked       1 / 4
+  critical false PASS           3 / 4
+  historical PASS accepted     21 / 35
+  false reject                 14 / 35
 ```
 
-Only if the necessity gate remains positive, ask:
+Therefore Jev did not qualify as:
+
+- direct semantic auditor;
+- high-precision rejection/escalation filter with the tested formulations;
+- targeted repair judge.
+
+The cloud-generator + Jev matched A/B was correctly not authorized by that
+qualification gate.
+
+The semantic-audit question was:
 
 > Given a material proposition plus its exact cited technical evidence and
 > explicit scope, can Jev safely replace or reduce the existing expensive
@@ -366,11 +367,44 @@ Necessary secondary metrics:
 Stop if zero false PASS is achieved only by rejecting/deferring nearly
 everything.
 
+### Current Technical Document RAG verifier baseline
+
+The active V2 research/shadow branch currently records:
+
+```text
+generator:        Gemini 3.5 Flash-Lite Free
+semantic verifier: OpenRouter qwen/qwen3.6-35b-a3b
+reasoning:        disabled
+verification:     per answer, structured output
+```
+
+In the frozen 10-case follow-up qualification:
+
+```text
+final answers                 10 / 10
+deterministic validation      10 / 10
+semantic verifier             10 / 10
+locked hard negatives blocked  4 / 4
+critical false pass            0
+paid Qwen usage               ~US$0.00187943 total
+```
+
+The project report explicitly concludes that **semantic verification is no
+longer the dominant bottleneck**; evidence acquisition/packing stability and
+low context utilization are larger remaining surfaces.
+
+Important boundary: this V2 path is still qualified research/shadow work and
+has not yet been integrated into the production `service.py` / release path.
+That distinction does not revive a Jev need: the existing Jev semantic-auditor
+qualification already failed the relevant safety role, while the current Qwen
+verifier is operationally cheap in the measured V2 slice.
+
 ### P1 — Technical Document RAG: JevHarness verifier evolution
 
 **ID:** `LAR-J1`
 **Target repo:** `xanthhuang/technical-document-rag`
-**Status:** `CONDITIONAL` on `LAR-J0` showing useful but imperfect Jev signal.
+**Status:** `CLOSED / NOT JUSTIFIED` because `LAR-J0` did not show a useful
+production-safe Jev semantic-auditor signal.
 
 Purpose:
 
@@ -409,8 +443,10 @@ meaningful sealed test.
 
 **ID:** `LAR-C0`
 **Target repo:** `xanthhuang/technical-document-rag`
-**Status:** `CONDITIONAL` on `LAR-J0`; `LAR-J1` is optional if the fixed verifier
-already qualifies.
+**Status:** `CLOSED under the current Jev gate` because `LAR-J0` failed the
+semantic-auditor safety requirement. Reopen only for a materially different Jev
+formulation backed by new evidence, not by threshold tuning on the consumed
+replay set.
 
 Keep the accepted evidence engine fixed and compare architectures such as:
 
@@ -785,11 +821,16 @@ primitive passes**.
 
 Use it for:
 
-- Technical Document RAG verifier evolution after `LAR-J0`;
 - DevSpace conditional-instruction policy after `DS-J1` fixed-formulation
   evidence;
 - possibly diff-review state/threshold optimization after `DS-J2` proves the
   staged pattern useful.
+
+Do **not** use JevHarness to optimize the consumed Technical Document RAG
+`LAR-J0` formulation. That primitive failed the semantic-auditor safety role.
+A future Technical Document RAG JevHarness experiment would require a materially
+different bounded primitive to first establish fresh signal on an independent
+gate.
 
 Do not make it a production runtime dependency by default. Freeze the selected
 pipeline and deploy only the minimum required runtime pieces.
@@ -814,17 +855,10 @@ Do not run everything in parallel merely because the ideas are interesting.
 Recommended order after the repository audit:
 
 ```text
-G0  finish repo normalization / GitHub identities
-    ↓
-LAR-N0  inspect canonical Technical Document RAG current verifier path and measure the
-        real OpenRouter/provider latency, cost, correctness and E2E share
-    ↓
-only if a material verifier bottleneck still exists:
-    LAR-J0  Technical Document RAG fixed Jev semantic replay
-        ↓
-    if signal:
-        LAR-J1  JevHarness optimization only if fixed formulation is imperfect
-        LAR-C0  current-provider matched A/B
+Technical Document RAG:
+    LAR-J0  COMPLETE / NO-GO for current Jev semantic-auditor role
+    LAR-J1  CLOSED / not justified
+    LAR-C0  CLOSED under current Jev gate
 
 DevSpace current priority:
     DS-J1  collect record-only shadow disagreement evidence during normal work
@@ -852,7 +886,10 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 - [x] Central cross-project Jev tracker located in `xanthhuang/devspace`.
 - [x] GitHub declared source of truth; NAS declared production + Git DR.
 - [x] macOS declared normal development environment; Windows GPU-only.
-- [ ] Complete repository inventory / normalization currently in progress.
+- [x] Canonical repository/source-authority convergence complete for the active
+      projects relevant to this Jev portfolio. Windows residual-data inventory
+      and cleanup may continue, but it is no longer a source-authority or Jev
+      experiment prerequisite.
 - [x] Establish canonical GitHub repo for Technical Document RAG:
       `xanthhuang/technical-document-rag`.
 - [x] Establish canonical macOS checkout at
@@ -863,23 +900,21 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 
 ### Technical Document RAG
 
-- [ ] Inspect the canonical `xanthhuang/technical-document-rag` repo and
-      current runtime artifacts to verify the real semantic verifier/provider
-      architecture. Do not assume the historical local-35B path still applies.
-- [ ] Measure current verifier p50/p95 latency, token/cost footprint,
-      retry/fallback behavior, correctness status and end-to-end share.
-- [ ] Decide `LAR-J0` necessity from that current baseline. If the present
-      OpenRouter/Qwen path is already fast, cheap and non-bottleneck, set
-      `LAR-J0` to HOLD rather than running Jev for its own sake.
-- [ ] Only if the necessity gate is positive: freeze the real strict-audit
-      replay dataset and run `LAR-J0` fixed Jev formulation with repeated calls.
-- [ ] Record GO / HOLD / NO-GO with critical false-PASS and coverage metrics.
-- [ ] If GO/HOLD-with-signal: define train/validation/sealed-test split for
-      `LAR-J1`.
-- [ ] If justified: run JevHarness verifier evolution and freeze selected
-      pipeline.
-- [ ] Run fresh sealed test once after freeze.
-- [ ] If verifier path qualifies: run cloud-generator matched A/B (`LAR-C0`).
+- [x] Canonical repo and macOS checkout established; Windows source authority
+      removed after verified migration/preservation.
+- [x] Reconstruct current V2 semantic-verifier baseline from the canonical
+      active branch: OpenRouter `qwen/qwen3.6-35b-a3b` fixed verifier with
+      Gemini 3.5 Flash-Lite Free generator in the qualified V2 prototype.
+- [x] Recover existing `LAR-J0` Jev semantic-audit qualification from the
+      canonical branch. Current Jev formulations are NO-GO for direct audit and
+      rejection/escalation roles.
+- [x] Record current V2 verifier economics: 10/10 semantic verification, 4/4
+      locked hard negatives blocked, approximately US$0.00187943 paid Qwen
+      usage for the 10-case run; semantic verification is not the dominant
+      bottleneck in that prototype.
+- [x] Close `LAR-J1` JevHarness optimization and `LAR-C0` Jev-gated matched A/B
+      under the current evidence. Reopen only for materially new Jev evidence or
+      a changed Technical Document RAG bottleneck.
 
 ### DevSpace
 
