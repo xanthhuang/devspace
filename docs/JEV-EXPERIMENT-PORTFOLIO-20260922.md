@@ -59,12 +59,13 @@ Rules for all experiments in this document:
 | DevSpace | `xanthhuang/devspace` | Established; this tracker lives here |
 | PKD | `xanthhuang/personal-content-distiller` | Established |
 | FIRE knowledge agent | `xanthhuang/fire-knowledge-agent` | Established |
-| Local AI RAG | **Not resolved in the current GitHub repository inventory** | Block new development until canonical GitHub repo + macOS clone are established |
+| Technical Document RAG | `xanthhuang/technical-document-rag` | Canonical GitHub authority established; normal development checkout is `/Users/xanth/Github/technical-document-rag` |
 | OpenChatCut / video-editing agent work | **Not resolved in the current GitHub repository inventory** | Candidate only; do not start Jev work until repo ownership is normalized |
 
 As of this document's creation, a `gh repo list xanthhuang` inventory did not
-show `local-ai-rag-v1` or `local-knowledge-agent-phase1`. The existing Windows
-checkout `E:\AI\local-ai-rag-v1` contains accepted historical state, but under
+show historical `local-ai-rag-v1` or `local-knowledge-agent-phase1` identities.
+The existing Windows checkout `E:\AI\local-ai-rag-v1` contains accepted
+historical state, but under
 the new governance it must not become the place where new Jev development
 continues.
 
@@ -169,7 +170,8 @@ about semantic accuracy.
 Recommended scope:
 
 - useful for fast DevSpace experiments;
-- do not make it the provenance layer for formal Local AI RAG qualification;
+- do not make it the provenance layer for formal Technical Document RAG
+  qualification;
 - keep API keys loaded at runtime from protected local secret storage rather
   than baking literal credentials into portable MCP configuration.
 
@@ -272,15 +274,21 @@ HOLD         retain as candidate; no current bottleneck justifies work
 CLOSED       already tested; do not reopen without new evidence
 ```
 
-### P0 — Local AI RAG: exact-evidence semantic verifier
+### P0 — Technical Document RAG: exact-evidence semantic verifier
 
-**ID:** `LAR-J0`  
-**Target repo:** canonical Local AI RAG GitHub repo — **currently unresolved**  
-**Status:** `BLOCKED / NECESSITY RECHECK REQUIRED` by repository normalization.
+**ID:** `LAR-J0`
+**Target repo:** `xanthhuang/technical-document-rag`
+**Canonical Mac checkout:** `/Users/xanth/Github/technical-document-rag`
+**Status:** `NECESSITY RECHECK REQUIRED` against the current canonical repo and
+runtime baseline before any Jev experiment is resumed.
 Do **not** assume the Jev verifier experiment remains necessary merely because
 the historical local-35B path was expensive.
 
-2026-09-22 update: the user reports that the Local AI RAG semantic path has
+2026-09-22 update: the project is now canonicalized as **Technical Document
+RAG** (`xanthhuang/technical-document-rag`; historical name `Local AI RAG v1`).
+The existing `LAR-*` experiment IDs are retained only for continuity with prior
+artifacts and do not indicate the current project name.
+The user also reports that its semantic path has
 since moved from a local 35B model to an OpenRouter-hosted Qwen path. This is a
 material architecture change and invalidates the old cost/latency premise for
 prioritizing Jev. The current conversation is not sufficient provenance for the
@@ -358,10 +366,10 @@ Necessary secondary metrics:
 Stop if zero false PASS is achieved only by rejecting/deferring nearly
 everything.
 
-### P1 — Local AI RAG: JevHarness verifier evolution
+### P1 — Technical Document RAG: JevHarness verifier evolution
 
-**ID:** `LAR-J1`  
-**Target repo:** canonical Local AI RAG GitHub repo  
+**ID:** `LAR-J1`
+**Target repo:** `xanthhuang/technical-document-rag`
 **Status:** `CONDITIONAL` on `LAR-J0` showing useful but imperfect Jev signal.
 
 Purpose:
@@ -397,10 +405,10 @@ SEALED TEST / one final reveal after freeze
 Stop if the dataset is too small or the reward too ambiguous to support a
 meaningful sealed test.
 
-### P1 — Local AI RAG: cloud generator + Jev matched A/B
+### P1 — Technical Document RAG: cloud generator + Jev matched A/B
 
-**ID:** `LAR-C0`  
-**Target repo:** canonical Local AI RAG GitHub repo  
+**ID:** `LAR-C0`
+**Target repo:** `xanthhuang/technical-document-rag`
 **Status:** `CONDITIONAL` on `LAR-J0`; `LAR-J1` is optional if the fixed verifier
 already qualifies.
 
@@ -777,7 +785,7 @@ primitive passes**.
 
 Use it for:
 
-- Local AI RAG verifier evolution after `LAR-J0`;
+- Technical Document RAG verifier evolution after `LAR-J0`;
 - DevSpace conditional-instruction policy after `DS-J1` fixed-formulation
   evidence;
 - possibly diff-review state/threshold optimization after `DS-J2` proves the
@@ -808,11 +816,11 @@ Recommended order after the repository audit:
 ```text
 G0  finish repo normalization / GitHub identities
     ↓
-LAR-N0  inspect canonical Local AI RAG current verifier path and measure the
+LAR-N0  inspect canonical Technical Document RAG current verifier path and measure the
         real OpenRouter/provider latency, cost, correctness and E2E share
     ↓
 only if a material verifier bottleneck still exists:
-    LAR-J0  Local AI RAG fixed Jev semantic replay
+    LAR-J0  Technical Document RAG fixed Jev semantic replay
         ↓
     if signal:
         LAR-J1  JevHarness optimization only if fixed formulation is imperfect
@@ -845,15 +853,17 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 - [x] GitHub declared source of truth; NAS declared production + Git DR.
 - [x] macOS declared normal development environment; Windows GPU-only.
 - [ ] Complete repository inventory / normalization currently in progress.
-- [ ] Establish canonical GitHub repo for Local AI RAG.
-- [ ] Clone canonical Local AI RAG repo to macOS and verify accepted baseline
-      provenance before Jev development.
+- [x] Establish canonical GitHub repo for Technical Document RAG:
+      `xanthhuang/technical-document-rag`.
+- [x] Establish canonical macOS checkout at
+      `/Users/xanth/Github/technical-document-rag` and migrate authoritative
+      Technical RAG source/history from the historical Windows repository.
 - [ ] Establish canonical GitHub repo for OpenChatCut / GUI work if that project
       is to continue.
 
-### Local AI RAG
+### Technical Document RAG
 
-- [ ] After repo convergence, inspect the canonical Local AI RAG repo and
+- [ ] Inspect the canonical `xanthhuang/technical-document-rag` repo and
       current runtime artifacts to verify the real semantic verifier/provider
       architecture. Do not assume the historical local-35B path still applies.
 - [ ] Measure current verifier p50/p95 latency, token/cost footprint,

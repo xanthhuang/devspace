@@ -498,7 +498,7 @@ environment. It supplied fresh historical task evidence from repositories such
 as:
 
 - browser automation routing;
-- Local AI RAG;
+- Technical Document RAG (historical Windows source name: Local AI RAG);
 - FIRE/local knowledge;
 - RAG model bakeoff;
 - Windows portable DevSpace;
@@ -538,7 +538,8 @@ BEST_MINDS required cases:     3
 ```
 
 The set includes current/upstream browser research, authenticated browser
-operation, architecture/strategy trade-offs, Local AI RAG browser-UI
+operation, architecture/strategy trade-offs, Technical Document RAG historical
+browser-UI
 verification, and many ordinary coding/RAG/deployment/desktop tasks as
 negatives.
 
