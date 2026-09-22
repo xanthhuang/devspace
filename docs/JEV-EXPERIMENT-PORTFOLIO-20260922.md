@@ -276,10 +276,42 @@ CLOSED       already tested; do not reopen without new evidence
 
 **ID:** `LAR-J0`  
 **Target repo:** canonical Local AI RAG GitHub repo — **currently unresolved**  
-**Status:** `BLOCKED` by repository normalization; experiment itself is `READY`
-once the GitHub repo + macOS clone exist.
+**Status:** `BLOCKED / NECESSITY RECHECK REQUIRED` by repository normalization.
+Do **not** assume the Jev verifier experiment remains necessary merely because
+the historical local-35B path was expensive.
 
-Question:
+2026-09-22 update: the user reports that the Local AI RAG semantic path has
+since moved from a local 35B model to an OpenRouter-hosted Qwen path. This is a
+material architecture change and invalidates the old cost/latency premise for
+prioritizing Jev. The current conversation is not sufficient provenance for the
+exact production implementation, model identity, latency, cost or fallback
+behavior, so those details must be re-derived from the canonical repo after the
+repository inventory/convergence completes.
+
+Before running any Jev replay, inspect the converged repo and current production
+artifacts to establish the **actual present-day baseline**:
+
+- which provider/model performs the semantic verifier/audit;
+- whether that verifier is always called or only conditionally;
+- p50/p95 verifier latency and its share of end-to-end latency;
+- request/input/output token usage and real marginal cost;
+- retry/fallback/rate-limit behavior;
+- current correctness/qualification status;
+- whether deterministic checks already eliminate most semantic calls;
+- whether replacing or front-running the verifier with Jev would remove a
+  material amount of work rather than add another semantic layer.
+
+Necessity gate:
+
+```text
+current verifier already fast + cheap + qualified + low E2E share
+    -> LAR-J0 HOLD / do not add Jev
+
+current verifier remains a material latency/cost/availability bottleneck
+    -> run bounded LAR-J0 Jev fast-path qualification
+```
+
+Only if the necessity gate remains positive, ask:
 
 > Given a material proposition plus its exact cited technical evidence and
 > explicit scope, can Jev safely replace or reduce the existing expensive
@@ -376,18 +408,22 @@ Keep the accepted evidence engine fixed and compare architectures such as:
 
 | Variant | Generator | Verifier |
 | --- | --- | --- |
-| B0 | accepted local 35B | accepted semantic audit |
-| C1 | current fast cloud generator | deterministic checks only |
-| C2 | current fast cloud generator | Jev verifier |
-| C3 | current fast cloud generator | Jev uncertain -> stronger verifier |
+| B0 | current accepted generator | current accepted verifier/audit |
+| C1 | current fast generator | deterministic checks only |
+| C2 | current fast generator | Jev verifier |
+| C3 | current fast generator | Jev uncertain -> current stronger verifier |
 
 Do not hard-code a historical Gemini version as an architectural dependency;
 select current providers by measured quality/latency at test time.
 
-Primary outcome:
+Primary outcome after re-baselining the canonical repo:
 
-> Can cloud-first generation plus bounded verification materially reduce the
-> current ~30-50 second semantic path without increasing correctness risk?
+> Can Jev materially reduce the **current measured** verifier cost/latency or
+> provider dependency without increasing correctness risk?
+
+Do not carry forward the historical `~30-50 second` local-35B figure as a
+current bottleneck unless the converged repo and runtime measurements reproduce
+it.
 
 ### P1 — DevSpace: conditional instructions / AGENTS / skills admission
 
@@ -772,11 +808,15 @@ Recommended order after the repository audit:
 ```text
 G0  finish repo normalization / GitHub identities
     ↓
-LAR-J0  Local AI RAG fixed semantic replay
+LAR-N0  inspect canonical Local AI RAG current verifier path and measure the
+        real OpenRouter/provider latency, cost, correctness and E2E share
     ↓
-if signal:
-    LAR-J1  JevHarness optimization
-    LAR-C0  cloud-generator matched A/B
+only if a material verifier bottleneck still exists:
+    LAR-J0  Local AI RAG fixed Jev semantic replay
+        ↓
+    if signal:
+        LAR-J1  JevHarness optimization only if fixed formulation is imperfect
+        LAR-C0  current-provider matched A/B
 
 DevSpace current priority:
     DS-J1  collect record-only shadow disagreement evidence during normal work
@@ -813,8 +853,16 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
 
 ### Local AI RAG
 
-- [ ] `LAR-J0` freeze real strict-audit replay dataset.
-- [ ] `LAR-J0` run fixed Jev formulation with repeated calls.
+- [ ] After repo convergence, inspect the canonical Local AI RAG repo and
+      current runtime artifacts to verify the real semantic verifier/provider
+      architecture. Do not assume the historical local-35B path still applies.
+- [ ] Measure current verifier p50/p95 latency, token/cost footprint,
+      retry/fallback behavior, correctness status and end-to-end share.
+- [ ] Decide `LAR-J0` necessity from that current baseline. If the present
+      OpenRouter/Qwen path is already fast, cheap and non-bottleneck, set
+      `LAR-J0` to HOLD rather than running Jev for its own sake.
+- [ ] Only if the necessity gate is positive: freeze the real strict-audit
+      replay dataset and run `LAR-J0` fixed Jev formulation with repeated calls.
 - [ ] Record GO / HOLD / NO-GO with critical false-PASS and coverage metrics.
 - [ ] If GO/HOLD-with-signal: define train/validation/sealed-test split for
       `LAR-J1`.
