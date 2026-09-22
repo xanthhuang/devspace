@@ -477,7 +477,7 @@ acceptance path.
 
 **ID:** `DS-J3`  
 **Target repo:** `xanthhuang/devspace`  
-**Status:** `READY` for historical replay.
+**Status:** `PILOT COMPLETE / HOLD — no current incremental value`.
 
 Bounded classes:
 
@@ -505,7 +505,21 @@ UNKNOWN     -> stronger reasoning
 
 This avoids the evidence-acquisition failure mode of the DONE verifier.
 
-Use real historical MCP/network/provider/permission/code failures as gold.
+The 2026-09-22 real macOS historical pilot used 16 independent incidents and
+10 repeats. After rejecting an initial run with post-event recovery leakage, the
+decision-time-only replay produced `160/160` exact Jev classifications with zero
+unsafe auto-retry or unnecessary source-edit decisions. However, a small
+deterministic Host error-code/message baseline also classified `16/16` cases
+correctly. No real permission-denied case was available.
+
+Disposition: do **not** integrate a broad Jev post-tool classifier. The current
+observed failures are too structurally obvious to justify an external semantic
+call. Reopen only for a residual set of real ambiguous failures that deterministic
+rules cannot safely classify and that currently consume frontier reasoning.
+
+Canonical result:
+
+`docs/JEV-DEVSPACE-POST-TOOL-CLASSIFIER-RESULT-20260922.md`
 
 ### P2 — DevSpace: subagent context packaging
 
@@ -736,7 +750,9 @@ PKD/FIRE/GUI candidates stay HOLD/BLOCKED until their prerequisites appear.
       tasks.
 - [ ] `DS-J2` freeze real historical diff/review findings for staged prefilter
       evaluation.
-- [ ] `DS-J3` freeze historical tool-result failure classes.
+- [x] `DS-J3` fixed historical replay complete; Jev 16/16 independent cases and
+      deterministic baseline 16/16. Broad integration HOLD; only ambiguous
+      deterministic-residual failures justify reopening.
 - [ ] Decide whether `typesafe-mcp` should be pinned as a DevSpace experimental
       utility after key-handling review.
 - [ ] Only after fixed-formulation signal: consider JevHarness optimization for

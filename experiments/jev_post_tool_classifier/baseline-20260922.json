@@ -1,0 +1,104 @@
+{
+  "schema": "devspace-post-tool-deterministic-baseline-v1",
+  "independent_cases": 16,
+  "correct": 16,
+  "accuracy": 1.0,
+  "rows": [
+    {
+      "id": "U01",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U02",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U03",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U04",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U05",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U06",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "U07",
+      "gold": "USER_ERROR",
+      "prediction": "USER_ERROR",
+      "correct": true
+    },
+    {
+      "id": "T01",
+      "gold": "TRANSIENT",
+      "prediction": "TRANSIENT",
+      "correct": true
+    },
+    {
+      "id": "T02",
+      "gold": "TRANSIENT",
+      "prediction": "TRANSIENT",
+      "correct": true
+    },
+    {
+      "id": "T03",
+      "gold": "TRANSIENT",
+      "prediction": "TRANSIENT",
+      "correct": true
+    },
+    {
+      "id": "T04",
+      "gold": "TRANSIENT",
+      "prediction": "TRANSIENT",
+      "correct": true
+    },
+    {
+      "id": "T05",
+      "gold": "TRANSIENT",
+      "prediction": "TRANSIENT",
+      "correct": true
+    },
+    {
+      "id": "E01",
+      "gold": "ENVIRONMENT",
+      "prediction": "ENVIRONMENT",
+      "correct": true
+    },
+    {
+      "id": "B01",
+      "gold": "CODE_BUG",
+      "prediction": "CODE_BUG",
+      "correct": true
+    },
+    {
+      "id": "X01",
+      "gold": "UNKNOWN",
+      "prediction": "UNKNOWN",
+      "correct": true
+    },
+    {
+      "id": "X02",
+      "gold": "UNKNOWN",
+      "prediction": "UNKNOWN",
+      "correct": true
+    }
+  ]
+}

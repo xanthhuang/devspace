@@ -1,0 +1,2457 @@
+{
+  "schema": "devspace-jev-post-tool-replay-v1",
+  "generated_at": "2026-09-22T01:25:52.515391+00:00",
+  "model_requested": "jev-1.13.0",
+  "gold_labels_sent_to_model": false,
+  "permission_gold_cases": 0,
+  "cases": [
+    {
+      "id": "U01",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-08-28T12:39:55Z"
+    },
+    {
+      "id": "U02",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-10T15:00:15Z"
+    },
+    {
+      "id": "U03",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-13T05:19:59Z"
+    },
+    {
+      "id": "U04",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-04T13:08:40Z"
+    },
+    {
+      "id": "U05",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-12T09:21:44Z"
+    },
+    {
+      "id": "U06",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-13T10:54:36Z"
+    },
+    {
+      "id": "U07",
+      "gold": "USER_ERROR",
+      "provenance": "launchagent.stderr.log:2026-09-15T09:17:49Z"
+    },
+    {
+      "id": "T01",
+      "gold": "TRANSIENT",
+      "provenance": "cloudflared.stderr.log:2026-09-17T07:24:34Z"
+    },
+    {
+      "id": "T02",
+      "gold": "TRANSIENT",
+      "provenance": "cloudflared.stderr.log:2026-09-17T18:15:30Z"
+    },
+    {
+      "id": "T03",
+      "gold": "TRANSIENT",
+      "provenance": "cloudflared.stderr.log:2026-09-17T20:31:49Z"
+    },
+    {
+      "id": "T04",
+      "gold": "TRANSIENT",
+      "provenance": "cloudflared.stderr.log:2026-09-18T05:24:36Z"
+    },
+    {
+      "id": "T05",
+      "gold": "TRANSIENT",
+      "provenance": "cloudflared.stderr.log:2026-09-18T21:45:18Z"
+    },
+    {
+      "id": "E01",
+      "gold": "ENVIRONMENT",
+      "provenance": "cloudflared.stderr.log:2026-09-17T00:33:40Z"
+    },
+    {
+      "id": "B01",
+      "gold": "CODE_BUG",
+      "provenance": "launchagent.stderr.log:historical repeated runtime validation"
+    },
+    {
+      "id": "X01",
+      "gold": "UNKNOWN",
+      "provenance": "agentd.log:2026-09-13T20:00:08Z"
+    },
+    {
+      "id": "X02",
+      "gold": "UNKNOWN",
+      "provenance": "agentd.log:2026-09-16T13:41:59Z"
+    }
+  ],
+  "summary": {
+    "independent_cases": 16,
+    "evaluations": 160,
+    "exact_accuracy": 1.0,
+    "unsafe_auto_retry_count": 0,
+    "unsafe_auto_retry_rate": 0.0,
+    "unnecessary_source_edit_count": 0,
+    "unnecessary_source_edit_rate": 0.0,
+    "missed_transient_count": 0,
+    "unknown_escalation_count": 20,
+    "unknown_escalation_rate": 0.125,
+    "by_gold": {
+      "TRANSIENT": {
+        "evaluations": 50,
+        "exact": 50,
+        "choices": {
+          "TRANSIENT": 50,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        }
+      },
+      "ENVIRONMENT": {
+        "evaluations": 10,
+        "exact": 10,
+        "choices": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 10,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        }
+      },
+      "CODE_BUG": {
+        "evaluations": 10,
+        "exact": 10,
+        "choices": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 10,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        }
+      },
+      "USER_ERROR": {
+        "evaluations": 70,
+        "exact": 70,
+        "choices": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 70,
+          "UNKNOWN": 0
+        }
+      },
+      "UNKNOWN": {
+        "evaluations": 20,
+        "exact": 20,
+        "choices": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 20
+        }
+      }
+    },
+    "cases": {
+      "U01": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-08-28T12:39:55Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.995,
+        "confidence_min": 0.99,
+        "confidence_max": 1.0
+      },
+      "U02": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-10T15:00:15Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.999,
+        "confidence_min": 0.99,
+        "confidence_max": 1.0
+      },
+      "U03": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-13T05:19:59Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.999,
+        "confidence_min": 0.99,
+        "confidence_max": 1.0
+      },
+      "U04": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-04T13:08:40Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.907,
+        "confidence_min": 0.87,
+        "confidence_max": 0.95
+      },
+      "U05": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-12T09:21:44Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.925,
+        "confidence_min": 0.9,
+        "confidence_max": 0.95
+      },
+      "U06": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-13T10:54:36Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 1.0,
+        "confidence_min": 1.0,
+        "confidence_max": 1.0
+      },
+      "U07": {
+        "gold": "USER_ERROR",
+        "provenance": "launchagent.stderr.log:2026-09-15T09:17:49Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 10,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.91,
+        "confidence_min": 0.83,
+        "confidence_max": 0.94
+      },
+      "T01": {
+        "gold": "TRANSIENT",
+        "provenance": "cloudflared.stderr.log:2026-09-17T07:24:34Z",
+        "choice_counts": {
+          "TRANSIENT": 10,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.891,
+        "confidence_min": 0.87,
+        "confidence_max": 0.91
+      },
+      "T02": {
+        "gold": "TRANSIENT",
+        "provenance": "cloudflared.stderr.log:2026-09-17T18:15:30Z",
+        "choice_counts": {
+          "TRANSIENT": 10,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.974,
+        "confidence_min": 0.97,
+        "confidence_max": 0.98
+      },
+      "T03": {
+        "gold": "TRANSIENT",
+        "provenance": "cloudflared.stderr.log:2026-09-17T20:31:49Z",
+        "choice_counts": {
+          "TRANSIENT": 10,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.981,
+        "confidence_min": 0.98,
+        "confidence_max": 0.99
+      },
+      "T04": {
+        "gold": "TRANSIENT",
+        "provenance": "cloudflared.stderr.log:2026-09-18T05:24:36Z",
+        "choice_counts": {
+          "TRANSIENT": 10,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.85,
+        "confidence_min": 0.83,
+        "confidence_max": 0.87
+      },
+      "T05": {
+        "gold": "TRANSIENT",
+        "provenance": "cloudflared.stderr.log:2026-09-18T21:45:18Z",
+        "choice_counts": {
+          "TRANSIENT": 10,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.748,
+        "confidence_min": 0.7,
+        "confidence_max": 0.79
+      },
+      "E01": {
+        "gold": "ENVIRONMENT",
+        "provenance": "cloudflared.stderr.log:2026-09-17T00:33:40Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 10,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.991,
+        "confidence_min": 0.99,
+        "confidence_max": 1.0
+      },
+      "B01": {
+        "gold": "CODE_BUG",
+        "provenance": "launchagent.stderr.log:historical repeated runtime validation",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 10,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 0
+        },
+        "confidence_mean": 0.601,
+        "confidence_min": 0.57,
+        "confidence_max": 0.67
+      },
+      "X01": {
+        "gold": "UNKNOWN",
+        "provenance": "agentd.log:2026-09-13T20:00:08Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 10
+        },
+        "confidence_mean": 0.945,
+        "confidence_min": 0.93,
+        "confidence_max": 0.96
+      },
+      "X02": {
+        "gold": "UNKNOWN",
+        "provenance": "agentd.log:2026-09-16T13:41:59Z",
+        "choice_counts": {
+          "TRANSIENT": 0,
+          "ENVIRONMENT": 0,
+          "CODE_BUG": 0,
+          "PERMISSION": 0,
+          "USER_ERROR": 0,
+          "UNKNOWN": 10
+        },
+        "confidence_mean": 0.883,
+        "confidence_min": 0.85,
+        "confidence_max": 0.91
+      }
+    }
+  },
+  "raw_runs": [
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.91,
+          "probabilities": {
+            "ENVIRONMENT": 0.04,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.93,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.03
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.91,
+          "probabilities": {
+            "ENVIRONMENT": 0.03,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.93,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.04
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.87,
+          "probabilities": {
+            "ENVIRONMENT": 0.07,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.9,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.03
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.89,
+          "probabilities": {
+            "ENVIRONMENT": 0.09,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.91,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "ENVIRONMENT": 0.01,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.99,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "ENVIRONMENT": 0.01,
+            "TRANSIENT": 0.99,
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.87,
+          "probabilities": {
+            "ENVIRONMENT": 0.1,
+            "TRANSIENT": 0.9,
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.77,
+          "probabilities": {
+            "ENVIRONMENT": 0.19,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.8,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.01
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "ENVIRONMENT": 1.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.58,
+          "probabilities": {
+            "ENVIRONMENT": 0.29,
+            "CODE_BUG": 0.65,
+            "USER_ERROR": 0.01,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.03,
+            "UNKNOWN": 0.02
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.94,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.04,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.96
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.9,
+          "probabilities": {
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.08,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.92
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b803ec774a82fdf14c679a796b",
+        "latency_ms": 743.72,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.88,
+          "probabilities": {
+            "UNKNOWN": 0.05,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.05,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.9
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.9,
+          "probabilities": {
+            "UNKNOWN": 0.04,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.04,
+            "USER_ERROR": 0.92
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.83,
+          "probabilities": {
+            "UNKNOWN": 0.06,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.08,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.86
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.91,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.93,
+            "ENVIRONMENT": 0.07,
+            "USER_ERROR": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.98,
+            "ENVIRONMENT": 0.02,
+            "USER_ERROR": 0.0
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.99,
+            "ENVIRONMENT": 0.01,
+            "USER_ERROR": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.86,
+          "probabilities": {
+            "UNKNOWN": 0.01,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.88,
+            "ENVIRONMENT": 0.11,
+            "USER_ERROR": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.73,
+          "probabilities": {
+            "UNKNOWN": 0.01,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.21,
+            "TRANSIENT": 0.78,
+            "USER_ERROR": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "UNKNOWN": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 1.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.66,
+          "probabilities": {
+            "UNKNOWN": 0.02,
+            "CODE_BUG": 0.72,
+            "PERMISSION": 0.02,
+            "ENVIRONMENT": 0.23,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.01
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.93,
+          "probabilities": {
+            "UNKNOWN": 0.95,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.0,
+            "TRANSIENT": 0.05,
+            "USER_ERROR": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.85,
+          "probabilities": {
+            "UNKNOWN": 0.88,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.12,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b807b875a79b381867e2a51a2d",
+        "latency_ms": 787.89,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.87,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.06,
+            "UNKNOWN": 0.05,
+            "USER_ERROR": 0.89,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 0.93,
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.04
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.89,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.05,
+            "UNKNOWN": 0.04,
+            "USER_ERROR": 0.91,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.89,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.09,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.91,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.98,
+            "PERMISSION": 0.0
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.01,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.99,
+            "PERMISSION": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.83,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.13,
+            "UNKNOWN": 0.01,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.86,
+            "PERMISSION": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.79,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.17,
+            "UNKNOWN": 0.01,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.82,
+            "PERMISSION": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.57,
+          "probabilities": {
+            "CODE_BUG": 0.65,
+            "ENVIRONMENT": 0.31,
+            "UNKNOWN": 0.01,
+            "USER_ERROR": 0.01,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.02
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.96,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.97,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.03,
+            "PERMISSION": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.91,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.93,
+            "USER_ERROR": 0.0,
+            "TRANSIENT": 0.07,
+            "PERMISSION": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b80b6a75478ef50fb33328db47",
+        "latency_ms": 736.197,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.91,
+          "probabilities": {
+            "USER_ERROR": 0.93,
+            "UNKNOWN": 0.03,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.04,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "USER_ERROR": 0.93,
+            "UNKNOWN": 0.04,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.02,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.94,
+          "probabilities": {
+            "USER_ERROR": 0.95,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.03,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.89,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.91,
+            "ENVIRONMENT": 0.09,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.98,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.99,
+            "ENVIRONMENT": 0.01,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.84,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.01,
+            "TRANSIENT": 0.87,
+            "ENVIRONMENT": 0.12,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.79,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.83,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.17
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.57,
+          "probabilities": {
+            "USER_ERROR": 0.01,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.02,
+            "CODE_BUG": 0.64,
+            "ENVIRONMENT": 0.31
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.95,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.96,
+            "TRANSIENT": 0.04,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.89,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.91,
+            "TRANSIENT": 0.09,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b80f347844bb27816908ed2bab",
+        "latency_ms": 773.403,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0,
+            "ENVIRONMENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.89,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.91,
+            "UNKNOWN": 0.04,
+            "ENVIRONMENT": 0.05,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.04,
+            "ENVIRONMENT": 0.03,
+            "USER_ERROR": 0.93,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.93,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.03,
+            "USER_ERROR": 0.94,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.03
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.9,
+          "probabilities": {
+            "TRANSIENT": 0.92,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.08,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "TRANSIENT": 0.98,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.02
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "TRANSIENT": 0.99,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.01,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.85,
+          "probabilities": {
+            "TRANSIENT": 0.87,
+            "UNKNOWN": 0.01,
+            "ENVIRONMENT": 0.12,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.76,
+          "probabilities": {
+            "TRANSIENT": 0.8,
+            "UNKNOWN": 0.01,
+            "ENVIRONMENT": 0.19,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 1.0,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.67,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.01,
+            "UNKNOWN": 0.01,
+            "ENVIRONMENT": 0.23,
+            "PERMISSION": 0.02,
+            "CODE_BUG": 0.73
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.95,
+          "probabilities": {
+            "TRANSIENT": 0.04,
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "UNKNOWN": 0.96,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.89,
+          "probabilities": {
+            "TRANSIENT": 0.09,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.91,
+            "ENVIRONMENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b81331728bb278b0d39592d32f",
+        "latency_ms": 739.308,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.9400000000000001,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "UNKNOWN": 0.03,
+            "PERMISSION": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.91,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.93,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "UNKNOWN": 0.04,
+            "PERMISSION": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "USER_ERROR": 0.93,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.04,
+            "UNKNOWN": 0.03,
+            "TRANSIENT": 0.0
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.9,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.08,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.92
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.98
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.98
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.85,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.87,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.12,
+            "UNKNOWN": 0.01,
+            "USER_ERROR": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.72,
+          "probabilities": {
+            "TRANSIENT": 0.76,
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.23,
+            "UNKNOWN": 0.01,
+            "PERMISSION": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 1.0,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.58,
+          "probabilities": {
+            "USER_ERROR": 0.01,
+            "PERMISSION": 0.02,
+            "CODE_BUG": 0.65,
+            "ENVIRONMENT": 0.3,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.94,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.95,
+            "TRANSIENT": 0.05
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.87,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.11,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.89,
+            "USER_ERROR": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b816a7743f952d4b129de62cb0",
+        "latency_ms": 731.644,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "USER_ERROR": 1.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.94,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "UNKNOWN": 0.03,
+            "USER_ERROR": 0.95
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.93,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.94,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "UNKNOWN": 0.03,
+            "PERMISSION": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.93,
+          "probabilities": {
+            "PERMISSION": 0.0,
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "UNKNOWN": 0.03,
+            "USER_ERROR": 0.94
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.88,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.1,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.9
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.98
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.01,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.99
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.86,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.11,
+            "UNKNOWN": 0.01,
+            "TRANSIENT": 0.88
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.75,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.2,
+            "UNKNOWN": 0.01,
+            "TRANSIENT": 0.79
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.6,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.01,
+            "CODE_BUG": 0.66,
+            "ENVIRONMENT": 0.29,
+            "UNKNOWN": 0.02,
+            "PERMISSION": 0.02
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.94,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.96,
+            "TRANSIENT": 0.04
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.86,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.89,
+            "TRANSIENT": 0.11
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b81a8b72308b03d290a8385be6",
+        "latency_ms": 820.256,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0,
+            "CODE_BUG": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.88,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.04,
+            "USER_ERROR": 0.91,
+            "CODE_BUG": 0.0,
+            "UNKNOWN": 0.05,
+            "PERMISSION": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.94,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03,
+            "USER_ERROR": 0.94,
+            "UNKNOWN": 0.03,
+            "PERMISSION": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0,
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.94,
+          "probabilities": {
+            "USER_ERROR": 0.95,
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.03,
+            "UNKNOWN": 0.02,
+            "PERMISSION": 0.0
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.87,
+          "probabilities": {
+            "TRANSIENT": 0.9,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.1,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.97,
+          "probabilities": {
+            "TRANSIENT": 0.98,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.02,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "TRANSIENT": 0.99,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.01,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.85,
+          "probabilities": {
+            "TRANSIENT": 0.87,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.12,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.01
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.74,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.78,
+            "ENVIRONMENT": 0.21,
+            "UNKNOWN": 0.01,
+            "PERMISSION": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.57,
+          "probabilities": {
+            "TRANSIENT": 0.0,
+            "CODE_BUG": 0.64,
+            "ENVIRONMENT": 0.31,
+            "USER_ERROR": 0.01,
+            "UNKNOWN": 0.02,
+            "PERMISSION": 0.02
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.93,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.05,
+            "UNKNOWN": 0.95,
+            "PERMISSION": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.89,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.09,
+            "UNKNOWN": 0.91,
+            "PERMISSION": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b81ea27b7dbd4993503dd5bae3",
+        "latency_ms": 758.598,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.95,
+          "probabilities": {
+            "USER_ERROR": 0.96,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.02,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.95,
+          "probabilities": {
+            "USER_ERROR": 0.95,
+            "UNKNOWN": 0.03,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.02,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.94,
+          "probabilities": {
+            "USER_ERROR": 0.95,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.03
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.91,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.93,
+            "ENVIRONMENT": 0.07,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.99,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 0.01
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.99,
+            "ENVIRONMENT": 0.01,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.84,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.01,
+            "TRANSIENT": 0.87,
+            "ENVIRONMENT": 0.12,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.73,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.01,
+            "TRANSIENT": 0.77,
+            "ENVIRONMENT": 0.22,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "CODE_BUG": 0.0,
+            "ENVIRONMENT": 1.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.63,
+          "probabilities": {
+            "USER_ERROR": 0.01,
+            "UNKNOWN": 0.02,
+            "TRANSIENT": 0.0,
+            "ENVIRONMENT": 0.25,
+            "CODE_BUG": 0.69,
+            "PERMISSION": 0.03
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.95,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.96,
+            "TRANSIENT": 0.04,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.87,
+          "probabilities": {
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.89,
+            "TRANSIENT": 0.11,
+            "ENVIRONMENT": 0.0,
+            "CODE_BUG": 0.0,
+            "PERMISSION": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b8227b7ff487dd2708c83d1400",
+        "latency_ms": 783.078,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    },
+    {
+      "answers": {
+        "U01": {
+          "choice": "USER_ERROR",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U02": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 1.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U03": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U04": {
+          "choice": "USER_ERROR",
+          "confidence": 0.92,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.9299999999999999,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.03,
+            "ENVIRONMENT": 0.04
+          }
+        },
+        "U05": {
+          "choice": "USER_ERROR",
+          "confidence": 0.95,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.95,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.03,
+            "ENVIRONMENT": 0.02
+          }
+        },
+        "U06": {
+          "choice": "USER_ERROR",
+          "confidence": 1.0,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 1.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "U07": {
+          "choice": "USER_ERROR",
+          "confidence": 0.91,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.92,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.03,
+            "ENVIRONMENT": 0.05
+          }
+        },
+        "T01": {
+          "choice": "TRANSIENT",
+          "confidence": 0.87,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.9,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.1
+          }
+        },
+        "T02": {
+          "choice": "TRANSIENT",
+          "confidence": 0.98,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.99,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 0.01
+          }
+        },
+        "T03": {
+          "choice": "TRANSIENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.99,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "ENVIRONMENT": 0.01,
+            "UNKNOWN": 0.0
+          }
+        },
+        "T04": {
+          "choice": "TRANSIENT",
+          "confidence": 0.85,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.87,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.01,
+            "ENVIRONMENT": 0.12
+          }
+        },
+        "T05": {
+          "choice": "TRANSIENT",
+          "confidence": 0.7,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.75,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.01,
+            "ENVIRONMENT": 0.24
+          }
+        },
+        "E01": {
+          "choice": "ENVIRONMENT",
+          "confidence": 0.99,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.0,
+            "PERMISSION": 0.0,
+            "USER_ERROR": 0.0,
+            "UNKNOWN": 0.0,
+            "ENVIRONMENT": 1.0
+          }
+        },
+        "B01": {
+          "choice": "CODE_BUG",
+          "confidence": 0.58,
+          "probabilities": {
+            "CODE_BUG": 0.65,
+            "TRANSIENT": 0.0,
+            "USER_ERROR": 0.01,
+            "PERMISSION": 0.02,
+            "UNKNOWN": 0.02,
+            "ENVIRONMENT": 0.3
+          }
+        },
+        "X01": {
+          "choice": "UNKNOWN",
+          "confidence": 0.96,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.03,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.97,
+            "ENVIRONMENT": 0.0
+          }
+        },
+        "X02": {
+          "choice": "UNKNOWN",
+          "confidence": 0.9,
+          "probabilities": {
+            "CODE_BUG": 0.0,
+            "TRANSIENT": 0.08,
+            "USER_ERROR": 0.0,
+            "PERMISSION": 0.0,
+            "UNKNOWN": 0.92,
+            "ENVIRONMENT": 0.0
+          }
+        }
+      },
+      "metadata": {
+        "request_id": "req_01a0c6b8268e7bd098fe46ff0cac7030",
+        "latency_ms": 789.14,
+        "resolved_model": "jev-1.13.0",
+        "usage": {
+          "input_tokens": 5278,
+          "output_tokens": 1112
+        }
+      }
+    }
+  ]
+}
