@@ -25,6 +25,7 @@ import {
 } from "./local-agent-targets.js";
 import { createLocalAgentClient } from "./local-agent-client.js";
 import { toAgentErrorPayload, type LocalAgentError } from "./local-agent-errors.js";
+import { LocalAgentStore } from "./local-agent-store.js";
 import {
   formatAgentObservation,
   formatAgentReceipt,
@@ -396,6 +397,7 @@ function printHelp(): void {
       "  devspace agents run <profile-or-provider> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents continue <id> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents show <id>",
+      "  devspace agents usage [--days <n>] [--json]",
       "  devspace agents events drain",
       "  devspace agents daemon <status|stop|logs>",
       "  devspace -v, --version   Print the installed version",
@@ -425,6 +427,9 @@ async function runAgentsCommand(args: string[]): Promise<void> {
       return;
     case "targets":
       await runAgentsTargets(commandArgs, json);
+      return;
+    case "usage":
+      await runAgentsUsage(commandArgs, json);
       return;
     case "events":
       await runAgentEventsCommand(commandArgs, json);
@@ -499,6 +504,46 @@ async function runAgentsList(args: string[], json: boolean): Promise<void> {
 
   for (const summary of summaries) {
     console.log(formatAgentSummary(summary));
+  }
+}
+
+async function runAgentsUsage(args: string[], json: boolean): Promise<void> {
+  let days = 30;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index];
+    if (argument !== "--days") {
+      throw new Error("Usage: devspace agents usage [--days <n>] [--json]");
+    }
+    const value = args[index + 1];
+    if (!value) throw new Error("Usage: devspace agents usage [--days <n>] [--json]");
+    days = Number(value);
+    index += 1;
+  }
+  if (!Number.isInteger(days) || days <= 0) {
+    throw new Error("--days must be a positive integer.");
+  }
+  const config = loadConfig();
+  const store = new LocalAgentStore(config.stateDir);
+  try {
+    const result = store.usageSummaryResult({ provider: "claude", days });
+    const summary = presentAgentResult(result, json);
+    if (!summary) return;
+    if (json) {
+      printJson(summary);
+      return;
+    }
+    console.log(
+      [
+        `Claude ccusage shadow API usage (${summary.days}d)`,
+        `runs: ${summary.runs} (complete=${summary.completeRuns}, incomplete=${summary.incompleteRuns})`,
+        `shadow API cost: $${summary.totalCost.toFixed(2)}`,
+        `tokens: input=${summary.inputTokens} output=${summary.outputTokens} total=${summary.totalTokens}`,
+        `cache: read=${summary.cacheReadTokens} create=${summary.cacheCreationTokens}`,
+        `meters: ${summary.meters.join(", ") || "none"}`,
+      ].join("\n"),
+    );
+  } finally {
+    store.close();
   }
 }
 
@@ -650,6 +695,7 @@ function printAgentsHelp(): void {
       "  devspace agents continue <id> [--model <model>] [--effort <level>] [--json] <prompt>",
       "  devspace agents show <id> [--json]",
       "  devspace agents targets [--json]",
+      "  devspace agents usage [--days <n>] [--json]",
       "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs> [--json]",
     ].join("\n"),

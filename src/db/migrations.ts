@@ -47,6 +47,11 @@ const migrations: Migration[] = [
     name: "legacy-local-agent-schema-repair",
     up: migrateLegacyLocalAgentSchemaRepair,
   },
+  {
+    version: 9,
+    name: "local-agent-usage-metering",
+    up: migrateLocalAgentUsageMetering,
+  },
 ];
 
 export function migrateDatabase(sqlite: Database.Database): void {
@@ -288,6 +293,53 @@ function migrateLegacyLocalAgentSchemaRepair(sqlite: Database.Database): void {
   addColumnIfMissing(sqlite, "local_agent_sessions", "error_code", "text");
   addColumnIfMissing(sqlite, "local_agent_sessions", "error_retryable", "text");
   addColumnIfMissing(sqlite, "local_agent_sessions", "current_turn_id", "text");
+}
+
+function migrateLocalAgentUsageMetering(sqlite: Database.Database): void {
+  sqlite.exec(`
+    create table if not exists local_agent_usage_metering (
+      agent_id text not null,
+      turn_id text not null,
+      workspace_id text,
+      workspace_root text not null,
+      profile_name text not null,
+      provider text not null,
+      model text,
+      effort text,
+      provider_session_id text,
+      meter text not null,
+      meter_version text not null,
+      complete text not null,
+      snapshot_input_tokens integer not null,
+      snapshot_output_tokens integer not null,
+      snapshot_cache_creation_tokens integer not null,
+      snapshot_cache_read_tokens integer not null,
+      snapshot_total_tokens integer not null,
+      snapshot_total_cost real not null,
+      snapshot_models_json text not null,
+      delta_input_tokens integer not null,
+      delta_output_tokens integer not null,
+      delta_cache_creation_tokens integer not null,
+      delta_cache_read_tokens integer not null,
+      delta_total_tokens integer not null,
+      delta_total_cost real not null,
+      delta_models_json text not null,
+      recorded_at text not null,
+      primary key (agent_id, turn_id)
+    );
+
+    create index if not exists local_agent_usage_metering_recorded_at_idx
+      on local_agent_usage_metering(recorded_at);
+
+    create index if not exists local_agent_usage_metering_profile_idx
+      on local_agent_usage_metering(profile_name, recorded_at);
+
+    create index if not exists local_agent_usage_metering_provider_idx
+      on local_agent_usage_metering(provider, recorded_at);
+
+    create index if not exists local_agent_usage_metering_session_idx
+      on local_agent_usage_metering(provider, provider_session_id, recorded_at);
+  `);
 }
 
 function addColumnIfMissing(

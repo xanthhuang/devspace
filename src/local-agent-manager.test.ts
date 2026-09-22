@@ -17,6 +17,7 @@ import type {
   LocalAgentRuntimeContext,
 } from "./local-agent-runtime.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
+import type { LocalAgentUsageMeter } from "./local-agent-metering.js";
 import { LocalAgentStore, type AgentEventRecord } from "./local-agent-store.js";
 import type { SubagentsConfig } from "./local-agent-config.js";
 
@@ -352,6 +353,62 @@ await waitFor(() => getRecord(defect.id).status === "error");
 assert.equal(getRecord(defect.id).errorCode, "AGENT_INTERNAL_ERROR");
 assert.notEqual(getRecord(defect.id).errorCode, "PROVIDER_EXECUTION_ERROR");
 assert.equal(terminalEvents.find((event) => event.agentId === defect.id)?.type, "agent.failed");
+
+let meterCalls = 0;
+const usageMeter: LocalAgentUsageMeter = {
+  snapshot: async (provider, providerSessionId) => {
+    meterCalls += 1;
+    if (meterCalls === 3) throw new Error("ccusage unavailable");
+    return {
+      provider,
+      providerSessionId,
+      meter: "fake-meter",
+      meterVersion: "1",
+      inputTokens: 10,
+      outputTokens: 20,
+      cacheCreationTokens: 30,
+      cacheReadTokens: 40,
+      totalTokens: 100,
+      totalCost: 0.5,
+      modelBreakdowns: [],
+    };
+  },
+};
+const meteringStore = new LocalAgentStore(join(root, "metering-state"));
+const meteringManager = new LocalAgentManager({
+  store: meteringStore,
+  drivers: [driver],
+  pool: new LocalAgentRuntimePool(),
+  loadProfiles: async () => [profile],
+  allowedRoots: [root],
+  subagents,
+  usageMeter,
+});
+const metered = unwrap(await meteringManager.start({
+  target: "reviewer",
+  prompt: "metered",
+  workspaceId: scope.workspaceId,
+  workspaceRoot: root,
+}));
+await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
+assert.equal(meteringStore.usageSummary({ provider: "codex" }).totalCost, 0.5);
+const meteredFailure = unwrap(await meteringManager.start({
+  target: "reviewer",
+  prompt: "early-fail",
+  workspaceId: scope.workspaceId,
+  workspaceRoot: root,
+}));
+await waitFor(() => unwrap(meteringManager.get(meteredFailure.id, scope)).status === "error");
+assert.equal(
+  meteringStore.usageSummary({ provider: "codex" }).totalCost,
+  1,
+  "a failed provider turn is metered when it already has a durable provider session",
+);
+unwrap(await meteringManager.continue(metered.id, "meter outage is non-fatal", {}, scope));
+await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
+assert.equal(meterCalls, 3);
+assert.equal(unwrap(meteringManager.get(metered.id, scope)).status, "idle");
+await meteringManager.close();
 
 const shuttingDown = unwrap(await manager.start({
   target: "reviewer",

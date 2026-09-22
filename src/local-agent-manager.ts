@@ -31,6 +31,7 @@ import {
   type LocalAgentWriteMode,
 } from "./local-agent-runtime.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
+import type { LocalAgentUsageMeter } from "./local-agent-metering.js";
 import { assertAllowedPath } from "./roots.js";
 import {
   isSubagentProviderEnabled,
@@ -68,6 +69,7 @@ export interface LocalAgentManagerOptions {
   subagents: SubagentsConfig;
   terminalEventsEnabled?: boolean;
   onTerminalEvent?: (event: AgentEventRecord) => void;
+  usageMeter?: LocalAgentUsageMeter;
 }
 
 export type AgentStartError = AgentTargetError | AgentScopeError | AgentConflictError | AgentStoreError;
@@ -91,6 +93,7 @@ export class LocalAgentManager {
   private readonly subagents: SubagentsConfig;
   private readonly terminalEventsEnabled: boolean;
   private readonly onTerminalEvent?: (event: AgentEventRecord) => void;
+  private readonly usageMeter?: LocalAgentUsageMeter;
   private readonly activeTurns = new Map<string, Promise<void>>();
   private accepting = true;
   private closePromise?: Promise<void>;
@@ -106,6 +109,7 @@ export class LocalAgentManager {
     this.subagents = options.subagents;
     this.terminalEventsEnabled = options.terminalEventsEnabled ?? false;
     this.onTerminalEvent = options.onTerminalEvent;
+    this.usageMeter = options.usageMeter;
   }
 
   reconcileActiveRuns(message?: string): BetterResult<number, AgentStoreError> {
@@ -335,6 +339,10 @@ export class LocalAgentManager {
       };
       const result = await this.pool.run(driver.value, context, input.value, callbacks);
       if (result.isErr()) {
+        const failedCurrent = this.store.getByIdResult(record.id);
+        if (failedCurrent.isOk() && failedCurrent.value?.providerSessionId) {
+          await this.recordUsage(record, failedCurrent.value.providerSessionId);
+        }
         this.persistRunError(record, result.error, startedAt);
         return;
       }
@@ -342,8 +350,16 @@ export class LocalAgentManager {
       const current = this.store.getByIdResult(record.id);
       if (current.isErr()) throw current.error;
       if (!current.value) return;
+      const providerSessionId = runResult.providerSessionId ?? current.value.providerSessionId;
+      if (providerSessionId && current.value.providerSessionId !== providerSessionId) {
+        const persistedSession = this.store.updateResult(record.id, { providerSessionId });
+        if (persistedSession.isErr()) throw persistedSession.error;
+      }
+      if (providerSessionId) {
+        await this.recordUsage(record, providerSessionId);
+      }
       const updated = this.store.settleResult(record.id, {
-        providerSessionId: runResult.providerSessionId ?? current.value.providerSessionId,
+        providerSessionId,
         status: "idle",
         latestResponse: runResult.finalResponse,
       }, {
@@ -385,6 +401,27 @@ export class LocalAgentManager {
       throw error;
     } finally {
       this.activeTurns.delete(record.id);
+    }
+  }
+
+  private async recordUsage(record: LocalAgentRecord, providerSessionId: string): Promise<void> {
+    if (!this.usageMeter) return;
+    try {
+      const snapshot = await this.usageMeter.snapshot(record.provider as LocalAgentProvider, providerSessionId);
+      if (!snapshot) return;
+      const persisted = this.store.recordUsageSnapshotResult(
+        record.id,
+        requiredTurnId(record),
+        snapshot,
+        !record.providerSessionId,
+      );
+      if (persisted.isErr()) throw persisted.error;
+    } catch (error) {
+      this.log("warn", "agent_usage_metering_failed", {
+        provider: record.provider,
+        agentId: record.id,
+        error: errorMessage(error),
+      });
     }
   }
 

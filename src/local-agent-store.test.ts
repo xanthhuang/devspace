@@ -71,6 +71,177 @@ assert.deepEqual(store.list({ workspaceRoot: join(root, "other") }), []);
     [created.id, createdFromOtherStore.id].sort(),
   );
 
+  const meteredAgent = store.create({
+    workspaceId: "ws_meter",
+    workspaceRoot: join(root, "project"),
+    profileName: "claude-review",
+    provider: "claude",
+    model: "opus",
+    effort: "medium",
+  });
+  const meteredTurn = store.startTurn(meteredAgent.id);
+  assert.ok(meteredTurn.currentTurnId);
+  store.update(meteredAgent.id, { providerSessionId: "claude-session-metered" });
+  const snapshot = {
+    provider: "claude" as const,
+    providerSessionId: "claude-session-metered",
+    meter: "ccusage",
+    meterVersion: "20.0.24",
+    inputTokens: 100,
+    outputTokens: 200,
+    cacheReadTokens: 300,
+    cacheCreationTokens: 400,
+    totalTokens: 1_000,
+    totalCost: 1.25,
+    modelBreakdowns: [{
+      modelName: "claude-opus-5",
+      inputTokens: 100,
+      outputTokens: 200,
+      cacheReadTokens: 300,
+      cacheCreationTokens: 400,
+      cost: 1.25,
+    }],
+  };
+  store.recordUsageSnapshot(
+    meteredAgent.id,
+    meteredTurn.currentTurnId,
+    snapshot,
+    true,
+    "2026-09-15T00:00:00.000Z",
+  );
+  store.settle(meteredAgent.id, {
+    status: "idle",
+    latestResponse: "metered",
+  }, {
+    emitEvent: false,
+    expectedTurnId: meteredTurn.currentTurnId,
+  });
+
+  const nextTurn = store.startTurn(meteredAgent.id);
+  store.recordUsageSnapshot(
+    meteredAgent.id,
+    nextTurn.currentTurnId!,
+    {
+      ...snapshot,
+      inputTokens: 110,
+      outputTokens: 220,
+      cacheReadTokens: 330,
+      cacheCreationTokens: 440,
+      totalTokens: 1_100,
+      totalCost: 1.5,
+      modelBreakdowns: [{
+        ...snapshot.modelBreakdowns[0]!,
+        inputTokens: 110,
+        outputTokens: 220,
+        cacheReadTokens: 330,
+        cacheCreationTokens: 440,
+        cost: 1.5,
+      }],
+    },
+    false,
+    "2026-09-20T00:00:00.000Z",
+  );
+  store.settle(meteredAgent.id, {
+    status: "idle",
+    latestResponse: "metered again",
+  }, {
+    emitEvent: false,
+    expectedTurnId: nextTurn.currentTurnId!,
+  });
+
+  const incompleteAgent = store.create({
+    workspaceId: "ws_meter",
+    workspaceRoot: join(root, "project"),
+    profileName: "claude-synthesize",
+    provider: "claude",
+    model: "opus",
+    effort: "medium",
+  });
+  const incompleteTurn = store.startTurn(incompleteAgent.id);
+  store.update(incompleteAgent.id, { providerSessionId: "existing-without-baseline" });
+  store.recordUsageSnapshot(
+    incompleteAgent.id,
+    incompleteTurn.currentTurnId!,
+    {
+      ...snapshot,
+      providerSessionId: "existing-without-baseline",
+    },
+    false,
+    "2026-09-20T00:00:00.000Z",
+  );
+  store.settle(incompleteAgent.id, {
+    status: "idle",
+    latestResponse: "metered",
+  }, {
+    emitEvent: false,
+    expectedTurnId: incompleteTurn.currentTurnId!,
+  });
+
+  const versionMismatchTurn = store.startTurn(meteredAgent.id);
+  store.recordUsageSnapshot(
+    meteredAgent.id,
+    versionMismatchTurn.currentTurnId!,
+    { ...snapshot, meterVersion: "20.0.25", totalCost: 2 },
+    false,
+    "2026-09-21T12:00:00.000Z",
+  );
+  store.settle(meteredAgent.id, {
+    status: "idle",
+    latestResponse: "new meter baseline",
+  }, {
+    emitEvent: false,
+    expectedTurnId: versionMismatchTurn.currentTurnId!,
+  });
+  const regressionTurn = store.startTurn(meteredAgent.id);
+  store.recordUsageSnapshot(
+    meteredAgent.id,
+    regressionTurn.currentTurnId!,
+    { ...snapshot, meterVersion: "20.0.25", inputTokens: 50, totalCost: 1 },
+    false,
+    "2026-09-21T13:00:00.000Z",
+  );
+  store.settle(meteredAgent.id, {
+    status: "idle",
+    latestResponse: "counter regression baseline",
+  }, {
+    emitEvent: false,
+    expectedTurnId: regressionTurn.currentTurnId!,
+  });
+
+  const usageSummary = store.usageSummary({
+    provider: "claude",
+    days: 30,
+    now: new Date("2026-09-22T00:00:00.000Z"),
+  });
+  assert.equal(usageSummary.runs, 5);
+  assert.equal(usageSummary.completeRuns, 2);
+  assert.equal(usageSummary.incompleteRuns, 3);
+  assert.equal(usageSummary.totalCost, 1.5);
+  assert.equal(usageSummary.inputTokens, 110);
+  assert.equal(usageSummary.outputTokens, 220);
+  assert.equal(usageSummary.cacheReadTokens, 330);
+  assert.equal(usageSummary.cacheCreationTokens, 440);
+  assert.equal(usageSummary.totalTokens, 1_100);
+  assert.deepEqual(usageSummary.meters, ["ccusage@20.0.24", "ccusage@20.0.25"]);
+  assert.deepEqual(
+    usageSummary.byProfile.map((group) => [group.name, group.runs, group.totalCost]),
+    [
+      ["claude-review", 4, 1.5],
+      ["claude-synthesize", 1, 0],
+    ],
+  );
+  assert.equal(usageSummary.byModel.length, 1);
+  assert.equal(usageSummary.byModel[0]?.name, "claude-opus-5");
+  assert.equal(usageSummary.byModel[0]?.runs, 2);
+  assert.equal(usageSummary.byModel[0]?.totalCost, 1.5);
+  assert.equal(usageSummary.recentRuns.length, 5);
+  assert.equal(usageSummary.recentRuns[0]?.turnId, regressionTurn.currentTurnId);
+  assert.equal(usageSummary.recentRuns[0]?.complete, false);
+  assert.equal(usageSummary.recentRuns[0]?.totalCost, 0);
+  assert.equal(usageSummary.recentRuns[1]?.turnId, versionMismatchTurn.currentTurnId);
+  assert.equal(usageSummary.recentRuns[1]?.complete, false);
+  assert.equal(usageSummary.recentRuns[1]?.totalCost, 0);
+
   const callbackAgent = store.create({
     workspaceId: "ws_callback",
     workspaceRoot: join(root, "project"),
@@ -251,7 +422,7 @@ assert.deepEqual(store.list({ workspaceRoot: join(root, "other") }), []);
     .prepare("select max(version) as version from devspace_schema_migrations")
     .get() as { version: number };
   migratedDatabase.close();
-  assert.ok(schemaVersion.version >= 8);
+  assert.ok(schemaVersion.version >= 9);
 
   const collisionStateDir = join(root, "legacy-v5-collision-state");
   mkdirSync(collisionStateDir, { recursive: true });
@@ -348,10 +519,18 @@ assert.deepEqual(store.list({ workspaceRoot: join(root, "other") }), []);
   const collisionMigration8 = collisionDatabase
     .prepare("select name from devspace_schema_migrations where version = 8")
     .get() as { name: string } | undefined;
+  const collisionMigration9 = collisionDatabase
+    .prepare("select name from devspace_schema_migrations where version = 9")
+    .get() as { name: string } | undefined;
+  const collisionUsageTable = collisionDatabase
+    .prepare("select name from sqlite_master where type = 'table' and name = 'local_agent_usage_metering'")
+    .get() as { name: string } | undefined;
   collisionDatabase.close();
   assert.equal(collisionColumns.has("error_code"), true);
   assert.equal(collisionColumns.has("error_retryable"), true);
   assert.equal(collisionMigration8?.name, "legacy-local-agent-schema-repair");
+  assert.equal(collisionMigration9?.name, "local-agent-usage-metering");
+  assert.equal(collisionUsageTable?.name, "local_agent_usage_metering");
 } finally {
   for (const store of stores) {
     store.close();

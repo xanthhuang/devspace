@@ -1,4 +1,4 @@
-import { index, integer, primaryKey, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, real, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const workspaceSessions = sqliteTable(
   "workspace_sessions",
@@ -114,6 +114,50 @@ export const localAgentSessions = sqliteTable(
     index("local_agent_sessions_workspace_id_idx").on(table.workspaceId, table.updatedAt),
     index("local_agent_sessions_workspace_root_idx").on(table.workspaceRoot, table.updatedAt),
     index("local_agent_sessions_provider_session_id_idx").on(table.providerSessionId),
+  ],
+);
+
+export const localAgentUsageMetering = sqliteTable(
+  "local_agent_usage_metering",
+  {
+    agentId: text("agent_id").notNull(),
+    turnId: text("turn_id").notNull(),
+    workspaceId: text("workspace_id"),
+    workspaceRoot: text("workspace_root").notNull(),
+    profileName: text("profile_name").notNull(),
+    provider: text("provider").notNull(),
+    model: text("model"),
+    effort: text("effort"),
+    providerSessionId: text("provider_session_id"),
+    meter: text("meter").notNull(),
+    meterVersion: text("meter_version").notNull(),
+    complete: text("complete").notNull(),
+    snapshotInputTokens: integer("snapshot_input_tokens").notNull(),
+    snapshotOutputTokens: integer("snapshot_output_tokens").notNull(),
+    snapshotCacheCreationTokens: integer("snapshot_cache_creation_tokens").notNull(),
+    snapshotCacheReadTokens: integer("snapshot_cache_read_tokens").notNull(),
+    snapshotTotalTokens: integer("snapshot_total_tokens").notNull(),
+    snapshotTotalCost: real("snapshot_total_cost").notNull(),
+    snapshotModelsJson: text("snapshot_models_json").notNull(),
+    deltaInputTokens: integer("delta_input_tokens").notNull(),
+    deltaOutputTokens: integer("delta_output_tokens").notNull(),
+    deltaCacheCreationTokens: integer("delta_cache_creation_tokens").notNull(),
+    deltaCacheReadTokens: integer("delta_cache_read_tokens").notNull(),
+    deltaTotalTokens: integer("delta_total_tokens").notNull(),
+    deltaTotalCost: real("delta_total_cost").notNull(),
+    deltaModelsJson: text("delta_models_json").notNull(),
+    recordedAt: text("recorded_at").notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.agentId, table.turnId] }),
+    index("local_agent_usage_metering_recorded_at_idx").on(table.recordedAt),
+    index("local_agent_usage_metering_profile_idx").on(table.profileName, table.recordedAt),
+    index("local_agent_usage_metering_provider_idx").on(table.provider, table.recordedAt),
+    index("local_agent_usage_metering_session_idx").on(
+      table.provider,
+      table.providerSessionId,
+      table.recordedAt,
+    ),
   ],
 );
 

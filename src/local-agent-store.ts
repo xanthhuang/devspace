@@ -3,6 +3,10 @@ import { resolve } from "node:path";
 import { Result, type Result as BetterResult } from "better-result";
 import { openDatabase, type DatabaseHandle } from "./db/client.js";
 import { AgentStoreError, isProgrammerDefect } from "./local-agent-errors.js";
+import type {
+  LocalAgentUsageModelSnapshot,
+  LocalAgentUsageSnapshot,
+} from "./local-agent-metering.js";
 
 export type LocalAgentStatus = "starting" | "running" | "idle" | "error" | "stopped";
 
@@ -141,6 +145,94 @@ interface AgentEventRow {
   attempts: number;
   last_error: string | null;
   delivered_at: string | null;
+}
+
+interface LocalAgentUsageMeteringRow {
+  agent_id: string;
+  turn_id: string;
+  workspace_id: string | null;
+  workspace_root: string;
+  profile_name: string;
+  provider: string;
+  model: string | null;
+  effort: string | null;
+  provider_session_id: string | null;
+  meter: string;
+  meter_version: string;
+  complete: string;
+  snapshot_input_tokens: number;
+  snapshot_output_tokens: number;
+  snapshot_cache_creation_tokens: number;
+  snapshot_cache_read_tokens: number;
+  snapshot_total_tokens: number;
+  snapshot_total_cost: number;
+  snapshot_models_json: string;
+  delta_input_tokens: number;
+  delta_output_tokens: number;
+  delta_cache_creation_tokens: number;
+  delta_cache_read_tokens: number;
+  delta_total_tokens: number;
+  delta_total_cost: number;
+  delta_models_json: string;
+  recorded_at: string;
+}
+
+export interface LocalAgentUsageSummaryGroup {
+  name: string;
+  runs: number;
+  totalCost: number;
+}
+
+export interface LocalAgentUsageModelSummary extends LocalAgentUsageSummaryGroup {
+  inputTokens: number;
+  outputTokens: number;
+  cacheReadTokens: number;
+  cacheCreationTokens: number;
+}
+
+export interface LocalAgentUsageRunSummary {
+  agentId: string;
+  turnId: string;
+  recordedAt: string;
+  profileName: string;
+  model?: string;
+  effort?: string;
+  meter: string;
+  meterVersion: string;
+  complete: boolean;
+  totalCost: number;
+  inputTokens: number;
+  outputTokens: number;
+  cacheReadTokens: number;
+  cacheCreationTokens: number;
+  totalTokens: number;
+  models: LocalAgentUsageModelSnapshot[];
+}
+
+export interface LocalAgentUsageSummary {
+  provider: string;
+  days: number;
+  since: string;
+  through: string;
+  runs: number;
+  completeRuns: number;
+  incompleteRuns: number;
+  meters: string[];
+  totalCost: number;
+  inputTokens: number;
+  outputTokens: number;
+  cacheReadTokens: number;
+  cacheCreationTokens: number;
+  totalTokens: number;
+  byProfile: LocalAgentUsageSummaryGroup[];
+  byModel: LocalAgentUsageModelSummary[];
+  recentRuns: LocalAgentUsageRunSummary[];
+}
+
+export interface LocalAgentUsageSummaryOptions {
+  provider?: string;
+  days?: number;
+  now?: Date;
 }
 
 export class LocalAgentStore {
@@ -455,6 +547,220 @@ export class LocalAgentStore {
     ));
   }
 
+  recordUsageSnapshot(
+    agentId: string,
+    turnId: string,
+    snapshot: LocalAgentUsageSnapshot,
+    newProviderSession: boolean,
+    recordedAt = new Date().toISOString(),
+  ): void {
+    const transaction = this.database.sqlite.transaction(() => {
+    const agent = this.getById(agentId);
+    if (!agent) throw new Error(`Unknown subagent id: ${agentId}`);
+    if (agent.provider !== snapshot.provider) {
+      throw new Error(`Usage provider ${snapshot.provider} does not match agent provider ${agent.provider}.`);
+    }
+    if (agent.providerSessionId !== snapshot.providerSessionId) {
+      throw new Error("Usage snapshot does not match the agent provider session.");
+    }
+    const previous = this.database.sqlite
+      .prepare(
+        `select * from local_agent_usage_metering
+         where provider = ? and provider_session_id = ?
+         order by recorded_at desc, rowid desc limit 1`,
+      )
+      .get(snapshot.provider, snapshot.providerSessionId) as LocalAgentUsageMeteringRow | undefined;
+    const previousSnapshot = previous ? rowToUsageSnapshot(previous) : undefined;
+    const complete = newProviderSession || Boolean(
+      previousSnapshot
+      && previousSnapshot.meter === snapshot.meter
+      && previousSnapshot.meterVersion === snapshot.meterVersion
+      && !usageRegressed(snapshot, previousSnapshot),
+    );
+    const delta = complete
+      ? subtractUsage(snapshot, newProviderSession ? undefined : previousSnapshot)
+      : zeroUsage(snapshot);
+    this.database.sqlite
+      .prepare(
+        `insert into local_agent_usage_metering (
+          agent_id, turn_id, workspace_id, workspace_root, profile_name, provider,
+          model, effort, provider_session_id, meter, meter_version, complete,
+          snapshot_input_tokens, snapshot_output_tokens, snapshot_cache_creation_tokens,
+          snapshot_cache_read_tokens, snapshot_total_tokens, snapshot_total_cost,
+          snapshot_models_json, delta_input_tokens, delta_output_tokens,
+          delta_cache_creation_tokens, delta_cache_read_tokens, delta_total_tokens,
+          delta_total_cost, delta_models_json, recorded_at
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        on conflict(agent_id, turn_id) do nothing`,
+      )
+      .run(
+        agent.id,
+        turnId,
+        agent.workspaceId ?? null,
+        agent.workspaceRoot,
+        agent.profileName,
+        snapshot.provider,
+        agent.model ?? null,
+        agent.effort ?? null,
+        snapshot.providerSessionId,
+        snapshot.meter,
+        snapshot.meterVersion,
+        String(complete),
+        snapshot.inputTokens,
+        snapshot.outputTokens,
+        snapshot.cacheCreationTokens,
+        snapshot.cacheReadTokens,
+        snapshot.totalTokens,
+        snapshot.totalCost,
+        JSON.stringify(snapshot.modelBreakdowns),
+        delta.inputTokens,
+        delta.outputTokens,
+        delta.cacheCreationTokens,
+        delta.cacheReadTokens,
+        delta.totalTokens,
+        delta.totalCost,
+        JSON.stringify(delta.modelBreakdowns),
+        recordedAt,
+      );
+    });
+    transaction.immediate();
+  }
+
+  recordUsageSnapshotResult(
+    agentId: string,
+    turnId: string,
+    snapshot: LocalAgentUsageSnapshot,
+    newProviderSession: boolean,
+  ): BetterResult<void, AgentStoreError> {
+    return storeResult("record_usage_snapshot", () => (
+      this.recordUsageSnapshot(agentId, turnId, snapshot, newProviderSession)
+    ));
+  }
+
+  usageSummary(options: LocalAgentUsageSummaryOptions = {}): LocalAgentUsageSummary {
+    const provider = options.provider ?? "claude";
+    const days = options.days ?? 30;
+    if (!Number.isInteger(days) || days <= 0) {
+      throw new Error("Usage summary days must be a positive integer.");
+    }
+    const now = options.now ?? new Date();
+    const through = now.toISOString();
+    const since = new Date(now.getTime() - days * 24 * 60 * 60 * 1000).toISOString();
+    const rows = this.database.sqlite
+      .prepare(
+        `select * from local_agent_usage_metering
+         where provider = ? and recorded_at >= ? and recorded_at <= ?
+         order by recorded_at`,
+      )
+      .all(provider, since, through) as LocalAgentUsageMeteringRow[];
+
+    const meters = new Set<string>();
+    const profileGroups = new Map<string, LocalAgentUsageSummaryGroup>();
+    const modelGroups = new Map<string, LocalAgentUsageModelSummary>();
+    let completeRuns = 0;
+    let totalCost = 0;
+    let inputTokens = 0;
+    let outputTokens = 0;
+    let cacheReadTokens = 0;
+    let cacheCreationTokens = 0;
+    let totalTokens = 0;
+
+    for (const row of rows) {
+      if (row.complete === "true") completeRuns += 1;
+      meters.add(`${row.meter}@${row.meter_version}`);
+      totalCost += row.delta_total_cost;
+      inputTokens += row.delta_input_tokens;
+      outputTokens += row.delta_output_tokens;
+      cacheReadTokens += row.delta_cache_read_tokens;
+      cacheCreationTokens += row.delta_cache_creation_tokens;
+      totalTokens += row.delta_total_tokens;
+
+      const profile = profileGroups.get(row.profile_name) ?? {
+        name: row.profile_name,
+        runs: 0,
+        totalCost: 0,
+      };
+      profile.runs += 1;
+      profile.totalCost += row.delta_total_cost;
+      profileGroups.set(row.profile_name, profile);
+
+      for (const model of parseUsageModels(row.delta_models_json)) {
+        if (
+          model.inputTokens === 0
+          && model.outputTokens === 0
+          && model.cacheReadTokens === 0
+          && model.cacheCreationTokens === 0
+          && model.cost === 0
+        ) continue;
+        const group = modelGroups.get(model.modelName) ?? {
+          name: model.modelName,
+          runs: 0,
+          totalCost: 0,
+          inputTokens: 0,
+          outputTokens: 0,
+          cacheReadTokens: 0,
+          cacheCreationTokens: 0,
+        };
+        group.runs += 1;
+        group.totalCost += model.cost;
+        group.inputTokens += model.inputTokens;
+        group.outputTokens += model.outputTokens;
+        group.cacheReadTokens += model.cacheReadTokens;
+        group.cacheCreationTokens += model.cacheCreationTokens;
+        modelGroups.set(model.modelName, group);
+      }
+    }
+
+    return {
+      provider,
+      days,
+      since,
+      through,
+      runs: rows.length,
+      completeRuns,
+      incompleteRuns: rows.length - completeRuns,
+      meters: Array.from(meters).sort(),
+      totalCost,
+      inputTokens,
+      outputTokens,
+      cacheReadTokens,
+      cacheCreationTokens,
+      totalTokens,
+      byProfile: Array.from(profileGroups.values()).sort(
+        (a, b) => b.totalCost - a.totalCost || a.name.localeCompare(b.name),
+      ),
+      byModel: Array.from(modelGroups.values()).sort(
+        (a, b) => b.totalCost - a.totalCost || a.name.localeCompare(b.name),
+      ),
+      recentRuns: rows
+        .map((row): LocalAgentUsageRunSummary => ({
+          agentId: row.agent_id,
+          turnId: row.turn_id,
+          recordedAt: row.recorded_at,
+          profileName: row.profile_name,
+          model: row.model ?? undefined,
+          effort: row.effort ?? undefined,
+          meter: row.meter,
+          meterVersion: row.meter_version,
+          complete: row.complete === "true",
+          totalCost: row.delta_total_cost,
+          inputTokens: row.delta_input_tokens,
+          outputTokens: row.delta_output_tokens,
+          cacheReadTokens: row.delta_cache_read_tokens,
+          cacheCreationTokens: row.delta_cache_creation_tokens,
+          totalTokens: row.delta_total_tokens,
+          models: parseUsageModels(row.delta_models_json),
+        }))
+        .reverse(),
+    };
+  }
+
+  usageSummaryResult(
+    options: LocalAgentUsageSummaryOptions = {},
+  ): BetterResult<LocalAgentUsageSummary, AgentStoreError> {
+    return storeResult("usage_summary", () => this.usageSummary(options));
+  }
+
   reconcileActiveRuns(
     message = "DevSpace restarted while this agent turn was running.",
     emitEvents = false,
@@ -551,6 +857,103 @@ export class LocalAgentStore {
     this.database.close();
   }
 
+}
+
+function parseUsageModels(value: string): LocalAgentUsageModelSnapshot[] {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is LocalAgentUsageModelSnapshot => (
+          entry !== null
+          && typeof entry === "object"
+          && typeof (entry as { modelName?: unknown }).modelName === "string"
+        ))
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function rowToUsageSnapshot(row: LocalAgentUsageMeteringRow): LocalAgentUsageSnapshot {
+  return {
+    provider: row.provider as LocalAgentUsageSnapshot["provider"],
+    providerSessionId: row.provider_session_id ?? "",
+    meter: row.meter,
+    meterVersion: row.meter_version,
+    inputTokens: row.snapshot_input_tokens,
+    outputTokens: row.snapshot_output_tokens,
+    cacheCreationTokens: row.snapshot_cache_creation_tokens,
+    cacheReadTokens: row.snapshot_cache_read_tokens,
+    totalTokens: row.snapshot_total_tokens,
+    totalCost: row.snapshot_total_cost,
+    modelBreakdowns: parseUsageModels(row.snapshot_models_json),
+  };
+}
+
+function usageRegressed(current: LocalAgentUsageSnapshot, previous: LocalAgentUsageSnapshot): boolean {
+  if (
+    current.inputTokens < previous.inputTokens
+    || current.outputTokens < previous.outputTokens
+    || current.cacheCreationTokens < previous.cacheCreationTokens
+    || current.cacheReadTokens < previous.cacheReadTokens
+    || current.totalTokens < previous.totalTokens
+    || current.totalCost < previous.totalCost
+  ) return true;
+  const previousModels = new Map(previous.modelBreakdowns.map((model) => [model.modelName, model]));
+  const currentModels = new Map(current.modelBreakdowns.map((model) => [model.modelName, model]));
+  if (Array.from(previousModels.keys()).some((modelName) => !currentModels.has(modelName))) {
+    return true;
+  }
+  return current.modelBreakdowns.some((model) => {
+    const prior = previousModels.get(model.modelName);
+    return Boolean(prior && (
+      model.inputTokens < prior.inputTokens
+      || model.outputTokens < prior.outputTokens
+      || model.cacheCreationTokens < prior.cacheCreationTokens
+      || model.cacheReadTokens < prior.cacheReadTokens
+      || model.cost < prior.cost
+    ));
+  });
+}
+
+function subtractUsage(
+  current: LocalAgentUsageSnapshot,
+  previous?: LocalAgentUsageSnapshot,
+): LocalAgentUsageSnapshot {
+  const previousModels = new Map(previous?.modelBreakdowns.map((model) => [model.modelName, model]) ?? []);
+  return {
+    ...current,
+    inputTokens: current.inputTokens - (previous?.inputTokens ?? 0),
+    outputTokens: current.outputTokens - (previous?.outputTokens ?? 0),
+    cacheCreationTokens: current.cacheCreationTokens - (previous?.cacheCreationTokens ?? 0),
+    cacheReadTokens: current.cacheReadTokens - (previous?.cacheReadTokens ?? 0),
+    totalTokens: current.totalTokens - (previous?.totalTokens ?? 0),
+    totalCost: current.totalCost - (previous?.totalCost ?? 0),
+    modelBreakdowns: current.modelBreakdowns.map((model) => {
+      const prior = previousModels.get(model.modelName);
+      return {
+        ...model,
+        inputTokens: model.inputTokens - (prior?.inputTokens ?? 0),
+        outputTokens: model.outputTokens - (prior?.outputTokens ?? 0),
+        cacheCreationTokens: model.cacheCreationTokens - (prior?.cacheCreationTokens ?? 0),
+        cacheReadTokens: model.cacheReadTokens - (prior?.cacheReadTokens ?? 0),
+        cost: model.cost - (prior?.cost ?? 0),
+      };
+    }),
+  };
+}
+
+function zeroUsage(snapshot: LocalAgentUsageSnapshot): LocalAgentUsageSnapshot {
+  return {
+    ...snapshot,
+    inputTokens: 0,
+    outputTokens: 0,
+    cacheCreationTokens: 0,
+    cacheReadTokens: 0,
+    totalTokens: 0,
+    totalCost: 0,
+    modelBreakdowns: [],
+  };
 }
 
 export function createLocalAgentStore(stateDir: string): LocalAgentStore {

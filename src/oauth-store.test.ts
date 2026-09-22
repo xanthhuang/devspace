@@ -59,6 +59,7 @@ async function testDatabaseConfiguration(stateDir: string): Promise<void> {
       { version: 6, name: "local-agent-effort-rename" },
       { version: 7, name: "local-agent-terminal-event-outbox" },
       { version: 8, name: "legacy-local-agent-schema-repair" },
+      { version: 9, name: "local-agent-usage-metering" },
     ]);
   } finally {
     database.close();
