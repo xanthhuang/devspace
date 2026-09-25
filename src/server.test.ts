@@ -14,6 +14,7 @@ import { buildLocalAgentProviderStatuses } from "./local-agent-catalog.js";
 import type { SubagentsConfig } from "./local-agent-config.js";
 import { createReviewCheckpointManager } from "./review-checkpoints.js";
 import { ProcessSessionManager } from "./process-sessions.js";
+import { DurableJobManager } from "./durable-jobs.js";
 import { createMcpServer, createServer } from "./server.js";
 import { SqliteWorkspaceStore } from "./workspace-store.js";
 import { WorkspaceRegistry } from "./workspaces.js";
@@ -28,11 +29,17 @@ test("tool modes expose the expected host-facing tool surface", async (t) => {
   }> = [
     {
       mode: "claude",
-      expected: ["open_workspace", "read", "write", "edit", "bash", "show_changes"],
+      expected: [
+        "open_workspace", "read", "write", "edit", "bash", "show_changes",
+        "job_start", "job_status", "job_logs", "job_wait", "job_cancel",
+      ],
     },
     {
       mode: "codex",
-      expected: ["open_workspace", "read", "apply_patch", "exec_command", "write_stdin", "show_changes"],
+      expected: [
+        "open_workspace", "read", "apply_patch", "exec_command", "write_stdin", "show_changes",
+        "job_start", "job_status", "job_logs", "job_wait", "job_cancel",
+      ],
     },
   ];
 
@@ -64,6 +71,20 @@ test("model-facing tool schemas use snake_case recursively", async (t) => {
       ]);
 
       assert.deepEqual(invalidPaths, []);
+    });
+  }
+});
+
+test("all durable job operations require workspace authorization", async (t) => {
+  for (const toolMode of ["claude", "codex"] as const) {
+    await t.test(toolMode, async (nested) => {
+      const context = await fixture(nested, { toolMode, uiEnabled: false });
+      const tools = await context.client.listTools();
+      for (const name of ["job_start", "job_status", "job_logs", "job_wait", "job_cancel"]) {
+        const tool = tools.tools.find((candidate) => candidate.name === name);
+        assert.ok(tool, `${name} should be registered`);
+        assert.ok(tool.inputSchema.required?.includes("workspace_id"), `${name} should require workspace_id`);
+      }
     });
   }
 });
@@ -792,11 +813,13 @@ async function fixture(
   );
   const store = new SqliteWorkspaceStore(stateDir);
   const workspaces = new WorkspaceRegistry(config, store);
+  const durableJobs = new DurableJobManager(stateDir);
   const server = createMcpServer(
     config,
     workspaces,
     createReviewCheckpointManager(),
     new ProcessSessionManager(),
+    durableJobs,
     resolveLocalAgentProviders,
     [],
   );
@@ -813,6 +836,7 @@ async function fixture(
     closed = true;
     await client.close();
     await server.close();
+    durableJobs.close();
     store.close();
   };
 

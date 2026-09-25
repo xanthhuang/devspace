@@ -40,6 +40,7 @@ import {
   type McpRegistrationTarget,
 } from "./mcp-modern-server.js";
 import { ProcessSessionManager } from "./process-sessions.js";
+import { DurableJobManager } from "./durable-jobs.js";
 import { createReviewCheckpointManager } from "./review-checkpoints.js";
 import { conversationScopeIdFromRequestMeta } from "./request-meta.js";
 import { shutdownHttpServer } from "./server-shutdown.js";
@@ -310,6 +311,7 @@ export function createMcpServer(
   workspaces: WorkspaceRegistry,
   reviewCheckpoints: ReturnType<typeof createReviewCheckpointManager>,
   processSessions: ProcessSessionManager,
+  durableJobs: DurableJobManager,
   resolveLocalAgentProviders: () => LocalAgentProviderStatus[],
   incomingArtifactAdapters: readonly IncomingArtifactAdapter[],
   trackToolActivity?: TrackToolActivity,
@@ -328,6 +330,7 @@ export function createMcpServer(
     workspaces,
     reviewCheckpoints,
     processSessions,
+    durableJobs,
     resolveLocalAgentProviders,
     incomingArtifactAdapters,
     trackToolActivity,
@@ -341,6 +344,7 @@ function registerMcpSurface(
   workspaces: WorkspaceRegistry,
   reviewCheckpoints: ReturnType<typeof createReviewCheckpointManager>,
   processSessions: ProcessSessionManager,
+  durableJobs: DurableJobManager,
   resolveLocalAgentProviders: () => LocalAgentProviderStatus[],
   incomingArtifactAdapters: readonly IncomingArtifactAdapter[],
   trackToolActivity?: TrackToolActivity,
@@ -695,6 +699,7 @@ function registerMcpSurface(
     config,
     workspaces,
     processSessions,
+    durableJobs,
   });
 
   registerAppTool(
@@ -818,6 +823,7 @@ export function createServer(
   const workspaces = new WorkspaceRegistry(config, workspaceStore);
   const reviewCheckpoints = createReviewCheckpointManager();
   const processSessions = new ProcessSessionManager();
+  const durableJobs = new DurableJobManager(config.stateDir);
   const toolActivities = new ToolActivityTracker();
   const localAgentProviders = buildLocalAgentProviderStatuses(
     config.subagents,
@@ -835,6 +841,7 @@ export function createServer(
       workspaces,
       reviewCheckpoints,
       processSessions,
+      durableJobs,
       resolveLocalAgentProviders,
       incomingArtifactAdapters,
       toolActivities.track,
@@ -984,6 +991,7 @@ export function createServer(
         }
         await toolActivities.waitForIdle();
         processSessions.shutdown();
+        durableJobs.close();
         oauthProvider.close();
         workspaceStore.close?.();
       })();

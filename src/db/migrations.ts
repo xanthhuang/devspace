@@ -57,6 +57,11 @@ const migrations: Migration[] = [
     name: "phase1-local-agent-compatibility",
     up: migratePhase1LocalAgentCompatibility,
   },
+  {
+    version: 11,
+    name: "durable-jobs",
+    up: migrateDurableJobs,
+  },
 ];
 
 const compatibleHistoricalMigrationNames = new Map<number, ReadonlySet<string>>([
@@ -391,6 +396,41 @@ function migratePhase1LocalAgentCompatibility(sqlite: Database.Database): void {
   migrateLocalAgentTurns(sqlite);
   migrateLocalAgentUsageMetering(sqlite);
   migrateAgentEventOutbox(sqlite);
+}
+
+function migrateDurableJobs(sqlite: Database.Database): void {
+  sqlite.exec(`
+    create table if not exists durable_jobs (
+      id text primary key,
+      workspace_id text not null,
+      workspace_root text not null,
+      command text not null,
+      working_directory text not null,
+      pid integer,
+      pgid integer,
+      process_identity text,
+      status text not null,
+      exit_code integer,
+      signal text,
+      log_path text not null,
+      marker_path text not null,
+      created_at integer not null,
+      started_at integer,
+      ended_at integer,
+      max_runtime_seconds integer not null,
+      cancellation_requested_at integer,
+      cancellation_signal_sent_at integer,
+      cancellation_verified_at integer,
+      error text,
+      result text
+    );
+
+    create index if not exists durable_jobs_workspace_root_idx
+      on durable_jobs(workspace_root, created_at desc);
+
+    create index if not exists durable_jobs_status_idx
+      on durable_jobs(status, created_at desc);
+  `);
 }
 
 function addColumnIfMissing(

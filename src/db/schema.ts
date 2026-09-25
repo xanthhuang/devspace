@@ -188,6 +188,38 @@ export const agentEventOutbox = sqliteTable(
   ],
 );
 
+export const durableJobs = sqliteTable(
+  "durable_jobs",
+  {
+    id: text("id").primaryKey(),
+    workspaceId: text("workspace_id").notNull(),
+    workspaceRoot: text("workspace_root").notNull(),
+    command: text("command").notNull(),
+    workingDirectory: text("working_directory").notNull(),
+    pid: integer("pid"),
+    pgid: integer("pgid"),
+    processIdentity: text("process_identity"),
+    status: text("status").notNull(),
+    exitCode: integer("exit_code"),
+    signal: text("signal"),
+    logPath: text("log_path").notNull(),
+    markerPath: text("marker_path").notNull(),
+    createdAt: integer("created_at").notNull(),
+    startedAt: integer("started_at"),
+    endedAt: integer("ended_at"),
+    maxRuntimeSeconds: integer("max_runtime_seconds").notNull(),
+    cancellationRequestedAt: integer("cancellation_requested_at"),
+    cancellationSignalSentAt: integer("cancellation_signal_sent_at"),
+    cancellationVerifiedAt: integer("cancellation_verified_at"),
+    error: text("error"),
+    result: text("result"),
+  },
+  (table) => [
+    index("durable_jobs_workspace_root_idx").on(table.workspaceRoot, table.createdAt),
+    index("durable_jobs_status_idx").on(table.status, table.createdAt),
+  ],
+);
+
 export type WorkspaceSessionRow = typeof workspaceSessions.$inferSelect;
 export type NewWorkspaceSessionRow = typeof workspaceSessions.$inferInsert;
 export type LoadedAgentFileRow = typeof loadedAgentFiles.$inferSelect;
@@ -196,3 +228,5 @@ export type WorkspaceConversationBindingRow = typeof workspaceConversationBindin
 export type NewWorkspaceConversationBindingRow = typeof workspaceConversationBindings.$inferInsert;
 export type LocalAgentSessionRow = typeof localAgentSessions.$inferSelect;
 export type NewLocalAgentSessionRow = typeof localAgentSessions.$inferInsert;
+export type DurableJobRow = typeof durableJobs.$inferSelect;
+export type NewDurableJobRow = typeof durableJobs.$inferInsert;
