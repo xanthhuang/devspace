@@ -604,6 +604,176 @@ test("HTTP endpoint serves modern MCP and stateless legacy clients", async (t) =
   assert.match(await legacyTools.text(), /"open_workspace"/);
 });
 
+test("HTTP MCP accepts cached 6394866 camelCase tool arguments without schema pollution", async (t) => {
+  const { root, localBaseUrl, accessToken } = await httpServerFixture(
+    t,
+    "devspace-camelcase-compat-test-",
+  );
+  await writeFile(join(root, "note.txt"), "before\n");
+  await git(root, ["init"]);
+  await git(root, ["config", "user.email", "devspace@example.com"]);
+  await git(root, ["config", "user.name", "DevSpace Test"]);
+  await git(root, ["add", "."]);
+  await git(root, ["commit", "-m", "Initial commit"]);
+
+  const listed = await postModernMcp(localBaseUrl, accessToken, "tools/list", {});
+  assert.equal(listed.status, 200, await listed.clone().text());
+  const listedBody = await listed.json() as {
+    result?: { tools?: Array<{ name?: string; inputSchema?: unknown; outputSchema?: unknown }> };
+  };
+  const invalidPaths = (listedBody.result?.tools ?? []).flatMap((tool) => [
+    ...schemaPropertyPaths(tool.inputSchema)
+      .filter(({ key }) => !/^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/.test(key))
+      .map(({ path }) => `${tool.name}.input.${path}`),
+    ...schemaPropertyPaths(tool.outputSchema)
+      .filter(({ key }) => !/^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/.test(key))
+      .map(({ path }) => `${tool.name}.output.${path}`),
+  ]);
+  assert.deepEqual(invalidPaths, []);
+
+  const opened = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "open_workspace",
+    arguments: { path: root },
+    _meta: { "openai/session": "camelcase-checkout" },
+  });
+  assert.equal(opened.status, 200, await opened.clone().text());
+  const openedBody = await opened.json() as {
+    result?: { structuredContent?: { workspace_id?: string } };
+  };
+  const workspaceId = openedBody.result?.structuredContent?.workspace_id;
+  assert.equal(typeof workspaceId, "string");
+
+  const legacyRead = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "read",
+    arguments: { workspaceId, path: "note.txt" },
+  });
+  assert.equal(legacyRead.status, 200, await legacyRead.clone().text());
+  assert.match(await legacyRead.text(), /before/);
+
+  const legacyPatch = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "apply_patch",
+    arguments: {
+      workspaceId,
+      patch: [
+        "*** Begin Patch",
+        "*** Update File: note.txt",
+        "@@",
+        "-before",
+        "+after",
+        "*** End Patch",
+      ].join("\n"),
+    },
+  });
+  assert.equal(legacyPatch.status, 200, await legacyPatch.clone().text());
+  assert.equal(await readFile(join(root, "note.txt"), "utf8"), "after\n");
+
+  const legacyExec = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "exec_command",
+    arguments: {
+      workspaceId,
+      cmd: `${process.execPath} -e \"setTimeout(() => console.log('LEGACY_DONE'), 250)\"`,
+      workingDirectory: ".",
+      yieldTimeMs: 10,
+      maxOutputTokens: 1_000,
+    },
+  });
+  assert.equal(legacyExec.status, 200, await legacyExec.clone().text());
+  const legacyExecBody = await legacyExec.json() as {
+    result?: { structuredContent?: { session_id?: number; running?: boolean } };
+  };
+  const sessionId = legacyExecBody.result?.structuredContent?.session_id;
+  assert.equal(legacyExecBody.result?.structuredContent?.running, true);
+  assert.equal(typeof sessionId, "number");
+
+  const legacyWrite = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "write_stdin",
+    arguments: {
+      workspaceId,
+      sessionId,
+      yieldTimeMs: 2_000,
+      maxOutputTokens: 1_000,
+    },
+  });
+  assert.equal(legacyWrite.status, 200, await legacyWrite.clone().text());
+  const legacyWriteText = await legacyWrite.text();
+  assert.match(legacyWriteText, /LEGACY_DONE/);
+  assert.match(legacyWriteText, /"running":false/);
+
+  const canonicalRead = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "read",
+    arguments: { workspace_id: workspaceId, path: "note.txt" },
+  });
+  assert.equal(canonicalRead.status, 200, await canonicalRead.clone().text());
+  assert.match(await canonicalRead.text(), /after/);
+
+  const worktreeOpen = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "open_workspace",
+    arguments: { path: root, mode: "worktree", baseRef: "HEAD" },
+    _meta: { "openai/session": "camelcase-worktree" },
+  });
+  assert.equal(worktreeOpen.status, 200, await worktreeOpen.clone().text());
+  const worktreeBody = await worktreeOpen.json() as {
+    result?: { structuredContent?: { mode?: string; worktree?: { base_ref?: string } } };
+  };
+  assert.equal(worktreeBody.result?.structuredContent?.mode, "worktree");
+  assert.equal(worktreeBody.result?.structuredContent?.worktree?.base_ref, "HEAD");
+
+  const conflict = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "apply_patch",
+    arguments: {
+      workspace_id: workspaceId,
+      workspaceId: "ws_conflicting_legacy_value",
+      patch: [
+        "*** Begin Patch",
+        "*** Update File: note.txt",
+        "@@",
+        "-after",
+        "+should-not-apply",
+        "*** End Patch",
+      ].join("\n"),
+    },
+  });
+  assert.equal(conflict.status, 400, await conflict.clone().text());
+  const conflictBody = await conflict.json() as {
+    error?: { code?: number; message?: string };
+  };
+  assert.equal(conflictBody.error?.code, -32602);
+  assert.match(conflictBody.error?.message ?? "", /workspaceId.*workspace_id/);
+  assert.equal(await readFile(join(root, "note.txt"), "utf8"), "after\n");
+});
+
+test("HTTP MCP accepts cached 6394866 Claude edit aliases", async (t) => {
+  const { root, localBaseUrl, accessToken } = await httpServerFixture(
+    t,
+    "devspace-camelcase-claude-edit-test-",
+    "claude",
+  );
+  await writeFile(join(root, "note.txt"), "before\n");
+
+  const opened = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "open_workspace",
+    arguments: { path: root },
+    _meta: { "openai/session": "camelcase-claude-edit" },
+  });
+  assert.equal(opened.status, 200, await opened.clone().text());
+  const openedBody = await opened.json() as {
+    result?: { structuredContent?: { workspace_id?: string } };
+  };
+  const workspaceId = openedBody.result?.structuredContent?.workspace_id;
+  assert.equal(typeof workspaceId, "string");
+
+  const legacyEdit = await postModernMcp(localBaseUrl, accessToken, "tools/call", {
+    name: "edit",
+    arguments: {
+      workspaceId,
+      path: "note.txt",
+      edits: [{ oldText: "before", newText: "after" }],
+    },
+  });
+  assert.equal(legacyEdit.status, 200, await legacyEdit.clone().text());
+  assert.equal(await readFile(join(root, "note.txt"), "utf8"), "after\n");
+});
+
 test("server shutdown waits for an active MCP tool call", async (t) => {
   const { root, localBaseUrl, accessToken, running } = await httpServerFixture(
     t,
@@ -698,10 +868,11 @@ interface HttpServerFixture {
 async function httpServerFixture(
   t: TestContext,
   prefix: string,
+  toolMode: ToolMode = "codex",
 ): Promise<HttpServerFixture> {
   const root = await mkdtemp(join(tmpdir(), prefix));
   const ownerToken = "test-owner-token-that-is-long-enough";
-  const config = loadConfig(writeTestDevspaceConfig(join(root, ".config"), {
+  const loadedConfig = loadConfig(writeTestDevspaceConfig(join(root, ".config"), {
     server: {
       port: 1,
       publicBaseUrl: "https://example.test",
@@ -712,6 +883,7 @@ async function httpServerFixture(
     },
     storage: { stateDir: join(root, ".state") },
   }));
+  const config: ServerConfig = { ...loadedConfig, toolMode };
   const running = createServer(config, { incomingArtifactAdapters: [] });
   const httpServer = running.app.listen(0, "127.0.0.1");
   await new Promise<void>((resolve) => httpServer.once("listening", resolve));

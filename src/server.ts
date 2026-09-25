@@ -31,6 +31,10 @@ import {
   requestIp,
   requestPath,
 } from "./logger.js";
+import {
+  LegacyMcpArgumentConflictError,
+  normalizeLegacyMcpToolArguments,
+} from "./mcp-input-compat.js";
 import { readFileTool } from "./pi-tools.js";
 import { SingleUserOAuthProvider } from "./oauth-provider.js";
 import {
@@ -200,11 +204,12 @@ function sendJsonRpcError(
   status: number,
   code: number,
   message: string,
+  id: string | number | null = null,
 ): void {
   res.status(status).json({
     jsonrpc: "2.0",
     error: { code, message },
-    id: null,
+    id,
   });
 }
 
@@ -963,8 +968,21 @@ export function createServer(
     });
 
     try {
-      await mcpNodeHandler(req, res, req.body);
+      const requestBody = normalizeLegacyMcpToolArguments(req.body);
+      await mcpNodeHandler(req, res, requestBody);
     } catch (error) {
+      if (error instanceof LegacyMcpArgumentConflictError) {
+        logEvent(config.logging, "warn", "mcp_legacy_argument_conflict", {
+          requestId,
+          tool: error.toolName,
+          legacyName: error.legacyName,
+          canonicalName: error.canonicalName,
+        });
+        if (!res.headersSent) {
+          sendJsonRpcError(res, 400, -32602, error.message, error.requestId);
+        }
+        return;
+      }
       logEvent(config.logging, "error", "mcp_request_error", {
         requestId,
         error: error instanceof Error ? error.message : String(error),
