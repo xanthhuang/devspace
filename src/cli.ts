@@ -502,7 +502,7 @@ function printHelp(): void {
       "  devspace agents continue <id> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents show <id> [--json]",
       "  devspace agents wait <id>... [--timeout <seconds>] [--json]",
-      "  devspace agents usage [--days <n>] [--json]",
+      "  devspace agents usage [--provider <claude|codex>] [--days <n>|--daily|--weekly] [--json]",
       "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs>",
       "  devspace -v, --version   Print the installed version",
@@ -608,31 +608,75 @@ async function runAgentsList(args: string[], json: boolean): Promise<void> {
 
 async function runAgentsUsage(args: string[], json: boolean): Promise<void> {
   let days = 30;
+  let provider: "claude" | "codex" = "claude";
   for (let index = 0; index < args.length; index += 1) {
-    if (args[index] !== "--days" || !args[index + 1]) {
-      throw new Error("Usage: devspace agents usage [--days <n>] [--json]");
+    if (args[index] === "--daily") {
+      days = 1;
+      continue;
     }
-    days = Number(args[index + 1]);
-    index += 1;
+    if (args[index] === "--weekly") {
+      days = 7;
+      continue;
+    }
+    if (args[index] === "--days" && args[index + 1]) {
+      days = Number(args[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (args[index] === "--provider" && args[index + 1]) {
+      const value = args[index + 1];
+      if (value !== "claude" && value !== "codex") {
+        throw new Error("--provider must be claude or codex.");
+      }
+      provider = value;
+      index += 1;
+      continue;
+    }
+    throw new Error(
+      "Usage: devspace agents usage [--provider <claude|codex>] [--days <n>|--daily|--weekly] [--json]",
+    );
   }
   if (!Number.isInteger(days) || days <= 0) throw new Error("--days must be a positive integer.");
   const config = loadConfig();
   const store = new LocalAgentStore(config.stateDir);
   try {
-    const summary = presentAgentResult(store.usageSummaryResult({ provider: "claude", days }), json);
+    const summary = presentAgentResult(store.usageSummaryResult({ provider, days }), json);
     if (!summary) return;
     if (json) {
       printJson(summary);
       return;
     }
-    console.log([
-      `Claude ccusage shadow API usage (${summary.days}d)`,
+    const lines = [
+      provider === "claude"
+        ? `Claude ccusage shadow API usage (${summary.days}d)`
+        : `Codex JSONL shadow usage (${summary.days}d)`,
       `runs: ${summary.runs} (complete=${summary.completeRuns}, incomplete=${summary.incompleteRuns})`,
-      `shadow API cost: $${summary.totalCost.toFixed(2)}`,
+      provider === "claude"
+        ? `shadow API cost: $${summary.totalCost.toFixed(2)}`
+        : "cost: unavailable (Codex JSON usage does not expose a canonical price)",
       `tokens: input=${summary.inputTokens} output=${summary.outputTokens} total=${summary.totalTokens}`,
       `cache: read=${summary.cacheReadTokens} create=${summary.cacheCreationTokens}`,
       `meters: ${summary.meters.join(", ") || "none"}`,
-    ].join("\n"));
+    ];
+    if (summary.byModel.length > 0) {
+      lines.push("models:");
+      for (const group of summary.byModel) {
+        lines.push(`  ${group.name}: runs=${group.runs} tokens=${group.totalTokens}`);
+      }
+    }
+    if (summary.byProject.length > 0) {
+      lines.push("projects:");
+      for (const group of summary.byProject) {
+        lines.push(`  ${group.name}: runs=${group.runs} tokens=${group.totalTokens}`);
+      }
+    }
+    if (summary.byDay.length > 0) {
+      lines.push("daily:");
+      for (const group of summary.byDay) {
+        lines.push(`  ${group.name}: runs=${group.runs} tokens=${group.totalTokens}`);
+      }
+    }
+    console.log(lines.join("\n"));
   } finally {
     store.close();
   }
@@ -872,7 +916,7 @@ function printAgentsHelp(): void {
       "  devspace agents show <id> [--json]",
       "  devspace agents wait <id>... [--timeout <seconds>] [--json]",
       "  devspace agents targets [--json]",
-      "  devspace agents usage [--days <n>] [--json]",
+      "  devspace agents usage [--provider <claude|codex>] [--days <n>|--daily|--weekly] [--json]",
       "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs> [--json]",
     ].join("\n"),

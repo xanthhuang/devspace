@@ -10,8 +10,15 @@ import {
 import { LocalAgentManager } from "./local-agent-manager.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
 import { LocalAgentStore } from "./local-agent-store.js";
-import { localAgentProviderConfigRevision } from "./local-agent-config.js";
-import { CcusageMeter } from "./local-agent-metering.js";
+import {
+  localAgentProviderConfigRevision,
+  localAgentProviderEnvironment,
+} from "./local-agent-config.js";
+import {
+  CcusageMeter,
+  CodexJsonlMeter,
+  LocalAgentUsageMeterChain,
+} from "./local-agent-metering.js";
 import {
   AgentEventDispatcher,
   clearAgentCallbackEnvironment,
@@ -46,7 +53,12 @@ const manager = new LocalAgentManager({
   subagents: config.subagents,
   terminalEventsEnabled: Boolean(callbackConfig.url),
   onTerminalEvent: () => { void eventDispatcher.trigger().catch(() => undefined); },
-  usageMeter: new CcusageMeter(),
+  usageMeter: new LocalAgentUsageMeterChain([
+    new CcusageMeter(),
+    new CodexJsonlMeter({
+      env: localAgentProviderEnvironment(config.subagents, "codex", process.env),
+    }),
+  ]),
 });
 const daemon = new LocalAgentDaemon({
   stateDir: paths.stateDir,

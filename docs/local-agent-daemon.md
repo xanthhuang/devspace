@@ -86,3 +86,30 @@ Shutdown gives active turns a bounded graceful window. If that window expires,
 the process exits with active records left durable; the next daemon startup
 reconciles stale `starting` and `running` records to `error` without discarding
 their `providerSessionId` or `latestResponse`.
+
+## Shadow usage metering
+
+Usage metering is deliberately separate from provider execution. Claude uses
+`ccusage` session snapshots. Codex uses the structured JSONL that Codex itself
+persists under `CODEX_HOME/sessions/.../rollout-*.jsonl`; the meter reads
+`token_usage_record.thread_token_usage` for the cumulative snapshot and
+`turn_context.model` plus `turn_token_usage` for model attribution. The raw
+Codex JSONL remains the durable source of truth and the existing SQLite
+`local_agent_usage_metering` table stores normalized snapshots and deltas.
+
+This keeps Codex accounting independent of terminal text and avoids treating
+OpenTelemetry as canonical. In Codex CLI 0.155.1, `codex exec --json` also emits
+structured `turn.completed.usage`, but DevSpace's Codex provider continues to
+use `app-server`; it does not switch execution modes merely for metering. The
+persisted rollout JSONL contains the same token accounting plus cumulative
+thread usage, which is needed to survive daemon restarts and session resumes.
+
+Codex JSON usage does not expose a canonical price, so DevSpace records token
+and cache usage without inventing a monetary estimate. Summaries can be queried
+by provider and period, and include model, project, and daily breakdowns:
+
+```bash
+devspace agents usage --provider codex --daily
+devspace agents usage --provider codex --weekly
+devspace agents usage --provider codex --days 30 --json
+```

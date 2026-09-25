@@ -119,6 +119,7 @@ export interface LocalAgentUsageModelSummary extends LocalAgentUsageSummaryGroup
   outputTokens: number;
   cacheReadTokens: number;
   cacheCreationTokens: number;
+  totalTokens: number;
 }
 
 export interface LocalAgentUsageRunSummary {
@@ -157,6 +158,8 @@ export interface LocalAgentUsageSummary {
   totalTokens: number;
   byProfile: LocalAgentUsageSummaryGroup[];
   byModel: LocalAgentUsageModelSummary[];
+  byProject: LocalAgentUsageModelSummary[];
+  byDay: LocalAgentUsageModelSummary[];
   recentRuns: LocalAgentUsageRunSummary[];
 }
 
@@ -736,6 +739,8 @@ export class LocalAgentStore {
     const meters = new Set<string>();
     const profileGroups = new Map<string, LocalAgentUsageSummaryGroup>();
     const modelGroups = new Map<string, LocalAgentUsageModelSummary>();
+    const projectGroups = new Map<string, LocalAgentUsageModelSummary>();
+    const dayGroups = new Map<string, LocalAgentUsageModelSummary>();
     let completeRuns = 0;
     let totalCost = 0;
     let inputTokens = 0;
@@ -760,6 +765,8 @@ export class LocalAgentStore {
       profile.runs += 1;
       profile.totalCost += row.delta_total_cost;
       profileGroups.set(row.profile_name, profile);
+      addUsageSummaryGroup(projectGroups, row.workspace_root, row);
+      addUsageSummaryGroup(dayGroups, localUsageDate(row.recorded_at), row);
       for (const model of parseUsageModels(row.delta_models_json)) {
         if (
           model.inputTokens === 0 && model.outputTokens === 0
@@ -773,6 +780,7 @@ export class LocalAgentStore {
           outputTokens: 0,
           cacheReadTokens: 0,
           cacheCreationTokens: 0,
+          totalTokens: 0,
         };
         group.runs += 1;
         group.totalCost += model.cost;
@@ -780,6 +788,7 @@ export class LocalAgentStore {
         group.outputTokens += model.outputTokens;
         group.cacheReadTokens += model.cacheReadTokens;
         group.cacheCreationTokens += model.cacheCreationTokens;
+        group.totalTokens += model.inputTokens + model.outputTokens;
         modelGroups.set(model.modelName, group);
       }
     }
@@ -792,8 +801,12 @@ export class LocalAgentStore {
         (a, b) => b.totalCost - a.totalCost || a.name.localeCompare(b.name),
       ),
       byModel: Array.from(modelGroups.values()).sort(
-        (a, b) => b.totalCost - a.totalCost || a.name.localeCompare(b.name),
+        (a, b) => b.totalTokens - a.totalTokens || b.totalCost - a.totalCost || a.name.localeCompare(b.name),
       ),
+      byProject: Array.from(projectGroups.values()).sort(
+        (a, b) => b.totalTokens - a.totalTokens || a.name.localeCompare(b.name),
+      ),
+      byDay: Array.from(dayGroups.values()).sort((a, b) => b.name.localeCompare(a.name)),
       recentRuns: rows.map((row): LocalAgentUsageRunSummary => ({
         agentId: row.agent_id,
         turnId: row.turn_id,
@@ -1018,6 +1031,39 @@ function readTerminalStatus(status: string): AgentEventTerminalStatus {
 function readDeliveryState(state: string): AgentEventDeliveryState {
   if (state === "pending" || state === "delivered") return state;
   throw new Error(`Unknown agent event delivery state: ${state}`);
+}
+
+function addUsageSummaryGroup(
+  groups: Map<string, LocalAgentUsageModelSummary>,
+  name: string,
+  row: LocalAgentUsageMeteringRow,
+): void {
+  const group = groups.get(name) ?? {
+    name,
+    runs: 0,
+    totalCost: 0,
+    inputTokens: 0,
+    outputTokens: 0,
+    cacheReadTokens: 0,
+    cacheCreationTokens: 0,
+    totalTokens: 0,
+  };
+  group.runs += 1;
+  group.totalCost += row.delta_total_cost;
+  group.inputTokens += row.delta_input_tokens;
+  group.outputTokens += row.delta_output_tokens;
+  group.cacheReadTokens += row.delta_cache_read_tokens;
+  group.cacheCreationTokens += row.delta_cache_creation_tokens;
+  group.totalTokens += row.delta_total_tokens;
+  groups.set(name, group);
+}
+
+function localUsageDate(iso: string): string {
+  const date = new Date(iso);
+  const year = String(date.getFullYear()).padStart(4, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function parseUsageModels(value: string): LocalAgentUsageModelSnapshot[] {
