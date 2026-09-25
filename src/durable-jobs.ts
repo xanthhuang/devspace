@@ -137,7 +137,17 @@ export class DurableJobManager {
     this.watcher.on("error", () => {
       // Status reads reconcile markers, so a watcher failure cannot lose completion.
     });
-    this.ready = this.reconcileAll();
+    this.ready = this.reconcileAll().catch((error) => {
+      // A fast server shutdown may close the database while startup
+      // reconciliation is awaiting an OS process probe. Once close() owns the
+      // lifecycle, that interrupted reconciliation is no longer actionable.
+      if (this.closed) return;
+      throw error;
+    });
+    // If construction is the only operation performed, a genuine startup
+    // failure should still be marked handled at the process level. Any later
+    // API call awaits this.ready and observes the same rejection.
+    void this.ready.catch(() => undefined);
   }
 
   async start(input: {
@@ -692,19 +702,33 @@ export function probePosixProcess(pid: number): ProcessProbeResult {
 
 function detachedScript(command: string, markerPath: string, launchPath: string, abortPath: string): string {
   return `
-__devspace_signal=null
-__devspace_finish() {
-  __devspace_ec=$?
+__devspace_write_marker() {
+  __devspace_ec="$1"
+  __devspace_signal="$2"
   __devspace_now=$(node -e 'process.stdout.write(String(Date.now()))')
   __devspace_tmp=${shellQuote(`${markerPath}.tmp.$$`)}
-  printf '{"exitCode":%s,"signal":%s,"endedAt":%s}\n' "$__devspace_ec" "$__devspace_signal" "$__devspace_now" > "$__devspace_tmp"
+  if [ "$__devspace_signal" = "null" ]; then
+    __devspace_signal_json=null
+  else
+    __devspace_signal_json="\\\"$__devspace_signal\\\""
+  fi
+  printf '{"exitCode":%s,"signal":%s,"endedAt":%s}\n' "$__devspace_ec" "$__devspace_signal_json" "$__devspace_now" > "$__devspace_tmp"
   mv -f "$__devspace_tmp" ${shellQuote(markerPath)}
   rm -f ${shellQuote(launchPath)} ${shellQuote(abortPath)}
 }
+__devspace_finish() {
+  __devspace_ec=$?
+  __devspace_write_marker "$__devspace_ec" null
+}
+__devspace_on_signal() {
+  trap - EXIT
+  __devspace_write_marker "$2" "$1"
+  exit "$2"
+}
 trap __devspace_finish EXIT
-trap '__devspace_signal="\"SIGTERM\""; exit 143' TERM
-trap '__devspace_signal="\"SIGINT\""; exit 130' INT
-trap '__devspace_signal="\"SIGHUP\""; exit 129' HUP
+trap '__devspace_on_signal SIGTERM 143' TERM
+trap '__devspace_on_signal SIGINT 130' INT
+trap '__devspace_on_signal SIGHUP 129' HUP
 __devspace_gate_deadline=$(( $(date +%s) + 30 ))
 while [ ! -f ${shellQuote(launchPath)} ]; do
   [ -f ${shellQuote(abortPath)} ] && exit 125

@@ -260,6 +260,7 @@ assert.deepEqual(store.list({ workspaceId: "ws_1", workspaceRoot: join(root, "ot
   assert.ok(tables.some((table) => table.name === "local_agent_turns"));
   assert.ok(tables.some((table) => table.name === "agent_event_outbox"));
   assert.ok(tables.some((table) => table.name === "local_agent_usage_metering"));
+  assert.ok(tables.some((table) => table.name === "durable_jobs"));
   repaired.close();
 } finally {
   for (const store of stores) {

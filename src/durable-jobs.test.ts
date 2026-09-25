@@ -107,6 +107,25 @@ test("cancel reports cancelled only after a signalled process is verified gone",
   assert.ok(result.job.cancellationVerifiedAt);
 });
 
+test("real POSIX cancellation writes a valid signal completion marker", async (t) => {
+  if (process.platform === "win32") return;
+  const root = mkdtempSync(join(tmpdir(), "devspace-durable-signal-marker-"));
+  const manager = new DurableJobManager(root);
+  t.after(async () => {
+    manager.close();
+    await rm(root, { recursive: true, force: true });
+  });
+  const started = await manager.start(startInput(root, "sleep 30"));
+  const cancelled = await manager.cancel(started.id, root);
+  assert.equal(cancelled.cancelled, true);
+  const markerPath = join(root, "jobs", "meta", `${started.id}.exit`);
+  const markerText = await waitForFile(markerPath);
+  const marker = JSON.parse(markerText) as { exitCode: number; signal: string | null; endedAt: number };
+  assert.equal(marker.exitCode, 143);
+  assert.equal(marker.signal, "SIGTERM");
+  assert.ok(Number.isFinite(marker.endedAt));
+});
+
 test("signal failure and unknown identity never report cancelled", async (t) => {
   await t.test("signal failure", async (nested) => {
     const fixture = managerFixture(nested, {
@@ -175,6 +194,42 @@ test("Windows durable job start fails explicitly as unsupported", async (t) => {
   );
 });
 
+test("closing during startup reconciliation does not emit an unhandled rejection", async (t) => {
+  const root = mkdtempSync(join(tmpdir(), "devspace-durable-close-race-"));
+  const first = new DurableJobManager(root, { probeProcess: stableTestProbe });
+  const started = await first.start(startInput(root, "sleep 0.3"));
+  first.close();
+
+  let rejectProbe!: (error: Error) => void;
+  let markProbeStarted!: () => void;
+  const probeStarted = new Promise<void>((resolve) => {
+    markProbeStarted = resolve;
+  });
+  const unhandled: unknown[] = [];
+  const onUnhandled = (reason: unknown) => unhandled.push(reason);
+  process.on("unhandledRejection", onUnhandled);
+  const second = new DurableJobManager(root, {
+    probeProcess: () => {
+      markProbeStarted();
+      return new Promise<ProcessProbeResult>((_resolve, reject) => {
+        rejectProbe = reject;
+      });
+    },
+  });
+  await probeStarted;
+  second.close();
+  rejectProbe(new Error("probe closed during reconciliation"));
+  await new Promise((resolve) => setTimeout(resolve, 25));
+  process.off("unhandledRejection", onUnhandled);
+  assert.deepEqual(unhandled, []);
+
+  const cleanup = new DurableJobManager(root, { probeProcess: () => ({ state: "gone" }) });
+  await cleanup.status(started.id, root).catch(() => undefined);
+  cleanup.close();
+  await rm(root, { recursive: true, force: true });
+  t.after(() => process.off("unhandledRejection", onUnhandled));
+});
+
 function managerFixture(
   t: TestContext,
   options: ConstructorParameters<typeof DurableJobManager>[1] = {},
@@ -220,4 +275,17 @@ async function waitForTerminal(
     job = await manager.status(jobId, workspaceRoot);
   }
   return job;
+}
+
+async function waitForFile(path: string): Promise<string> {
+  const deadline = Date.now() + 2_000;
+  while (Date.now() < deadline) {
+    try {
+      return await readFile(path, "utf8");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      await new Promise((resolve) => setTimeout(resolve, 10));
+    }
+  }
+  throw new Error(`Timed out waiting for ${path}.`);
 }
