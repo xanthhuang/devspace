@@ -673,6 +673,7 @@ function isRequestError(
     AgentProviderCancelledError: () => "provider" as const,
     AgentProviderProtocolError: () => "provider" as const,
     AgentProviderExecutionError: () => "provider" as const,
+    AgentProviderAuthRequiredError: () => "provider" as const,
     AgentDaemonUnavailableError: () => "daemon" as const,
     AgentDaemonStartupError: () => "daemon" as const,
     AgentDaemonTimeoutError: () => "daemon" as const,

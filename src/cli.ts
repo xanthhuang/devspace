@@ -56,6 +56,11 @@ import { readReviewRef } from "./review-checkpoints.js";
 import { shutdownHttpServer } from "./server-shutdown.js";
 import { logEvent } from "./logger.js";
 import { pruneStaleManagedWorktrees } from "./worktree-prune.js";
+import { LocalAgentStore } from "./local-agent-store.js";
+import {
+  drainConfiguredAgentEvents,
+  loadAgentCallbackConfig,
+} from "./agent-event-callback.js";
 
 type Command =
   | "serve"
@@ -497,6 +502,8 @@ function printHelp(): void {
       "  devspace agents continue <id> [--model <model>] [--effort <level>] <prompt>",
       "  devspace agents show <id> [--json]",
       "  devspace agents wait <id>... [--timeout <seconds>] [--json]",
+      "  devspace agents usage [--days <n>] [--json]",
+      "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs>",
       "  devspace -v, --version   Print the installed version",
       "",
@@ -547,6 +554,12 @@ async function runAgentsCommand(args: string[]): Promise<void> {
     case "targets":
       await runAgentWorkflowCommand(json, () => runAgentsTargets(commandArgs, json));
       return;
+    case "usage":
+      await runAgentWorkflowCommand(json, () => runAgentsUsage(commandArgs, json));
+      return;
+    case "events":
+      await runAgentWorkflowCommand(json, () => runAgentEventsCommand(commandArgs, json));
+      return;
     case "daemon":
       await runAgentsDaemon(commandArgs, json);
       return;
@@ -591,6 +604,56 @@ async function runAgentsList(args: string[], json: boolean): Promise<void> {
   }
 
   printAgentXml(summaries.map(formatAgentSummary).join("\n"));
+}
+
+async function runAgentsUsage(args: string[], json: boolean): Promise<void> {
+  let days = 30;
+  for (let index = 0; index < args.length; index += 1) {
+    if (args[index] !== "--days" || !args[index + 1]) {
+      throw new Error("Usage: devspace agents usage [--days <n>] [--json]");
+    }
+    days = Number(args[index + 1]);
+    index += 1;
+  }
+  if (!Number.isInteger(days) || days <= 0) throw new Error("--days must be a positive integer.");
+  const config = loadConfig();
+  const store = new LocalAgentStore(config.stateDir);
+  try {
+    const summary = presentAgentResult(store.usageSummaryResult({ provider: "claude", days }), json);
+    if (!summary) return;
+    if (json) {
+      printJson(summary);
+      return;
+    }
+    console.log([
+      `Claude ccusage shadow API usage (${summary.days}d)`,
+      `runs: ${summary.runs} (complete=${summary.completeRuns}, incomplete=${summary.incompleteRuns})`,
+      `shadow API cost: $${summary.totalCost.toFixed(2)}`,
+      `tokens: input=${summary.inputTokens} output=${summary.outputTokens} total=${summary.totalTokens}`,
+      `cache: read=${summary.cacheReadTokens} create=${summary.cacheCreationTokens}`,
+      `meters: ${summary.meters.join(", ") || "none"}`,
+    ].join("\n"));
+  } finally {
+    store.close();
+  }
+}
+
+async function runAgentEventsCommand(args: string[], json: boolean): Promise<void> {
+  const [subcommand, ...extra] = args;
+  if (subcommand !== "drain" || extra.length > 0) {
+    throw new Error("Usage: devspace agents events drain [--json]");
+  }
+  const config = loadConfig();
+  const result = await drainConfiguredAgentEvents(config.stateDir, loadAgentCallbackConfig());
+  if (json) {
+    printJson(result);
+  } else if (!result.enabled) {
+    console.log(`Agent callback disabled; ${result.pending} event(s) remain pending.`);
+  } else {
+    console.log(
+      `Agent event drain complete: attempted=${result.attempted} delivered=${result.delivered} pending=${result.failed}`,
+    );
+  }
 }
 
 async function runAgentsRun(args: string[], json: boolean): Promise<void> {
@@ -809,6 +872,8 @@ function printAgentsHelp(): void {
       "  devspace agents show <id> [--json]",
       "  devspace agents wait <id>... [--timeout <seconds>] [--json]",
       "  devspace agents targets [--json]",
+      "  devspace agents usage [--days <n>] [--json]",
+      "  devspace agents events drain [--json]",
       "  devspace agents daemon <status|stop|logs> [--json]",
     ].join("\n"),
   );

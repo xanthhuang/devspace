@@ -69,6 +69,10 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
         output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "failed", error: { message: "fake failure" } } } });
         return;
       }
+      if (message.params.input[0].text === "auth") {
+        output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "failed", error: { code: "refresh_token_reused", message: "log out and sign in again" } } } });
+        return;
+      }
       if (message.params.input[0].text === "empty") {
         output({ method: "turn/completed", params: { threadId: message.params.threadId, turn: { id: turnId, status: "completed", items: [] } } });
         return;
@@ -90,7 +94,12 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
 `, { mode: 0o700 });
   await chmod(command, 0o700);
 
-  const runtime = new CodexAppServerRuntime({ command, env: process.env });
+  let credentialState = "credentials-1";
+  const runtime = new CodexAppServerRuntime({
+    command,
+    env: process.env,
+    credentialState: () => credentialState,
+  });
   try {
     await runtime.initialize();
     let callbackSessionId: string | undefined;
@@ -128,6 +137,27 @@ readline.createInterface({ input: process.stdin }).on("line", (line) => {
       assert.equal(failed.error.provider, "codex");
       assert.equal(failed.error.retryable, false);
     }
+    const authRequired = await runtime.run({
+      prompt: "auth",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(authRequired.isErr(), true);
+    if (authRequired.isErr()) assert.equal(authRequired.error.code, "PROVIDER_AUTH_REQUIRED");
+    const cachedAuthRequired = await runtime.run({
+      prompt: "must-not-reach-provider",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(cachedAuthRequired.isErr(), true);
+    if (cachedAuthRequired.isErr()) assert.equal(cachedAuthRequired.error.code, "PROVIDER_AUTH_REQUIRED");
+    credentialState = "credentials-2";
+    const recovered = await runtime.run({
+      prompt: "recovered",
+      workspaceRoot: "/tmp/project",
+      providerSessionId: first.providerSessionId ?? undefined,
+    });
+    assert.equal(recovered.isOk(), true);
     const protocolFailure = await runtime.run({
       prompt: "empty",
       workspaceRoot: "/tmp/project",

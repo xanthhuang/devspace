@@ -808,7 +808,7 @@ export function createServer(
   });
   const mcpUrl = new URL("/mcp", config.publicBaseUrl);
   const resourceServerUrl = resourceUrlFromServerUrl(mcpUrl);
-  const oauthProvider = new SingleUserOAuthProvider(config.oauth, mcpUrl, config.stateDir);
+  const oauthProvider = new SingleUserOAuthProvider(config.oauth, mcpUrl, config.stateDir, config.logging);
   const bearerAuth = requireBearerAuth({
     verifier: oauthProvider,
     requiredScopes: [config.oauth.scopes[0] ?? "devspace"],
@@ -886,6 +886,15 @@ export function createServer(
     });
 
     next();
+  });
+
+  app.get("/.well-known/oauth-protected-resource", (_req, res) => {
+    res.json({
+      resource: resourceServerUrl.href,
+      authorization_servers: [new URL(config.publicBaseUrl).href],
+      scopes_supported: config.oauth.scopes,
+      resource_name: "DevSpace",
+    });
   });
 
   app.use(

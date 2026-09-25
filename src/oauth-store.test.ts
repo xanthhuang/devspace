@@ -28,6 +28,7 @@ try {
   testTransactionalTokenRotation(join(root, "rotation"));
   await testProviderRestartRotationAndRevocation(join(root, "provider"));
   await testRefreshResourcePolicy(join(root, "refresh-policy"));
+  await testRefreshObservability(join(root, "refresh-observability"));
 } finally {
   await rm(root, { recursive: true, force: true });
 }
@@ -52,6 +53,8 @@ async function testDatabaseConfiguration(stateDir: string): Promise<void> {
       { version: 6, name: "local-agent-effort-rename" },
       { version: 7, name: "workspace-recovery-state" },
       { version: 8, name: "local-agent-turns" },
+      { version: 9, name: "local-agent-usage-metering" },
+      { version: 10, name: "phase1-local-agent-compatibility" },
     ]);
   } finally {
     database.close();
@@ -303,6 +306,44 @@ async function testRefreshResourcePolicy(stateDir: string): Promise<void> {
   } finally {
     provider.close();
   }
+}
+
+async function testRefreshObservability(stateDir: string): Promise<void> {
+  const store = new SqliteOAuthStore(stateDir);
+  const client = store.registerClient({ redirect_uris: [redirectUri] }, oauthConfig.allowedRedirectHosts);
+  store.saveRefreshToken(hashToken("observable-refresh"), {
+    clientId: client.client_id,
+    scopes: ["devspace"],
+    expiresAt: Math.floor(Date.now() / 1000) + 3600,
+    resource: mcpUrl.href,
+  });
+  store.close();
+  const entries: string[] = [];
+  const originalLog = console.log;
+  const originalWarn = console.warn;
+  console.log = (...values: unknown[]) => { entries.push(values.join(" ")); };
+  console.warn = (...values: unknown[]) => { entries.push(values.join(" ")); };
+  const provider = new SingleUserOAuthProvider(oauthConfig, mcpUrl, stateDir, {
+    level: "info",
+    format: "json",
+    requests: false,
+    assets: false,
+    toolCalls: false,
+    shellCommands: false,
+    trustProxy: false,
+  });
+  try {
+    await provider.exchangeRefreshToken(client, "observable-refresh");
+    await assert.rejects(provider.exchangeRefreshToken(client, "observable-refresh"), InvalidGrantError);
+  } finally {
+    provider.close();
+    console.log = originalLog;
+    console.warn = originalWarn;
+  }
+  assert.ok(entries.some((entry) => entry.includes('"event":"oauth_refresh_success"')));
+  assert.ok(entries.some((entry) => entry.includes('"event":"oauth_refresh_failed"')));
+  assert.ok(entries.some((entry) => entry.includes('"reason":"not_found"')));
+  assert.equal(entries.some((entry) => entry.includes("observable-refresh")), false);
 }
 
 function hashToken(token: string): string {

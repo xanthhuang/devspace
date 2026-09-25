@@ -184,12 +184,16 @@ try {
 const idleStateDir = join(root, "idle-state");
 const idleManager = new FakeManager();
 idleManager.activeTurnCount = 0;
+let backgroundWork = true;
+let backgroundClosed = false;
 const idleDaemon = new LocalAgentDaemon({
   stateDir: idleStateDir,
   configRevision: CONFIG_REVISION,
   manager: idleManager,
   idleShutdownMs: 200,
   idleCheckIntervalMs: 10,
+  hasBackgroundWork: () => backgroundWork,
+  onClosing: () => { backgroundClosed = true; },
 });
 const idleClient = new LocalAgentClient({
   stateDir: idleStateDir,
@@ -201,7 +205,11 @@ const idleClient = new LocalAgentClient({
 
 try {
   unwrap(await idleClient.ensureReady());
+  await new Promise((resolve) => setTimeout(resolve, 250));
+  assert.equal(idleManager.closed, false, "durable background work keeps agentd alive");
+  backgroundWork = false;
   await waitFor(() => idleManager.closed && !existsSync(idleDaemon.paths.socketPath));
+  assert.equal(backgroundClosed, true);
 } finally {
   await idleDaemon.close();
   await rm(root, { recursive: true, force: true });

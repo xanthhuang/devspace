@@ -50,6 +50,16 @@ test("HTTP MCP enforces canonical and exact alias bearer resources", async (t) =
   await once(listener, "listening");
   const address = listener.address();
   assert.ok(address && typeof address !== "string");
+  const metadataResponse = await fetch(
+    `http://127.0.0.1:${address.port}/.well-known/oauth-protected-resource`,
+  );
+  assert.equal(metadataResponse.status, 200);
+  assert.deepEqual(await metadataResponse.json(), {
+    resource: canonical,
+    authorization_servers: ["https://agent.example.com/"],
+    scopes_supported: ["devspace"],
+    resource_name: "DevSpace",
+  });
   for (const { resource, accepted } of cases) {
     const response: Response = await fetch(`http://127.0.0.1:${address.port}/mcp`, {
       method: "POST",

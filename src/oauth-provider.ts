@@ -11,6 +11,7 @@ import type {
 } from "@modelcontextprotocol/sdk/shared/auth.js";
 import { checkResourceAllowed, resourceUrlFromServerUrl } from "@modelcontextprotocol/sdk/shared/auth-utils.js";
 import { SqliteOAuthClientsStore, SqliteOAuthStore } from "./oauth-store.js";
+import { logEvent, type LoggingConfig } from "./logger.js";
 
 export interface OAuthConfig {
   ownerToken: string;
@@ -123,6 +124,7 @@ export class SingleUserOAuthProvider implements OAuthServerProvider {
     private readonly config: OAuthConfig,
     resourceServerUrl: URL,
     stateDir: string,
+    private readonly logging?: LoggingConfig,
   ) {
     this.resourceServerUrl = resourceUrlFromServerUrl(resourceServerUrl);
     this.allowedResourceUrls = new Set(
@@ -220,28 +222,49 @@ export class SingleUserOAuthProvider implements OAuthServerProvider {
   ): Promise<OAuthTokens> {
     const refreshTokenHash = hashToken(refreshToken);
     const record = this.oauthStore.getRefreshToken(refreshTokenHash);
-    if (!record || record.clientId !== client.client_id || record.expiresAt < Math.floor(Date.now() / 1000)) {
+    if (!record) {
+      this.logRefreshFailure(client.client_id, "not_found");
+      throw new InvalidGrantError("Invalid refresh token");
+    }
+    if (record.clientId !== client.client_id) {
+      this.logRefreshFailure(client.client_id, "client_mismatch");
+      throw new InvalidGrantError("Invalid refresh token");
+    }
+    if (record.expiresAt < Math.floor(Date.now() / 1000)) {
+      this.logRefreshFailure(client.client_id, "expired");
       throw new InvalidGrantError("Invalid refresh token");
     }
     const recordedResource = record.resource ? new URL(record.resource) : undefined;
     if (!recordedResource || !this.isResourceAllowed(recordedResource)) {
+      this.logRefreshFailure(client.client_id, "invalid_resource");
       throw new InvalidGrantError("Invalid resource");
     }
     if (resource && !sameResource(resource, recordedResource)) {
+      this.logRefreshFailure(client.client_id, "invalid_resource");
       throw new InvalidGrantError("Invalid resource");
     }
 
     const requestedScopes = scopes ?? record.scopes;
     if (!requestedScopes.every((scope) => record.scopes.includes(scope))) {
+      this.logRefreshFailure(client.client_id, "scope_not_allowed");
       throw new AccessDeniedError("Refresh token cannot grant requested scopes");
     }
 
-    return this.issueTokens(
-      client.client_id,
-      requestedScopes,
-      resource ?? recordedResource,
-      refreshTokenHash,
-    );
+    try {
+      const tokens = this.issueTokens(
+        client.client_id,
+        requestedScopes,
+        resource ?? recordedResource,
+        refreshTokenHash,
+      );
+      this.logRefreshSuccess(client.client_id, requestedScopes);
+      return tokens;
+    } catch (error) {
+      if (error instanceof InvalidGrantError) {
+        this.logRefreshFailure(client.client_id, "rotation_conflict");
+      }
+      throw error;
+    }
   }
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
@@ -267,6 +290,24 @@ export class SingleUserOAuthProvider implements OAuthServerProvider {
 
   close(): void {
     this.oauthStore.close();
+  }
+
+  private logRefreshFailure(clientId: string, reason: string): void {
+    if (!this.logging) return;
+    logEvent(this.logging, "warn", "oauth_refresh_failed", {
+      clientIdPrefix: clientId.slice(0, 8),
+      reason,
+    });
+  }
+
+  private logRefreshSuccess(clientId: string, scopes: string[]): void {
+    if (!this.logging) return;
+    logEvent(this.logging, "info", "oauth_refresh_success", {
+      clientIdPrefix: clientId.slice(0, 8),
+      scopes,
+      accessTokenTtlSeconds: this.config.accessTokenTtlSeconds,
+      refreshTokenTtlSeconds: this.config.refreshTokenTtlSeconds,
+    });
   }
 
   isResourceAllowed(resource: URL): boolean {

@@ -1,8 +1,10 @@
 import { homedir } from "node:os";
 import { spawn, spawnSync, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { statSync } from "node:fs";
 import { delimiter, join, resolve } from "node:path";
 import { createInterface } from "node:readline";
 import {
+  AgentProviderAuthRequiredError,
   AgentProviderExecutionError,
   AgentProviderProtocolError,
   AgentProviderUnavailableError,
@@ -78,16 +80,20 @@ export interface CodexAppServerRuntimeOptions {
   command: string;
   env: NodeJS.ProcessEnv;
   version?: string;
+  credentialState?: () => string;
 }
 
 export class CodexAppServerRuntime implements LocalAgentRuntime {
   readonly provider = "codex" as const;
   private readonly child: ChildProcessWithoutNullStreams;
   private readonly rpc: CodexAppServerRpc;
+  private readonly credentialState: () => string;
   private alive = true;
   private closePromise?: Promise<void>;
+  private authRequiredAtCredentialState?: string;
 
   constructor(private readonly options: CodexAppServerRuntimeOptions) {
+    this.credentialState = options.credentialState ?? (() => codexCredentialState(options.env));
     this.child = spawn(options.command, ["app-server"], {
       env: options.env,
       stdio: ["pipe", "pipe", "pipe"],
@@ -121,6 +127,13 @@ export class CodexAppServerRuntime implements LocalAgentRuntime {
       provider: this.provider,
       operation: "run",
       run: async (): Promise<LocalAgentRunResult> => {
+        if (this.authRequiredAtCredentialState !== undefined) {
+          const currentCredentialState = this.credentialState();
+          if (currentCredentialState === this.authRequiredAtCredentialState) {
+            throw codexAuthRequiredError();
+          }
+          this.authRequiredAtCredentialState = undefined;
+        }
         if (!this.isAlive()) {
           throw new AgentProviderUnavailableError({
             code: "PROVIDER_UNAVAILABLE",
@@ -150,6 +163,10 @@ export class CodexAppServerRuntime implements LocalAgentRuntime {
         const completed = await this.rpc.runTurn(threadId, turnParams(input, threadId));
         const parsed = parseCompletedTurn(completed.event.params, completed.items);
         if (parsed.failure) {
+          if (isCodexAuthRequiredFailure(completed.event.params)) {
+            this.authRequiredAtCredentialState = this.credentialState();
+            throw codexAuthRequiredError(completed.event.params);
+          }
           throw new AgentProviderExecutionError({
             code: "PROVIDER_EXECUTION_ERROR",
             provider: this.provider,
@@ -207,6 +224,51 @@ export class CodexAppServerRuntime implements LocalAgentRuntime {
     })();
     return this.closePromise;
   }
+}
+
+export function codexCredentialState(env: NodeJS.ProcessEnv = process.env): string {
+  const codexHome = resolve(env.CODEX_HOME ?? join(homedir(), ".codex"));
+  const authPath = join(codexHome, "auth.json");
+  try {
+    const stat = statSync(authPath);
+    return `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeMs}:${stat.ctimeMs}`;
+  } catch (error) {
+    const code = error && typeof error === "object" && "code" in error
+      ? String((error as { code?: unknown }).code)
+      : "unknown";
+    return `unavailable:${code}`;
+  }
+}
+
+function codexAuthRequiredError(cause?: unknown): AgentProviderAuthRequiredError {
+  return new AgentProviderAuthRequiredError({
+    code: "PROVIDER_AUTH_REQUIRED",
+    provider: "codex",
+    operation: "run",
+    retryable: false,
+    ...(cause === undefined ? {} : { cause }),
+    message: "Codex authentication is required for the configured CODEX_HOME.",
+  });
+}
+
+function isCodexAuthRequiredFailure(params: unknown): boolean {
+  const error = asRecord(asRecord(asRecord(params)?.turn)?.error);
+  if (!error) return false;
+  const values = [
+    error.message,
+    error.code,
+    error.type,
+    error.codex_error_info,
+    error.codexErrorInfo,
+  ].filter((value): value is string => typeof value === "string");
+  const text = values.join(" ").toLowerCase();
+  return text.includes("refresh_token_reused")
+    || text.includes("refresh token")
+    || text.includes("unauthorized")
+    || text.includes("authentication required")
+    || text.includes("login required")
+    || text.includes("not logged in")
+    || text.includes("log out and sign in again");
 }
 
 async function waitForProcessExit(

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   ClaudeLocalAgentDriver,
   claudeAuthoritySettings,
+  claudeUnsandboxedWindowsEnabled,
   type ClaudeQueryLike,
   type ClaudeUserMessage,
 } from "./local-agent-claude.js";
@@ -179,6 +180,38 @@ assert.equal(query?.closeCount, 1);
 const coldRuntime = await driver.createRuntime({ ...context, providerSessionId: "cold_session" });
 assert.equal(coldRuntime.isOk(), true);
 assert.equal(lastOptions?.resume, "cold_session");
+
+assert.equal(claudeUnsandboxedWindowsEnabled({}, "win32"), false);
+assert.equal(
+  claudeUnsandboxedWindowsEnabled({ DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1" }, "win32"),
+  true,
+);
+assert.equal(
+  claudeUnsandboxedWindowsEnabled({ DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1" }, "linux"),
+  false,
+);
+const blockedWindows = await new ClaudeLocalAgentDriver(
+  ({ prompt }) => new FakeClaudeQuery(prompt),
+  { PATH: "C:\\Windows\\System32" },
+  "win32",
+).createRuntime({ ...context, writeMode: "allowed" });
+assert.equal(blockedWindows.isErr(), true);
+if (blockedWindows.isErr()) {
+  assert.equal(blockedWindows.error.code, "PROVIDER_UNAVAILABLE");
+  assert.match(blockedWindows.error.message, /DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS=1/);
+}
+let windowsOptions: Record<string, unknown> | undefined;
+const optedInWindows = await new ClaudeLocalAgentDriver(
+  ({ prompt, options }) => {
+    windowsOptions = options;
+    return new FakeClaudeQuery(prompt);
+  },
+  { PATH: "C:\\Windows\\System32", DEVSPACE_CLAUDE_ALLOW_UNSANDBOXED_WINDOWS: "1" },
+  "win32",
+).createRuntime({ ...context, writeMode: "allowed" });
+assert.equal(optedInWindows.isOk(), true);
+assert.deepEqual(windowsOptions?.sandbox, { enabled: false, allowUnsandboxedCommands: true });
+if (optedInWindows.isOk()) await optedInWindows.value.close();
 
 const customCommandDriver = new ClaudeLocalAgentDriver(({ prompt, options }) => {
   lastOptions = options;

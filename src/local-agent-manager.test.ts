@@ -18,6 +18,7 @@ import type {
 } from "./local-agent-runtime.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
 import { LocalAgentStore } from "./local-agent-store.js";
+import type { LocalAgentUsageMeter } from "./local-agent-metering.js";
 import type { SubagentsConfig } from "./local-agent-config.js";
 
 const root = await mkdtemp(join(tmpdir(), "devspace-agent-manager-test-"));
@@ -61,6 +62,15 @@ class FakeRuntime implements LocalAgentRuntime {
     if (input.prompt.includes("early-fail")) {
       await callbacks?.onSessionId?.("thread_early");
       return Result.err(providerFailure("provider failed after session creation"));
+    }
+    if (input.prompt.includes("rotate-session")) {
+      await callbacks?.onSessionId?.("thread_rotated");
+      return Result.ok({
+        provider: this.provider,
+        providerSessionId: "thread_rotated",
+        finalResponse: `response:${input.prompt}`,
+        items: [],
+      });
     }
     if (input.prompt.includes("defect")) throw new TypeError("internal defect");
     if (input.prompt.includes("fail")) return Result.err(providerFailure("provider failed"));
@@ -424,6 +434,46 @@ const defect = unwrap(await manager.start({
 await waitFor(() => getRecord(defect.id).status === "error");
 assert.equal(getRecord(defect.id).errorCode, "AGENT_INTERNAL_ERROR");
 assert.notEqual(getRecord(defect.id).errorCode, "PROVIDER_EXECUTION_ERROR");
+
+const usageMeter: LocalAgentUsageMeter = {
+  snapshot: async (provider, providerSessionId) => ({
+    provider,
+    providerSessionId,
+    meter: "fake-meter",
+    meterVersion: "1",
+    inputTokens: 10,
+    outputTokens: 20,
+    cacheCreationTokens: 30,
+    cacheReadTokens: 40,
+    totalTokens: 100,
+    totalCost: 0.5,
+    modelBreakdowns: [],
+  }),
+};
+const meteringStore = new LocalAgentStore(join(root, "metering-state"));
+const meteringManager = new LocalAgentManager({
+  store: meteringStore,
+  drivers: [driver],
+  pool: new LocalAgentRuntimePool(),
+  loadProfiles: async () => [profile],
+  allowedRoots: [root],
+  subagents,
+  usageMeter,
+});
+const metered = unwrap(await meteringManager.start({
+  target: "reviewer",
+  prompt: "metered",
+  workspaceId: scope.workspaceId,
+  workspaceRoot: root,
+}));
+await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
+assert.equal(meteringStore.usageSummary({ provider: "codex" }).totalCost, 0.5);
+unwrap(await meteringManager.continue(metered.id, "rotate-session", {}, scope));
+await waitFor(() => unwrap(meteringManager.get(metered.id, scope)).status === "idle");
+const afterRotation = meteringStore.usageSummary({ provider: "codex" });
+assert.equal(afterRotation.totalCost, 0.5);
+assert.equal(afterRotation.recentRuns[0]?.complete, false);
+await meteringManager.close();
 
 const shuttingDown = unwrap(await manager.start({
   target: "reviewer",

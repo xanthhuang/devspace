@@ -212,6 +212,55 @@ assert.deepEqual(store.list({ workspaceId: "ws_1", workspaceRoot: join(root, "ot
     effort: reloadedRecord?.effort,
   });
   assert.equal(legacyTurn.turn.status, "running");
+
+  const historicalStateDir = join(root, "historical-production-state");
+  mkdirSync(historicalStateDir, { recursive: true });
+  const historical = new Database(databasePath(historicalStateDir));
+  historical.exec(`
+    create table devspace_schema_migrations (
+      version integer primary key,
+      name text not null,
+      applied_at text not null
+    );
+    create table workspace_sessions (
+      id text primary key, root text not null, status text not null default 'active',
+      mode text not null default 'checkout', source_root text, base_ref text, base_sha text,
+      managed text not null default 'false', created_at text not null, last_used_at text not null
+    );
+    create table local_agent_sessions (
+      id text primary key, workspace_id text, workspace_root text not null,
+      profile_name text not null, provider text not null, model text, effort text,
+      provider_session_id text, current_turn_id text, status text not null,
+      latest_response text, error text, created_at text not null, updated_at text not null
+    );
+  `);
+  const historicalMigration = historical.prepare(
+    "insert into devspace_schema_migrations (version, name, applied_at) values (?, ?, ?)",
+  );
+  for (const [version, name] of [
+    [1, "workspace-state"],
+    [2, "oauth-state"],
+    [3, "local-agent-sessions"],
+    [4, "workspace-conversation-bindings"],
+    [5, "agent-event-outbox"],
+    [6, "local-agent-effort-rename"],
+    [7, "local-agent-terminal-event-outbox"],
+    [8, "legacy-local-agent-schema-repair"],
+    [9, "local-agent-usage-metering"],
+  ] as const) historicalMigration.run(version, name, "2026-09-22T00:00:00.000Z");
+  historical.close();
+  const historicalStore = new LocalAgentStore(historicalStateDir);
+  historicalStore.close();
+  const repaired = new Database(databasePath(historicalStateDir));
+  const workspaceColumns = repaired.prepare("pragma table_info(workspace_sessions)").all() as Array<{ name: string }>;
+  const agentColumns = repaired.prepare("pragma table_info(local_agent_sessions)").all() as Array<{ name: string }>;
+  const tables = repaired.prepare("select name from sqlite_master where type = 'table'").all() as Array<{ name: string }>;
+  assert.ok(workspaceColumns.some((column) => column.name === "recovery_kind"));
+  assert.ok(agentColumns.some((column) => column.name === "error_code"));
+  assert.ok(tables.some((table) => table.name === "local_agent_turns"));
+  assert.ok(tables.some((table) => table.name === "agent_event_outbox"));
+  assert.ok(tables.some((table) => table.name === "local_agent_usage_metering"));
+  repaired.close();
 } finally {
   for (const store of stores) {
     store.close();

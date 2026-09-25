@@ -47,7 +47,23 @@ const migrations: Migration[] = [
     name: "local-agent-turns",
     up: migrateLocalAgentTurns,
   },
+  {
+    version: 9,
+    name: "local-agent-usage-metering",
+    up: migrateLocalAgentUsageMetering,
+  },
+  {
+    version: 10,
+    name: "phase1-local-agent-compatibility",
+    up: migratePhase1LocalAgentCompatibility,
+  },
 ];
+
+const compatibleHistoricalMigrationNames = new Map<number, ReadonlySet<string>>([
+  [5, new Set(["agent-event-outbox"])],
+  [7, new Set(["local-agent-terminal-event-outbox"])],
+  [8, new Set(["legacy-local-agent-schema-repair"])],
+]);
 
 export function migrateDatabase(sqlite: Database.Database): void {
   const migrate = sqlite.transaction(() => {
@@ -70,7 +86,10 @@ export function migrateDatabase(sqlite: Database.Database): void {
           `Database migration history is incompatible: version ${row.version} (${JSON.stringify(row.name)}) is unknown to this build.`,
         );
       }
-      if (row.name !== expected.name) {
+      if (
+        row.name !== expected.name
+        && !compatibleHistoricalMigrationNames.get(row.version)?.has(row.name)
+      ) {
         throw new Error(
           `Database migration history is incompatible: version ${row.version} is recorded as ${JSON.stringify(row.name)}, but this build expects ${JSON.stringify(expected.name)}.`,
         );
@@ -287,6 +306,91 @@ function migrateLocalAgentTurns(sqlite: Database.Database): void {
     create index if not exists local_agent_turns_status_idx
       on local_agent_turns(status);
   `);
+}
+
+function migrateLocalAgentUsageMetering(sqlite: Database.Database): void {
+  sqlite.exec(`
+    create table if not exists local_agent_usage_metering (
+      agent_id text not null,
+      turn_id text not null,
+      workspace_id text,
+      workspace_root text not null,
+      profile_name text not null,
+      provider text not null,
+      model text,
+      effort text,
+      provider_session_id text,
+      meter text not null,
+      meter_version text not null,
+      complete text not null,
+      snapshot_input_tokens integer not null,
+      snapshot_output_tokens integer not null,
+      snapshot_cache_creation_tokens integer not null,
+      snapshot_cache_read_tokens integer not null,
+      snapshot_total_tokens integer not null,
+      snapshot_total_cost real not null,
+      snapshot_models_json text not null,
+      delta_input_tokens integer not null,
+      delta_output_tokens integer not null,
+      delta_cache_creation_tokens integer not null,
+      delta_cache_read_tokens integer not null,
+      delta_total_tokens integer not null,
+      delta_total_cost real not null,
+      delta_models_json text not null,
+      recorded_at text not null,
+      primary key (agent_id, turn_id)
+    );
+
+    create index if not exists local_agent_usage_metering_recorded_at_idx
+      on local_agent_usage_metering(recorded_at);
+    create index if not exists local_agent_usage_metering_profile_idx
+      on local_agent_usage_metering(profile_name, recorded_at);
+    create index if not exists local_agent_usage_metering_provider_idx
+      on local_agent_usage_metering(provider, recorded_at);
+    create index if not exists local_agent_usage_metering_session_idx
+      on local_agent_usage_metering(provider, provider_session_id, recorded_at);
+  `);
+}
+
+function migrateAgentEventOutbox(sqlite: Database.Database): void {
+  sqlite.exec(`
+    create table if not exists agent_event_outbox (
+      event_id text primary key,
+      transition_key text not null,
+      type text not null,
+      agent_id text not null,
+      workspace_id text,
+      workspace_root text not null,
+      provider text not null,
+      provider_session_id text,
+      terminal_status text not null,
+      created_at text not null,
+      payload_json text not null,
+      payload_sha256 text not null,
+      delivery_state text not null default 'pending',
+      attempts integer not null default 0,
+      last_error text,
+      delivered_at text
+    );
+
+    create unique index if not exists agent_event_outbox_transition_key_idx
+      on agent_event_outbox(transition_key);
+    create index if not exists agent_event_outbox_delivery_idx
+      on agent_event_outbox(delivery_state, created_at);
+    create index if not exists agent_event_outbox_agent_idx
+      on agent_event_outbox(agent_id, created_at);
+  `);
+}
+
+function migratePhase1LocalAgentCompatibility(sqlite: Database.Database): void {
+  // Historical production builds used versions 7 and 8 for callback schema,
+  // while upstream later used them for recovery state and durable turns.
+  // Re-run every idempotent schema step without rewriting migration history.
+  migrateLocalAgentStructuredErrors(sqlite);
+  migrateWorkspaceRecoveryState(sqlite);
+  migrateLocalAgentTurns(sqlite);
+  migrateLocalAgentUsageMetering(sqlite);
+  migrateAgentEventOutbox(sqlite);
 }
 
 function addColumnIfMissing(

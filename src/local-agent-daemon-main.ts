@@ -11,8 +11,17 @@ import { LocalAgentManager } from "./local-agent-manager.js";
 import { LocalAgentRuntimePool } from "./local-agent-runtime-pool.js";
 import { LocalAgentStore } from "./local-agent-store.js";
 import { localAgentProviderConfigRevision } from "./local-agent-config.js";
+import { CcusageMeter } from "./local-agent-metering.js";
+import {
+  AgentEventDispatcher,
+  clearAgentCallbackEnvironment,
+  loadAgentCallbackConfig,
+} from "./agent-event-callback.js";
 
 const config = loadConfig();
+const callbackConfig = loadAgentCallbackConfig();
+// Callback credentials belong to agentd and must not reach provider children.
+clearAgentCallbackEnvironment();
 const DEFAULT_DAEMON_SHUTDOWN_TIMEOUT_MS = 10_000;
 const paths = localAgentDaemonPaths(config.stateDir);
 const log = (
@@ -21,6 +30,11 @@ const log = (
   fields: Record<string, unknown>,
 ) => writeLocalAgentDaemonLog(paths, level, event, fields);
 const store = new LocalAgentStore(paths.stateDir);
+const eventDispatcher = new AgentEventDispatcher({
+  stateDir: paths.stateDir,
+  config: callbackConfig,
+  logger: log,
+});
 const manager = new LocalAgentManager({
   store,
   drivers: createLocalAgentDrivers({ subagents: config.subagents }),
@@ -30,6 +44,9 @@ const manager = new LocalAgentManager({
   allowedRoots: config.allowedRoots,
   logger: log,
   subagents: config.subagents,
+  terminalEventsEnabled: Boolean(callbackConfig.url),
+  onTerminalEvent: () => { void eventDispatcher.trigger().catch(() => undefined); },
+  usageMeter: new CcusageMeter(),
 });
 const daemon = new LocalAgentDaemon({
   stateDir: paths.stateDir,
@@ -38,8 +55,11 @@ const daemon = new LocalAgentDaemon({
   onLockAcquired: () => {
     const reconciled = manager.reconcileActiveRuns();
     if (reconciled.isErr()) throw reconciled.error;
+    void eventDispatcher.start().catch(() => undefined);
   },
+  onClosing: () => eventDispatcher.close(),
   onClosed: () => { if (!shuttingDown) process.exit(0); },
+  hasBackgroundWork: () => Boolean(callbackConfig.url) && eventDispatcher.hasPendingEvents(),
   idleShutdownMs: parseIdleShutdownMs(process.env.DEVSPACE_AGENTD_IDLE_TIMEOUT_MS),
 });
 
@@ -67,10 +87,12 @@ try {
 } catch (error) {
   if (error instanceof LocalAgentDaemonAlreadyRunningError) {
     await manager.close();
+    await eventDispatcher.close();
     process.exit(0);
   }
   log("error", "daemon_start_failed", { error: error instanceof Error ? error.message : String(error) });
   await manager.close();
+  await eventDispatcher.close();
   console.error(error instanceof Error ? error.message : String(error));
   process.exit(1);
 }
